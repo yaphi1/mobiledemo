@@ -235,16 +235,14 @@ TITLE SLIDE
 	font-size: 15px;
 }
 
-#swipe_to_start{
-	padding-top: 20px;
+#tap_to_start{
+	margin-top: 40px;
 	text-transform: uppercase;
 	font-size: 15px;
-}
-
-#swipe_to_start svg{
-	vertical-align: middle;
-	padding-bottom: 2px;
-	padding-right: 6px;
+	display: inline-block;
+	border: 1px solid #fdba3d;
+	padding: 10px;
+	border-radius: 3px;
 }
 
 
@@ -737,9 +735,8 @@ MAIN DEMO CONTAINER
 					<div id="rosetta_stone_way">the Rosetta Stone Way</div>
 					<div id="unlike_any_other">Unlike Any Other.</div>
 				</div>
-				<div id="swipe_to_start">
-					<svg style="width:18px; height:30px;"><use xlink:href="#left_arrow_svg"></use></svg>
-					Swipe to start
+				<div id="tap_to_start">
+					Tap to start
 				</div>
 			</div>
 		</div>
@@ -2003,7 +2000,7 @@ function runTitleSlide(){
 	// allow swipe only when the animation is complete
 
 	var title_swipe_time = monument_start+18*monument_increment;
-	bounce('swipe_to_start',title_swipe_time ,bounce_speed,'20px,0px','-5px,0px','0px,0px', fade_speed);
+	bounce('tap_to_start',title_swipe_time ,bounce_speed,'0px,20px','0px,-5px','0px,0px', fade_speed, 'inline-block');
 	setTimeout(function(){
 		ready_to_swipe_start = true;
 	}, title_swipe_time);
@@ -2011,11 +2008,9 @@ function runTitleSlide(){
 }
 
 // bind the actual swipe event for the title screen
-$(document).on('swipeLeft',function(){
-	if(current_slide===0 && ready_to_swipe_start){
-		ready_to_swipe_start = false;
-		go_to_slide[1]();
-	}
+$('#tap_to_start').on(touchstart,function(ev){
+	ev.preventDefault();
+	go_to_slide[1]();
 });
 
 
