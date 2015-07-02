@@ -1,0 +1,17 @@
+<svg width="184px" height="184px" viewBox="0 0 184 184" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+	<defs>
+		<path id="path-1" d="M0.2208,0 L184,0 L184,184 L0.2208,184 L0.2208,0 Z"></path>
+	</defs>
+	<g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+		<g id="Imported-Layers-Copy-2" sketch:type="MSLayerGroup">
+			<g id="Group-3">
+				<mask id="mask-2" sketch:name="Clip 2" fill="white">
+					<use xlink:href="#path-1"></use>
+				</mask>
+				<g id="Clip-2"></g>
+				<path d="M92,0 C41.19024,0 0,41.19392 0,92 C0,142.80976 41.19024,184 92,184 C142.80976,184 184,142.80976 184,92 C184,41.19392 142.80976,0 92,0 L92,0 Z M92,178.11568 C44.44704,178.11568 5.888,139.55664 5.888,92 C5.888,44.44336 44.44704,5.888 92,5.888 C139.55296,5.888 178.112,44.44336 178.112,92 C178.112,139.55664 139.55296,178.11568 92,178.11568 L92,178.11568 Z" id="Fill-1" fill="#FFB938" sketch:type="MSShapeGroup" mask="url(#mask-2)"></path>
+			</g>
+			<path d="M77.28,77.28 L40.48,143.52 L106.72,106.72 L143.52,40.48 L77.28,77.28 L77.28,77.28 Z M84.35296,80.01792 L128.52032,55.47968 L103.98208,99.64704 L84.35296,80.01792 L84.35296,80.01792 Z M80.1688,84.08064 L99.91936,103.8312 L55.47968,128.52032 L80.1688,84.08064 L80.1688,84.08064 Z" id="Fill-4" fill="#FFB938" sketch:type="MSShapeGroup"></path>
+		</g>
+	</g>
+</svg>

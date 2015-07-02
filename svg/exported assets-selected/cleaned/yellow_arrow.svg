@@ -1,0 +1,18 @@
+<svg width="11px" height="20px" viewBox="0 0 11 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+	<defs>
+		<path id="path-1" d="M0.0596304348,0.0397536232 L21.8644928,0.0397536232 L21.8644928,39.7536232 L0.0596304348,39.7536232"></path>
+	</defs>
+	<g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+		<g id="IntroScreen" sketch:type="MSArtboardGroup" transform="translate(-102.000000, -421.000000)">
+			<g id="Content" sketch:type="MSLayerGroup" transform="translate(0.000000, 84.000000)">
+				<g id="Imported-Layers-Copy" transform="translate(111.858333, 347.355000) rotate(-180.000000) translate(-111.858333, -347.355000) translate(100.858333, 327.355000)">
+					<mask id="mask-2" sketch:name="Clip 2" fill="white">
+						<use xlink:href="#path-1"></use>
+					</mask>
+					<g id="Clip-2"></g>
+					<path d="M18.6225848,20.3406039 L9.86980688,29.0933818 L10.9938406,30.2174155 L20.8706522,20.3406039 L10.9938406,10.4637923 L9.86980688,11.587826 L18.6225848,20.3406039 Z" id="Fill-1" fill="#FFB938" sketch:type="MSShapeGroup" mask="url(#mask-2)"></path>
+				</g>
+			</g>
+		</g>
+	</g>
+</svg>

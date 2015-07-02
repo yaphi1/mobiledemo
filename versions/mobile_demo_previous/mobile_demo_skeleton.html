@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title></title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!--[if lt IE 9]>
+	<script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
+<![endif]-->
+
+<style type="text/css">
+body{
+	margin: 0px;
+	font-size:20px;
+	font-family:sans-serif;
+	color:#333;
+}
+
+
+#container{
+	position: fixed;
+	left: 0px;
+	top: 0px;
+	width: 100%;
+	height: 100%;
+	background: red;
+}
+
+.slide{
+	position: absolute;
+	left: 100%;
+	top: 0%;
+	background: #eb0;
+	width: 100%;
+	height: 100%;
+	box-sizing:border-box;
+	padding: 20px;
+
+	transition: all 0.2s;
+}
+
+.showing{
+	left: 0%;
+}
+
+.red{
+	background: red;
+	color: #fff;
+}
+
+.blue{
+	background: blue;
+	color: #fff;
+}
+
+.green{
+	background: green;
+	color: #fff;
+}
+
+
+.circle{
+	border: 1px solid #333;
+	padding: 20px;
+	border-radius: 50%;
+	width: 60px;
+	height: 60px;
+	margin-left: 20px;
+
+	transition: all 0.3s;
+}
+.rightcircle{ margin-left: 120px;}
+
+
+.middots{ text-align: center; }
+
+.middots span{
+	background: #fff;
+	display: inline-block;
+	margin: 5px;
+	height: 10px;
+	width: 10px;
+	border-radius: 50%;
+}
+
+.middots span.current_dot{ background: #333; }
+
+</style>
+
+</head>
+<body>
+
+<div id="container">
+	<div class="slide showing">
+		Slide 0
+		<div class="circle">circle</div>
+		<div class="circle rightcircle">circle</div>
+
+		<div class="middots"></div>
+	</div>
+	<div class="slide red">
+		Slide 1
+		<div class="middots"></div>
+	</div>
+	<div class="slide blue">
+		Slide 2
+		<div class="circle">circle</div>
+		<div class="circle rightcircle">circle</div>
+		<div class="middots"></div>
+	</div>
+	<div class="slide green">
+		Slide 3
+		<div class="middots"></div>
+	</div>
+</div>
+
+
+<script src="jquery.js"></script>
+<script>
+$(function(){
+
+	var startX;
+	var startY;
+	var current_slide = 0;
+
+
+	// touch start
+	$('.slide').on('touchstart', function(ev){
+		var e = ev.originalEvent;
+
+		startX = e.pageX;
+		startY = e.pageY;
+
+		//this.innerHTML = 'touchstart x='+e.pageX+' y='+e.pageY;
+	});
+
+
+
+	// touch end
+	$('.slide').on('touchend', function(ev){
+		var e = ev.originalEvent;
+
+		endX = e.pageX;
+		endY = e.pageY;
+		
+		//this.innerHTML += '<br>touchend x='+e.pageX+' y='+e.pageY;
+
+		// SWIPE LEFT: if more than 30 px to left, and less than 60 px up or down
+		if(endX-startX < -30 && Math.abs(endY-startY) < 60){
+			//this.innerHTML += '<h1>SWIPE LEFT</h1>';
+			handleSwipeLeft();
+			animateCircles($('.slide:eq('+current_slide+')'));
+		}
+
+		// SWIPE RIGHT: if more than 30 px to right, and less than 60 px up or down
+		if(endX-startX > 30 && Math.abs(endY-startY) < 60){
+			//this.innerHTML += '<h1>SWIPE RIGHT</h1>';
+			handleSwipeRight();
+			animateCircles($('.slide:eq('+current_slide+')'));
+		}
+	});
+
+
+	function animateCircles(slide){
+		slide.children('.circle').css({'transition':'none','transform':'translateY(0px)'});
+		setTimeout(function(){
+			slide.children('.circle').css({'transition':'all 1s','transform':'translateY(60px)'});
+		},300);
+	}
+
+	function handleSwipeLeft(){
+		if(current_slide+1 < $('.slide').length){
+			current_slide++;
+			slideFromRight($('.slide')[current_slide]);
+		}
+	}
+
+	function handleSwipeRight(){
+		if(current_slide > 0){
+			slideFromLeft($('.slide')[current_slide]);
+			current_slide--;
+		}
+	}
+
+	function slideFromRight(elem){
+		elem.style.left = '0%';
+	}
+
+	function slideFromLeft(elem){
+		elem.style.left = '100%';
+	}
+
+
+
+
+
+	var dots = $('.middots');
+	for(var i=0; i<dots.length; i++){
+		for(var d=0; d<dots.length; d++){
+			dots[i].innerHTML += '<span></span>';
+		}
+		dots[i].getElementsByTagName('span')[i].className = 'current_dot';
+	}
+
+});
+</script>
+</body>
+</html>

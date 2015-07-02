@@ -1,0 +1,77 @@
+<style>
+#word_bubble_1{
+		border:7px solid #fdba3d; padding:20px 0px; width:200px; background:#fff; border-radius:12px; position:absolute; left:calc(50% - 145px); text-align:center;
+		top: calc(50% - 135px);
+		display: block;
+	}
+	#word_bubble_1:before{
+		content: '';
+		width: 0px;
+		height: 0px;
+		position: absolute;
+		left: 20px;
+		bottom: -35px;
+		border-left: 35px solid #fdba3d;
+		border-bottom: 35px solid transparent;
+	}
+
+	#word_bubble_1:after{
+		content: '';
+		width: 0px;
+		height: 0px;
+		position: absolute;
+		left: 26px;
+		bottom: -21px;
+		border-left: 21px solid #fff;
+		border-bottom: 21px solid transparent;
+	}
+
+
+
+
+	#word_bubble_2{
+		border:7px solid #fdba3d; padding:25px 20px; width:160px; background:#fff; border-radius:50%; position:absolute; text-align:center;
+		height: 41px;
+		left: calc(50% - 76px);
+		top: calc(50% - 25px);
+		display: table;
+	}
+	#word_bubble_2:before{
+		content: '';
+		width: 0px;
+		height: 0px;
+		position: absolute;
+		left: 164px;
+		bottom: -20px;
+		border-left: 35px solid #fdba3d;
+		border-bottom: 35px solid transparent;
+		transform: rotate(66deg);
+		-webkit-transform: rotate(66deg);
+	}
+
+	#word_bubble_2:after{
+		content: '';
+		width: 0px;
+		height: 0px;
+		position: absolute;
+		left: 159px;
+		bottom: -6px;
+		border-left: 28px solid #fff;
+		border-bottom: 28px solid transparent;
+		transform: rotate(63deg);
+		-webkit-transform: rotate(63deg);
+	}
+
+	.table_cell{
+		display: table-cell;
+		vertical-align: middle;
+	}
+</style>
+<div id="word_bubble_1">
+	&ldquo;Deux vélos bleu, s'il vous plaît.&rdquo;
+</div>
+<div id="word_bubble_2">
+	<div class="table_cell">
+		&ldquo;Sì, certo.&rdquo;
+	</div>
+</div>
