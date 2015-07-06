@@ -1334,7 +1334,7 @@ var yb = { id : function(str){return document.getElementById(str)} };
 
 
 /**********************************************************************
-GENERAL VARIABLES
+GENERAL VARIABLES AND SETTINGS
 ***********************************************************************/
 
 // default to mousedown as instant click simulator, but use native touchstart if supported
@@ -1343,6 +1343,9 @@ if(typeof(document.ontouchstart)!=='undefined'){
 	touchstart = 'touchstart';
 }
 
+// this stops weird scrolling behavior
+document.body.style.overflow = 'hidden';
+document.body.style.position = 'fixed'; // this prevents the rest of the page from scrolling
 
 var selected_language = 'spanish'; // default language
 
@@ -1709,129 +1712,7 @@ function bounce(elem,delay,duration,startpoint,overshoot,endpoint,fadeSpeed,disp
 
 
 
-$(function(){
-	
-	/**********************************************************************
-	DETECT SWIPES
-		This function detects swipes and emits the following events
-			- swipeLeft
-			- swipeRight
-			- swipeUp
-			- swipeDown
-		Usage: $(document).on('swipeLeft',function(){ YOUR CODE HERE });
-	***********************************************************************/
-	(function detectSwipes(){
 
-		// these variables hold the starting and ending coordinates for each touch
-		var startX;
-		var startY;
-
-		var endX;
-		var endY;
-
-		var touch_started = false;
-
-
-		// default to mousedown and mouseup as touch simulators, but use native touch events if supported
-		var touchstart = 'mousedown';
-		var touchend = 'mouseup';
-		if(typeof(document.ontouchstart)!=='undefined' && typeof(document.ontouchend)!=='undefined'){
-			touchstart = 'touchstart';
-			touchend = 'touchend';
-		}
-
-
-		// touch start
-		$(document).on(touchstart, function(ev){
-			ev.preventDefault();
-			touch_started = true;
-
-			var e = ev.originalEvent; // preference: use the native js event instead of the jquery one
-
-
-			// get the starting coordinates of the touch
-			if(touchstart=='touchstart'){
-				startX = e.touches[0].pageX;
-				startY = e.touches[0].pageY;
-			}
-			else{
-				startX = e.pageX;
-				startY = e.pageY;
-			}
-
-		});
-
-		
-		// touch move
-		$(document).on('touchmove', function(ev){
-			ev.preventDefault();
-
-			var e = ev.originalEvent; // preference: use the native js event instead of the jquery one
-
-			endX = e.touches[0].pageX;
-			endY = e.touches[0].pageY;
-
-			triggerSwipeEvents();
-		});
-
-
-		// touch end fallback for mouseup
-		if(touchend!=='touchend'){
-			$(document).on(touchend, function(ev){
-				ev.preventDefault();
-
-				var e = ev.originalEvent; // preference: use the native js event instead of the jquery one
-
-				// get the end coordinates of the touch
-				endX = e.pageX;
-				endY = e.pageY;
-
-				triggerSwipeEvents();
-			});
-		}
-
-
-		function triggerSwipeEvents(){
-			if(touch_started){
-				var swipe_distance = 20;
-				var allowed_deviation = 60;
-
-				// SWIPE LEFT: if more than swipe_distance px to left, and less than allowed_deviation px up or down
-				if(endX-startX < -swipe_distance && Math.abs(endY-startY) < allowed_deviation){
-					touch_started = false;
-					$(document).trigger('swipeLeft');
-				}
-
-				// SWIPE RIGHT: if more than swipe_distance px to right, and less than allowed_deviation px up or down
-				else if(endX-startX > swipe_distance && Math.abs(endY-startY) < allowed_deviation){
-					touch_started = false;
-					$(document).trigger('swipeRight');
-				}
-
-
-				// SWIPE UP: if more than swipe_distance px up, and less than allowed_deviation px left or right
-				if(endY-startY < -swipe_distance && Math.abs(endX-startX) < allowed_deviation){
-					touch_started = false;
-					$(document).trigger('swipeUp');
-				}
-
-				// SWIPE DOWN: if more than swipe_distance px down, and less than allowed_deviation px left or right
-				if(endY-startY > swipe_distance && Math.abs(endX-startX) < allowed_deviation){
-					touch_started = false;
-					$(document).trigger('swipeDown');
-				}
-			}
-		}
-
-	})();
-
-	
-
-	// this stops weird scrolling behavior
-	document.body.style.overflow = 'hidden';
-	document.body.style.position = 'fixed'; // this prevents the rest of the page from scrolling
-
-});
 
 
 
@@ -2009,19 +1890,12 @@ function runTitleSlide(){
 	bounce('unlike_any_other',monument_start+13*monument_increment ,bounce_speed,'-10px,0px','5px,0px','0px,0px', fade_speed);
 
 
-	
-
-	// allow swipe only when the animation is complete
-
-	var title_swipe_time = monument_start+18*monument_increment;
-	bounce('tap_to_start',title_swipe_time ,bounce_speed,'0px,20px','0px,-5px','0px,0px', fade_speed, 'inline-block');
-	setTimeout(function(){
-		ready_to_swipe_start = true;
-	}, title_swipe_time);
+	var tap_to_start_time = monument_start+18*monument_increment;
+	bounce('tap_to_start',tap_to_start_time ,bounce_speed,'0px,20px','0px,-5px','0px,0px', fade_speed, 'inline-block');
 	
 }
 
-// bind the actual swipe event for the title screen
+// bind the tap event for the "tap to start" button
 $('#tap_to_start').on(touchstart,function(ev){
 	ev.preventDefault();
 	go_to_slide[1]();
