@@ -444,7 +444,7 @@ DEMO TOOLTIPS
 	width:100%;
 	display: none;
 	left: -22px;
-	top: -67px;
+	top: -78px;
 	z-index: 20040;
 }
 
@@ -486,6 +486,19 @@ DEMO TOOLTIPS
 	background-position: center center;
 	background-size: 140% auto;
 }
+
+
+#tooltip_continue_button{
+	display: block;
+	margin: 5px auto 0px;
+	padding: 5px 20px;
+	border-radius: 3px;
+	font-size: 15px;
+	background-color: transparent;
+	border: 1px solid #fdba3d;
+	color: #fdba3d;
+}
+
 
 
 
@@ -834,6 +847,7 @@ MAIN DEMO CONTAINER
 												There were <span>no translations.</span> This is how language immersion works.
 											Connect images with words, and <span>learning becomes automatic.</span>
 											</div>
+											<button id="tooltip_continue_button">Continue</button>
 										</div>
 									</div>
 									<!-- <div id="demotooltip_i"><div style="padding-top:5px;">i</div></div> -->
@@ -2287,10 +2301,6 @@ function start_demo(){
 				bounce('demotooltip',tooltip_bubble_delay ,default_bounce_time,'0px,-20px','0px,5px','0px,0px', default_fade_time);
 			},demo_tooltip_delay);
 
-			// show "Try More Screens" overlay
-			setTimeout(function(){
-				smoothFadeIn('try_more_screens_container',0.5,'table');
-			},demo_tooltip_duration);
 		}
 
 		// handle second demo screen aftermath
@@ -2302,16 +2312,6 @@ function start_demo(){
 				bounce('demotooltip',tooltip_bubble_delay ,default_bounce_time,'0px,-20px','0px,5px','0px,0px', default_fade_time);
 			},demo_tooltip_delay);
 
-			// fade out tooltip and go too next demo screen
-			setTimeout(function(){
-				smoothFadeOut('dotted_circle',0.2);
-
-				smoothFadeOut('demo_table_cell',0.5, function(){
-					showDemoScreen(3);
-					smoothFadeIn('demo_table_cell',0.5,'table-cell');
-				});
-
-			},demo_tooltip_duration);
 		}
 
 		// handle third demo screen aftermath
@@ -2349,6 +2349,8 @@ function start_demo(){
 		if(title.innerHTML != "Did you notice?"){
 			title.innerHTML = "Did you notice?";
 			yb.id('demotooltip_text').innerHTML = "There were <span>no translations.</span> This is how language immersion works. Connect images with words, and <span>learning becomes automatic.</span>";
+
+			yb.id('tooltip_continue_button').onclick = function(){};
 		}
 	}
 	function write_tooltip_2(){
@@ -2366,9 +2368,16 @@ function start_demo(){
 		yb.id('demotooltip_text').innerHTML = "You <span>build</span> on what you've learned and <span>intuitively</span> you'll start noticing <span>patterns</span>.";
 	}
 
+
+
+
+	
+
+
+
 	
 	
-	// attach touch events to "try more" and "continue" boxes only once
+	// attach touch events to "try more" and "continue" boxes only once (also attach touch event to tooltip continue button)
 	(function(){
 		if(!try_more_boxes_ready){
 
@@ -2387,6 +2396,29 @@ function start_demo(){
 				ev.preventDefault();
 				go_to_slide[current_slide+1]();
 			});
+
+
+			// tooltip continue buttons
+			$('#tooltip_continue_button').on(touchstart, function(ev){
+				ev.preventDefault();
+
+				if(current_demo_screen===1){
+					// show "Try More Screens" overlay
+					smoothFadeIn('try_more_screens_container',0.5,'table');
+				}
+
+
+				if(current_demo_screen===2){
+					// fade out tooltip and go too next demo screen
+					smoothFadeOut('dotted_circle',0.2);
+
+					smoothFadeOut('demo_table_cell',0.5, function(){
+						showDemoScreen(3);
+						smoothFadeIn('demo_table_cell',0.5,'table-cell');
+					});
+				}
+			});
+
 		}
 		try_more_boxes_ready = true;
 	})();
