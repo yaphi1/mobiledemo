@@ -605,16 +605,25 @@ FOOTER
 	</div>
 
 	<!-- speaker icon -->
-	<svg style="display:none; float:right;" id="speaker_icon" width="20px" height="20px" viewBox="0 0 8 7" xmlns="http://www.w3.org/2000/svg">
+	<!-- <svg style="display:none; float:right;" id="speaker_icon" width="20px" height="20px" viewBox="0 0 8 7" xmlns="http://www.w3.org/2000/svg">
 		<style type="text/css"><![CDATA[ #speaker_icon rect,#speaker_icon polygon{ stroke:#fff; stroke-width:0.3; fill:transparent; } #speaker_icon path{ stroke:#fff; stroke-width:0.3; stroke-linecap:round; fill:none; } ]]></style>
 		<rect x="0" y="2" width="1.5" height="3"></rect>
 		<polygon points="1.5,2 4,0 4,7 1.5,5"></polygon>
 		<path d="M4.5 3 q0.5 0.5 0 1"></path><path d="M5.5 2 q1 1.5 0 3"></path><path d="M6.5 1 q1.5 2.5 0 5"></path>
-	</svg>
+	</svg> -->
 </div>
 
 
 
+
+
+
+<!--********************************************************************************
+AUDIO
+*********************************************************************************-->
+<audio id="woman_audio_french" style="display:none;">
+	<source src="./audio/french_a_woman.mp3" type="audio/mpeg">
+</audio>
 
 
 
@@ -697,6 +706,30 @@ SVG DEFINITIONS
 	<symbol id="left_arrow_svg" viewBox="0 0 6 10" xmlns="http://www.w3.org/2000/svg">
 		<polyline points="5,1 1,5 5,9" style="stroke:#fdba3d; stroke-width:0.8; stroke-linejoin:round; stroke-linecap:round; fill:none;"></polyline>
 	</symbol>
+
+
+	<!-- "technology" with o replaced with graphic -->
+	<symbol id="technology_svg" viewBox="0 0 261 41" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+		<!-- Generator: Sketch 3.3.2 (12043) - http://www.bohemiancoding.com/sketch -->
+		<title>technology</title>
+		<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+			<g transform="translate(133.500000, 9.609127)" sketch:type="MSShapeGroup">
+				<rect fill="#4195D3" x="0" y="0" width="24.5695415" height="25" rx="40"></rect>
+				<path d="M10.1120318,16.4772727 L11.2228248,16.4772727 L11.2228248,8.52272727 L10.1120318,8.52272727 L10.1120318,16.4772727 Z M11.7866634,18.75 L12.8974564,18.75 L12.8974564,6.25 L11.7866634,6.25 L11.7866634,18.75 Z M13.4618504,16.4772727 L14.5727545,16.4772727 L14.5727545,8.52272727 L13.4618504,8.52272727 L13.4618504,16.4772727 Z M15.1365931,14.7727273 L16.2473861,14.7727273 L16.2473861,10.2272727 L15.1365931,10.2272727 L15.1365931,14.7727273 Z M16.8112802,14.2045455 L17.9220733,14.2045455 L17.9220733,10.7954545 L16.8112802,10.7954545 L16.8112802,14.2045455 Z M18.4859118,13.6363636 L19.5967049,13.6363636 L19.5967049,11.3636364 L18.4859118,11.3636364 L18.4859118,13.6363636 Z M8.32215539,14.7727273 L9.43294844,14.7727273 L9.43294844,10.2272727 L8.32215539,10.2272727 L8.32215539,14.7727273 Z M6.64746824,14.2045455 L7.75826129,14.2045455 L7.75826129,10.7954545 L6.64746824,10.7954545 L6.64746824,14.2045455 Z M4.97283663,13.6363636 L6.08362968,13.6363636 L6.08362968,11.3636364 L4.97283663,11.3636364 L4.97283663,13.6363636 Z" fill="#FFFFFF"></path>
+			</g>
+			<path d="M10.2275,33.405 C11.4875,33.405 12.6575,33.18 13.7825,32.64 L13.7825,31.245 C12.6125,31.785 11.4875,32.055 10.3625,32.055 C7.3925,32.055 5.6375,30.39 5.6375,27.06 L5.6375,11.625 L13.8725,11.625 L13.8725,10.32 L5.6375,10.32 L5.6375,2.715 L4.1975,2.715 L4.1975,10.32 L0.7325,10.32 L0.7325,11.625 L4.1975,11.625 L4.1975,27.195 C4.1975,31.29 6.5825,33.405 10.2275,33.405 L10.2275,33.405 Z M31.2625,33.54 C35.4025,33.54 38.4625,31.56 40.5325,28.86 L39.4525,28.005 C37.6525,30.345 34.8175,32.19 31.3075,32.19 C26.2225,32.19 21.8575,28.365 21.5875,22.2 L41.2525,22.2 L41.2525,21.705 C41.2525,15.63 37.6975,9.78 30.8575,9.78 C24.6025,9.78 20.0125,14.91 20.0125,21.57 L20.0125,21.66 C20.0125,28.905 25.1425,33.54 31.2625,33.54 L31.2625,33.54 Z M21.5875,20.895 C21.8575,15.315 25.6375,11.13 30.7675,11.13 C36.4375,11.13 39.4525,15.945 39.6775,20.895 L21.5875,20.895 Z M59.8125,33.54 C64.0425,33.54 66.8775,31.605 69.0825,29.04 L68.0475,28.14 C66.0675,30.345 63.5025,32.19 59.9025,32.19 C54.2325,32.19 49.7775,27.375 49.7775,21.66 L49.7775,21.57 C49.7775,15.855 54.0975,11.13 59.8125,11.13 C63.4125,11.13 65.8875,12.885 67.8675,15 L68.9025,13.965 C66.6975,11.67 64.0425,9.78 59.8575,9.78 C53.2875,9.78 48.2475,15.225 48.2475,21.615 L48.2475,21.705 C48.2475,28.14 53.2875,33.54 59.8125,33.54 L59.8125,33.54 Z M77.2475,33 L78.6875,33 L78.6875,20.22 C78.6875,15.045 82.4675,11.13 87.2375,11.13 C92.5025,11.13 95.3375,14.685 95.3375,19.95 L95.3375,33 L96.7775,33 L96.7775,19.725 C96.7775,13.83 93.4025,9.78 87.4175,9.78 C82.5575,9.78 79.7225,13.02 78.6875,15.72 L78.6875,0.15 L77.2475,0.15 L77.2475,33 Z M106.6975,33 L108.1375,33 L108.1375,20.22 C108.1375,15.045 111.9175,11.13 116.6875,11.13 C121.9525,11.13 124.7875,14.685 124.7875,19.95 L124.7875,33 L126.2275,33 L126.2275,19.725 C126.2275,13.83 122.8525,9.78 116.8675,9.78 C112.0075,9.78 109.1725,13.02 108.1375,15.72 L108.1375,10.32 L106.6975,10.32 L106.6975,33 Z M166.3375,33 L167.8225,33 L167.8225,0.15 L166.3375,0.15 L166.3375,33 Z M188.5875,33.54 C195.5625,33.54 200.3325,28.005 200.3325,21.66 L200.3325,21.57 C200.3325,15.225 195.5625,9.78 188.6325,9.78 C181.6575,9.78 176.8425,15.315 176.8425,21.66 L176.8425,21.75 C176.8425,28.095 181.6575,33.54 188.5875,33.54 L188.5875,33.54 Z M188.6325,32.19 C182.7375,32.19 178.4175,27.42 178.4175,21.705 L178.4175,21.615 C178.4175,15.9 182.5575,11.13 188.5425,11.13 C194.4375,11.13 198.8025,15.9 198.8025,21.615 L198.8025,21.705 C198.8025,27.42 194.6175,32.19 188.6325,32.19 L188.6325,32.19 Z M218.9825,40.335 C222.3125,40.335 225.1925,39.3 227.1275,37.365 C228.9725,35.52 230.0525,32.865 230.0525,29.535 L230.0525,10.32 L228.5675,10.32 L228.5675,15.765 C226.8125,12.39 223.2575,9.78 218.6675,9.78 C212.7725,9.78 207.5975,14.37 207.5975,20.535 L207.5975,20.625 C207.5975,26.745 212.7725,31.335 218.6675,31.335 C223.2575,31.335 226.8125,28.725 228.5675,25.26 L228.5675,29.355 C228.5675,35.7 224.6975,38.94 218.9825,38.94 C215.4725,38.94 212.3225,37.815 209.4875,35.655 L208.6325,36.825 C211.7375,39.165 215.1575,40.335 218.9825,40.335 L218.9825,40.335 Z M218.8025,29.94 C213.5375,29.94 209.1725,25.845 209.1725,20.58 L209.1725,20.49 C209.1725,15.135 213.4925,11.175 218.8025,11.175 C224.0675,11.175 228.7025,15.27 228.7025,20.535 L228.7025,20.625 C228.7025,25.89 224.0675,29.94 218.8025,29.94 L218.8025,29.94 Z M242.7625,40.335 C245.8225,40.335 247.7575,38.985 250.1425,33.585 L260.3575,10.32 L258.8275,10.32 L249.6925,31.425 L239.7025,10.32 L238.0825,10.32 L248.9725,32.955 C246.8125,37.77 245.3275,38.985 242.8075,38.985 C241.3675,38.985 240.0625,38.58 238.9825,37.995 L238.3975,39.21 C239.6125,39.84 241.0975,40.335 242.7625,40.335 L242.7625,40.335 Z" fill="#363636" sketch:type="MSShapeGroup"></path>
+		</g>
+	</symbol>
+
+
+	<!-- speech sample -->
+	<symbol id="speech_sample_svg" viewBox="0 0 81 81" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+		<!-- Generator: Sketch 3.3.1 (12005) - http://www.bohemiancoding.com/sketch -->
+		<title>speech icon</title>
+		<circle fill="#c2d3e7" cx="40.5" cy="40.5" r="40.5"></circle>
+		<path d="M31.0933416,57.1835434 L35.8600683,57.1835434 L35.8600683,23.8164566 L31.0933416,23.8164566 L31.0933416,57.1835434 Z M38.2796587,66.7169967 L43.0463854,66.7169967 L43.0463854,14.2830033 L38.2796587,14.2830033 L38.2796587,66.7169967 Z M45.4683592,57.1835434 L50.2355626,57.1835434 L50.2355626,23.8164566 L45.4683592,23.8164566 L45.4683592,57.1835434 Z M52.655153,50.0334533 L57.4218797,50.0334533 L57.4218797,30.9665467 L52.655153,30.9665467 L52.655153,50.0334533 Z M59.8417085,47.65009 L64.6084352,47.65009 L64.6084352,33.34991 L59.8417085,33.34991 L59.8417085,47.65009 Z M67.0280256,45.2667267 L71.7947523,45.2667267 L71.7947523,35.7332733 L67.0280256,35.7332733 L67.0280256,45.2667267 Z M23.4124766,50.0334533 L28.1792032,50.0334533 L28.1792032,30.9665467 L23.4124766,30.9665467 L23.4124766,50.0334533 Z M16.2259211,47.65009 L20.9926478,47.65009 L20.9926478,33.34991 L16.2259211,33.34991 L16.2259211,47.65009 Z M9.03960396,45.2667267 L13.8063306,45.2667267 L13.8063306,35.7332733 L9.03960396,35.7332733 L9.03960396,45.2667267 Z" fill="#FFFFFF"></path>
+	</symbol>
+
 </svg>
 
 
@@ -870,23 +903,6 @@ MAIN DEMO CONTAINER
 						</div>
 					</div>
 
-
-					<!-- <div id="demotooltip">
-						<div id="full_demotooltip_bubble">
-							<div id="demotooltip_bubble">
-								<div id="demotooltip_title">Did you notice?</div>
-								<div id="demotooltip_text">
-									There were <span>no translations.</span> This is how language immersion works.
-								Connect images with words, and <span>learning becomes automatic.</span>
-								</div>
-							</div>
-							<div class="zero_font">
-								<div class="demotooltip_triangle"></div>
-								<div class="demotooltip_triangle demotooltip_triangle_right"></div>
-							</div>
-						</div>
-						<div id="demotooltip_i"><div style="padding-top:5px;">i</div></div>
-					</div> -->
 				</div>
 			</div>
 
@@ -1166,6 +1182,444 @@ MAIN DEMO CONTAINER
 
 
 
+
+	<style>
+	.speech_rec_full_height{
+		position: absolute;
+		top: 50px;
+		left: 0px;
+		width: 100%;
+		height: calc(100% - 50px - 42px);
+	}
+
+	#our_speech_recognition{
+		font-weight: 700;
+		font-size: 22px;
+		letter-spacing: 2px;
+		padding-bottom: 12px;
+	}
+
+	#our_speech_recognition span{
+		font-family: gothamlight;
+		font-weight: 100;
+	}
+
+	#is_industry_leading{
+		font-weight: 700;
+		font-size: 24px;
+		letter-spacing: 2px;
+		padding-bottom: 20px;
+		color: #fdba3d;
+	}
+
+	#is_industry_leading .darktext{
+		color: #333;
+	}
+
+	#is_industry_leading .smaller{
+		font-size: 18px;
+		font-family: gothamlight;
+		font-weight: 100;
+	}
+
+	#get_you_speaking{
+		font-size: 33px;
+		font-family: gothamlight;
+	}
+
+	#with{
+		padding: 15px 0px;
+		font-family: gothamlight;
+	}
+
+	#native_pronunciation{
+		font-size: 32px;
+		font-weight: 700;
+		padding-bottom: 20px;
+	}
+
+	#native_pronunciation span{
+		color: #fdba3d;
+	}
+
+
+
+	#tap_image_text_container{
+		position: fixed;
+		width: 100%;
+		height: calc(40% - 45px);
+		top: 45px;
+	}
+	
+
+	#tap_image_text{
+		text-transform: uppercase;
+		font-size: 16px;
+		line-height: 1.4;
+		color: #555;
+		letter-spacing: 1px;
+	}
+
+
+
+	#tap_image_box_container{
+		position: fixed;
+		bottom: 50px;
+		z-index: 20010;
+		width: 100%;
+		height: 40%;
+		text-align: center;
+
+		
+		/*transform: translateY(calc(-50% + 10px));
+		-webkit-transform: translateY(calc(-50% + 10px));*/
+		
+	}
+	
+	#tap_image_box{
+		width: 170px;
+		background: #fff;
+		display: inline-block;
+		border-radius: 3px;
+		overflow: hidden;
+		position: relative;
+	}
+
+	#tap_image_gray_bg{
+		background: #eee;
+		position: fixed;
+		bottom: -100%;
+		left: -25%;
+		width: 150%;
+		height: 160%;
+		border-top-left-radius: 50% 190px;
+		border-top-right-radius: 50% 190px;
+	}
+
+
+
+	#tap_image_box_title{
+		padding: 7px 5px;
+		font-size: 18px;
+	}
+
+	#tap_image_box_picture{
+		height: 110px;
+		width: 100%;
+		background: #333;
+		background-image: url('./demo_images/woman_picture.jpg');
+		background-size: 100% auto;
+		background-repeat: no-repeat;
+		background-position: center top;
+	}
+
+	.text_above_tap_image_box {
+		display: none;
+		position: absolute;
+		bottom: 105%;
+		width: 100%;
+
+		text-transform: uppercase;
+		font-size: 15px;
+		line-height: 1.4;
+		color: #555;
+		letter-spacing: 1px;
+	}
+
+
+	.inline_underline{
+		position: relative;
+		display: inline-block;
+	}
+
+	.gold_underline{
+		position: absolute;
+		bottom: -1px;
+		width: 100%;
+		height: 0px;
+		border-bottom: 2px solid #fdba3d;
+
+		-webkit-transition: -webkit-transform 0.2s ease-in-out;
+		transition: transform 0.2s ease-in-out;
+	}
+
+
+
+
+
+	.wave_svg{
+
+		-webkit-transform: rotateX(180deg);
+		transform: rotateX(180deg);
+
+		-webkit-transform-origin: 0px 0px;
+		transform-origin: 0px 0px;
+
+		width: 100%;
+	}
+
+	.wave_div{
+		position:absolute; left:0%; top:100%; width:100%; height:50%;
+
+		transform: rotateY(0deg) scaleY(0);
+		-webkit-transform: rotateY(0deg) scaleY(0);
+
+		-webkit-transform-origin: 50% 0px;
+		transform-origin: 50% 0px;
+
+		-webkit-transition: opacity 0.2s ease-in-out;
+		transition: opacity 0.2s ease-in-out;
+
+		opacity: 0;
+	}
+
+	#black_and_gold_wave_container{
+		position:fixed; bottom:42px; left:0px; width:100%; height:150px;
+		z-index: 20002;
+	}
+
+	#gold_wave_svg, #black_wave_svg{
+		height: 100%;
+		-webkit-transition: opacity 1.5s ease-in-out;
+		transition: opacity 1.5s ease-in-out;
+	}
+
+	.move_wave_white{
+		-webkit-animation: wave_animation 0.29s linear 0s infinite alternate;
+		animation: wave_animation 0.29s linear 0s infinite alternate;
+	}
+
+	.move_wave_green{
+		-webkit-animation: wave_animation 0.21s linear 0s infinite alternate;
+		animation: wave_animation 0.21s linear 0s infinite alternate;
+	}
+
+	.move_wave_gold{
+		-webkit-animation: wave_animation 0.25s linear 0s infinite alternate;
+		animation: wave_animation 0.25s linear 0s infinite alternate;
+	}
+
+	.move_wave_black{
+		-webkit-animation: wave_animation 0.27s linear 0s infinite alternate;
+		animation: wave_animation 0.27s linear 0s infinite alternate;
+	}
+
+	
+	@-webkit-keyframes wave_animation{
+		0% { -webkit-transform: rotateY(0deg) scaleY(1); }
+		49.9% { -webkit-transform: rotateY(0deg) scaleY(0); }
+		50% { -webkit-transform: rotateY(180deg) scaleY(0); }
+		100% { -webkit-transform: rotateY(180deg) scaleY(1); }
+	}
+
+	@keyframes wave_animation{
+		0% { transform: rotateY(0deg) scaleY(1); }
+		49.9% { transform: rotateY(0deg) scaleY(0); }
+		50% { transform: rotateY(180deg) scaleY(0); }
+		100% { transform: rotateY(180deg) scaleY(1); }
+	}
+
+
+	#speaker_circle{
+		background: #73c124;
+		border-radius: 50%;
+		display: inline-block;
+		width: 30px;
+		height: 30px;
+		vertical-align: middle;
+		margin-bottom: 2px;
+	}
+
+
+	#speech_sample_container{
+		position: fixed;
+		left: 0px;
+		bottom: 42px;
+		width: 100%;
+		height: 50%;
+
+		overflow: hidden;
+		/*border-top-left-radius: 50% 90px;
+		border-top-right-radius: 50% 90px;*/
+
+		/*border: 1px solid #333;*/
+
+		display: none;
+	}
+
+	.speech_sample{
+		position: absolute;
+		width: 42px;
+		height: 42px;
+
+		-webkit-transition: opacity 0.2s ease-in-out;
+		transition: opacity 0.2s ease-in-out;
+	}
+
+
+	</style>
+
+
+
+
+
+
+
+	
+	<!--********************************************************************************
+	SPEECH RECOGNITION SLIDE
+	*********************************************************************************-->
+	<div id="speech_recognition_slide" class="slides">
+		<div id="" class="demo_general_slide block">
+			
+			<!-- our technology is industry-leading -->
+			<div id="speech_rec_title" class="speech_rec_full_height table">
+				<div class="table_cell">
+					<div id="our_speech_recognition"><span>Our</span><br>speech recognition</div>
+					<div id="technology_div"><svg style="width:261px; height:41px;"><use xlink:href="#technology_svg"></use></svg></div>
+					<div id="is_industry_leading"><span class="darktext smaller">is</span><br>industry-leading<span class="darktext">.</span></div>
+				</div>
+			</div>
+
+
+			<!-- we'll get you speaking -->
+			<div id="get_you_speaking_container" class="speech_rec_full_height table">
+				<div class="table_cell">
+					<div id="get_you_speaking">And we'll get<br>you speaking</div>
+					<div id="with">with</div>
+					<div id="native_pronunciation">native<br><span>pronunciation</span></div>
+				</div>
+			</div>
+
+			
+			<!-- tap image to hear sound -->
+			<div id="tap_image_text_container" class="table">
+				<div id="tap_image_text" class="table_cell">
+					<div class="inline_underline" style="font-weight:700;">
+						Tap
+						<div id="tap_underline" class="gold_underline"></div>
+					</div>
+					the image and<br>listen to<br>the pronunciation.
+				</div>
+			</div>
+			
+			
+			<!-- tap the image to hear sounds -->
+			<div id="tap_image_box_container" class="table">
+				<div class="table_cell">
+
+					<!-- repeat what you've heard -->
+					<div id="repeat_what_youve_heard" class="text_above_tap_image_box">You'll 
+						<div class="inline_underline" style="font-weight:700;">
+							repeat
+							<div id="repeat_underline" class="gold_underline"></div>
+						</div>
+						<br>what you've heard
+					</div>
+
+					<!-- and we'll compare it with millions -->
+					<div id="compare_with_millions" class="text_above_tap_image_box">
+						And we'll 
+						<div class="inline_underline" style="font-weight:700;">
+							compare
+							<div id="compare_underline" class="gold_underline"></div>
+						</div>
+						it
+						<br>with <span style="font-weight:700;">millions</span> of samples
+						<br>from native speakers
+					</div>
+
+					<!-- 100x per second -->
+					<div id="hundred_times" class="text_above_tap_image_box">
+						<div class="big_100_x">100x</div>
+						<div class="inline_underline" style="font-weight:700;">
+							per second
+							<div id="per_second_underline" class="gold_underline"></div>
+						</div>
+					</div>
+
+
+
+					<div id="tap_image_box">
+						<div id="tap_image_box_title">
+							<span id="tap_image_box_title_text">Une Femme</span>
+							
+							<!-- speaker icon -->
+							<div id="speaker_circle">
+								<svg style="margin-top:7px;" id="speaker_icon" width="15px" height="15px" viewBox="0 0 8 7" xmlns="http://www.w3.org/2000/svg">
+									<style type="text/css"><![CDATA[ #speaker_icon rect,#speaker_icon polygon{ stroke:#fff; stroke-width:0.3; fill:transparent; } #speaker_icon path{ stroke:#fff; stroke-width:0.3; stroke-linecap:round; fill:none; } ]]></style>
+									<rect x="0" y="2" width="1.5" height="3"></rect>
+									<polygon points="1.5,2 4,0 4,7 1.5,5"></polygon>
+									<path d="M4.5 3 q0.5 0.5 0 1"></path><path d="M5.5 2 q1 1.5 0 3"></path><path d="M6.5 1 q1.5 2.5 0 5"></path>
+								</svg>
+							</div>
+						</div>
+						<div id="tap_image_box_picture"></div>
+
+						<!-- white wave -->
+						<div id="white_wave" class="wave_div">
+							<svg id="white_wave_svg" class="wave_svg" viewBox="0 0 100 50">
+								<path style="stroke:none; fill:rgba(255, 255, 255, 0.8);" d="M0,0 Q17.2,2,29.5,26 Q42,48,54,22 Q69.5,-5,85.2,13.8 Q92,20,100,6 L100,0"></path>
+							</svg>
+						</div>
+
+						<!-- green wave -->
+						<div id="green_wave" class="wave_div">
+							<svg id="green_wave_svg" class="wave_svg" viewBox="0 0 100 50">
+								<path style="stroke:none; fill:rgba(115, 193, 18, 0.8);" d="M0,0 Q6,4,10,14 Q22,44,34.5,20 Q45.5,-2,58,14 Q73.75,33.5,86,14 Q94,2,100,0"></path>
+							</svg>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			
+			<!-- gray background with curved top -->
+			<div id="tap_image_gray_bg"></div>
+
+
+
+			<!-- black and gold waves -->
+			<div id="black_and_gold_wave_container">
+				<!-- gold wave -->
+				<div id="gold_wave" class="wave_div">
+					<svg id="gold_wave_svg" preserveAspectRatio="none" class="wave_svg" viewBox="0 0 100 50">
+						<path style="stroke:none; fill:rgba(255, 166, 0, 0.8);" d="M0,0 Q17.2,2,29.5,26 Q42,48,54,22 Q69.5,-5,85.2,13.8 Q92,20,100,6 L100,0"></path>
+					</svg>
+				</div>
+
+				<!-- black wave -->
+				<div id="black_wave" class="wave_div">
+					<svg id="black_wave_svg" preserveAspectRatio="none" class="wave_svg" viewBox="0 0 100 50">
+						<path style="stroke:none; fill:rgba(33, 33, 33, 0.8);" d="M0,0 Q6,4,10,14 Q22,44,34.5,20 Q45.5,-2,58,14 Q73.75,33.5,86,14 Q94,2,100,0"></path>
+					</svg>
+				</div>
+			</div>
+
+
+			<!-- speech sample graphics (PLEASE DO NOT REMOVE!) -->
+			<div id="speech_sample_container"></div>
+
+
+		</div>
+	</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	<style>
 	#final_slide_text_container{
 		position: absolute;
@@ -1173,7 +1627,6 @@ MAIN DEMO CONTAINER
 		left: 0px;
 		width: 100%;
 		height: calc(100% - 50px - 42px - 85px);
-		/*background: green;*/
 	}
 
 	#final_title_1{
@@ -1328,6 +1781,7 @@ MAIN DEMO CONTAINER
 <script src="jquery.js"></script>
 <script>
 var yb = { id : function(str){return document.getElementById(str)} };
+
 
 
 
@@ -1776,28 +2230,36 @@ function switch_slides(n,f){
 
 
 
+/************************************************************************************************
 
-go_to_slide[0] = function(){
-	switch_slides(0,runTitleSlide);
+This is the list of functions that will call each slide
+
+	Note: The functions need to be in the same order as the slides appear in the document
+
+*************************************************************************************************/
+
+var slide_functions = [
+	runTitleSlide,
+	select_language_slide,
+	start_demo,
+	run_patterns_slide,
+	run_speech_recognition_slide,
+	run_final_slide
+];
+
+// this sets up the functions that switch slides (for example go_to_slide[3]() will take you to slide 3)
+function set_up_slide_nav(n){
+	go_to_slide[n] = function(){
+		switch_slides(n,slide_functions[n]);
+	}
 }
 
-go_to_slide[1] = function(){
-	switch_slides(1,select_language_slide);
+// loop through each slide and set up the navigation and switching
+for(var i=0; i<slide_functions.length; i++){
+	set_up_slide_nav(i);
 }
 
 
-go_to_slide[2] = function(){
-	switch_slides(2,start_demo);
-}
-
-go_to_slide[3] = function(){
-	switch_slides(3,run_patterns_slide);
-}
-
-
-go_to_slide[4] = function(){
-	switch_slides(4,run_final_slide);
-}
 
 
 
@@ -1808,12 +2270,12 @@ go_to_slide[4] = function(){
 /**********************************************************************
 START THE DEMO
 ***********************************************************************/
-runTitleSlide();
+// runTitleSlide();
 
 
 
 // start in the middle if desired
-// go_to_slide[3]();
+go_to_slide[4]();
 
 
 
@@ -2603,6 +3065,260 @@ function run_patterns_slide(){
 	
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/**************************************************************
+SPEECH RECOGNITION SLIDE
+***************************************************************/
+
+// make sure the tap image box starts out not playing
+var tap_image_currently_playing = false;
+
+// when you tap the image box, the voiceover should play
+$('#tap_image_box').on(touchstart, function(ev){
+	ev.preventDefault();
+
+	// if the button wasn't already pressed
+	if(!tap_image_currently_playing){
+		tap_image_currently_playing = true; // register that the button has been pressed
+
+		// play audio
+		yb.id('woman_audio_french').play();
+		
+		// fade in and animate speech rec waves
+		yb.id('white_wave').style.opacity = 1;
+		yb.id('green_wave').style.opacity = 1;
+		yb.id('white_wave').className = 'wave_div move_wave_white';
+		yb.id('green_wave').className = 'wave_div move_wave_green';
+
+		// after some time, hide speech waves and transition to next part
+		setTimeout(function(){
+			yb.id('white_wave').style.opacity = 0;
+			yb.id('green_wave').style.opacity = 0;
+			
+			setTimeout(function(){
+				// stop animations
+				yb.id('white_wave').className = 'wave_div';
+				yb.id('green_wave').className = 'wave_div';
+
+				// transition to next content
+				repeat_what_youve_heard();
+			},750);
+		},900);
+
+	}
+});
+
+// handle the "repeat what you've heard" piece of the speech recognition section
+function repeat_what_youve_heard(){
+	smoothFadeOut('tap_image_text_container');
+	yb.id('tap_image_gray_bg').style[prefixed_transform] = 'translate(0px, -50%)';
+
+	var delays = [700];
+	delays[1] = delays[0] + 700;
+	delays[2] = delays[1] + 500;
+	delays[3] = delays[2] + 2250;
+
+	bounce('tap_image_box_container',0,default_bounce_time,'0px,0px','0px,-50%','0px,calc(-50% + 25px)',false,'table');
+
+	bounce('repeat_what_youve_heard',delays[0],default_bounce_time,'0px,-20px','0px,5px','0px,0px',default_fade_time);
+	
+	gold_underline('repeat_underline',delays[1]);
+
+	
+	// fade in and animate the black and gold waves
+	setTimeout(function(){
+		yb.id('gold_wave').style.opacity = 1;
+		yb.id('black_wave').style.opacity = 1;
+		yb.id('gold_wave').className = 'wave_div move_wave_gold';
+		yb.id('black_wave').className = 'wave_div move_wave_black';
+	}, delays[2]);
+
+
+	setTimeout(compare_with_millions, delays[3]);
+}
+
+// handle the "compare with millions" piece of the speech recognition section
+function compare_with_millions(){
+
+	var delays = [700];
+	delays[1] = delays[0] + 700;
+	delays[2] = delays[1] + 700;
+
+
+	smoothFadeOut('repeat_what_youve_heard');
+	bounce('compare_with_millions',delays[0],default_bounce_time,'0px,-20px','0px,5px','0px,0px',default_fade_time);
+	gold_underline('compare_underline',delays[1]);
+
+
+	
+	
+	// speech samples stuff
+
+	var speech_samples_interval;
+
+	function start_speech_samples(){
+		
+		var cluster_bubbles = yb.id('speech_sample_container').querySelectorAll('.speech_sample');
+
+		function random_bubble(){
+			var bubble_size = Math.floor(Math.random()*63) + 20;
+			var bubble_left = Math.floor(Math.random()*98);
+			var bubble_top = Math.floor(Math.random()*98);
+			return {'size':bubble_size, 'left':bubble_left, 'top':bubble_top};
+		}
+
+		function start_bubbles(n,time){
+			speech_samples_interval = setInterval(function(){
+				cluster_bubbles[n].setAttribute('style','top:'+random_bubble().top+'%; '
+									+'left:'+random_bubble().left+'%; '
+									+'width:'+random_bubble().size+'px; '
+									+'height:'+random_bubble().size+'px;');
+				cluster_bubbles[n].style.opacity = '1';
+				setTimeout(function(){
+					cluster_bubbles[n].style.opacity = '0';
+				},time/2);
+			},time);
+		}
+
+		for(var i=0; i<cluster_bubbles.length; i++){
+			start_bubbles(i,200+(25*i));
+		}
+	}
+
+	function stop_speech_samples(){
+		clearInterval(speech_samples_interval);
+	}
+
+	
+	setTimeout(function(){
+		smoothFadeIn('speech_sample_container');
+		start_speech_samples();
+	},delays[2]);
+}
+
+
+// helper function to make gold underline appear as needed
+function gold_underline(id,delay){
+	yb.id(id).style[prefixed_transform] = 'scaleX(0)';
+	setTimeout(function(){
+		yb.id(id).style[prefixed_transform] = 'scaleX(1)';
+	},delay);
+}
+
+
+// populate the speech sample graphics
+for(var i=0; i<20; i++){
+	yb.id('speech_sample_container').innerHTML += '<div class="speech_sample"><svg width="100%" height="100%"><use xlink:href="#speech_sample_svg"></use></svg></div>';
+}
+
+
+// begin the speech recognition slide
+function run_speech_recognition_slide(){
+
+	// make sure the tap image box starts out not playing
+	currently_playing = false;
+	
+	// make sure everything that needs to be hidden will be hidden
+	var to_hide = ['speech_rec_title', 'our_speech_recognition', 'technology_div', 'is_industry_leading',
+					'get_you_speaking_container','get_you_speaking','with','native_pronunciation',
+					'tap_image_text_container','tap_image_box','tap_image_gray_bg'];
+
+	// hide all items and reset their transitions and transformations
+	for(var i=0; i<to_hide.length; i++){
+		yb.id(to_hide[i]).style.display = 'none';
+		yb.id(to_hide[i]).style[prefixed_transform] = '';
+		yb.id(to_hide[i]).style[prefixed_transition] = '';
+	}
+
+	
+	// DEBUGGING ************************************************
+	smoothFadeIn('speech_recognition_slide');
+	// smoothFadeIn('tap_image_text_container', 0.5, 'table');
+	// smoothFadeIn('tap_image_box', 0.5, 'inline-block');
+	// smoothFadeIn('tap_image_gray_bg');
+
+	var tap_image_delay = [200];
+	tap_image_delay[1] = tap_image_delay[0] + 500;
+	tap_image_delay[2] = tap_image_delay[1] + 650;
+	tap_image_delay[3] = tap_image_delay[2] + 600;
+	bounce('tap_image_gray_bg',tap_image_delay[0],0.4,'0px,100%','0px,-3%','0px,0px',default_fade_time);
+	bounce('tap_image_box',tap_image_delay[1],default_bounce_time,'0px,20px','0px,-5px','0px,0px',default_fade_time,'inline-block');
+	bounce('tap_image_text_container',tap_image_delay[2],default_bounce_time,'0px,-20px','0px,5px','0px,0px',default_fade_time,'table');
+
+	// make underline appear
+	gold_underline('tap_underline',tap_image_delay[3]);
+	
+	
+	// END DEBUGGING ************************************************
+
+
+	/*
+	// make sure title is showing when the slide fades in
+	yb.id('speech_rec_title').style.display = 'table';
+	yb.id('speech_rec_title').style.opacity = 1;
+
+	
+	// fade in the slide
+	smoothFadeIn('speech_recognition_slide');
+
+	var speech_title_delay = [600];
+	speech_title_delay[1] = speech_title_delay[0] + 800;
+	speech_title_delay[2] = speech_title_delay[1] + 800;
+	
+	bounce('our_speech_recognition',speech_title_delay[0],default_bounce_time,'0px,-20px','0px,5px','0px,0px',default_fade_time);
+	bounce('technology_div',speech_title_delay[1],default_bounce_time,'0px,20px','0px,-5px','0px,0px',default_fade_time);
+	bounce('is_industry_leading',speech_title_delay[2],default_bounce_time,'0px,-25px','0px,5px','0px,0px',default_fade_time);
+
+
+
+
+
+
+	// transition to "and we'll get you speaking"
+	var speech_rec_title_fade_time = speech_title_delay[2] + 2000;
+	setTimeout(function(){
+		smoothFadeOut('speech_rec_title');
+		smoothFadeIn('get_you_speaking_container',0.5,'table');
+	}, speech_rec_title_fade_time);
+
+	var get_you_speaking_delay = [speech_rec_title_fade_time + 800];
+	get_you_speaking_delay[1] = get_you_speaking_delay[0] + 400;
+	get_you_speaking_delay[2] = get_you_speaking_delay[1] + 400;
+	
+	bounce('get_you_speaking',get_you_speaking_delay[0],default_bounce_time,'0px,20px','0px,-5px','0px,0px',default_fade_time);
+	bounce('with',get_you_speaking_delay[1],default_bounce_time,'0px,-20px','0px,5px','0px,0px',default_fade_time);
+	bounce('native_pronunciation',get_you_speaking_delay[2],default_bounce_time,'0px,25px','0px,-5px','0px,0px',default_fade_time);
+
+
+
+
+	// transition to tap the image
+
+
+	setTimeout(function(){
+		smoothFadeOut('speech_rec_title');
+		smoothFadeIn('get_you_speaking_container',0.5,'table');
+	}, speech_rec_title_fade_time);
+*/
+
+}
 
 
 
