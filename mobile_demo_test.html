@@ -624,6 +624,15 @@ AUDIO
 <audio id="woman_audio_french" style="display:none;">
 	<source src="./audio/french_a_woman.mp3" type="audio/mpeg">
 </audio>
+<audio id="woman_audio_spanish" style="display:none;">
+	<source src="./audio/spanish_a_woman.mp3" type="audio/mpeg">
+</audio>
+<audio id="woman_audio_italian" style="display:none;">
+	<source src="./audio/italian_a_woman.mp3" type="audio/mpeg">
+</audio>
+<audio id="woman_audio_german" style="display:none;">
+	<source src="./audio/german_a_woman.mp3" type="audio/mpeg">
+</audio>
 
 
 
@@ -726,8 +735,26 @@ SVG DEFINITIONS
 	<symbol id="speech_sample_svg" viewBox="0 0 81 81" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 		<!-- Generator: Sketch 3.3.1 (12005) - http://www.bohemiancoding.com/sketch -->
 		<title>speech icon</title>
-		<circle fill="#c2d3e7" cx="40.5" cy="40.5" r="40.5"></circle>
-		<path d="M31.0933416,57.1835434 L35.8600683,57.1835434 L35.8600683,23.8164566 L31.0933416,23.8164566 L31.0933416,57.1835434 Z M38.2796587,66.7169967 L43.0463854,66.7169967 L43.0463854,14.2830033 L38.2796587,14.2830033 L38.2796587,66.7169967 Z M45.4683592,57.1835434 L50.2355626,57.1835434 L50.2355626,23.8164566 L45.4683592,23.8164566 L45.4683592,57.1835434 Z M52.655153,50.0334533 L57.4218797,50.0334533 L57.4218797,30.9665467 L52.655153,30.9665467 L52.655153,50.0334533 Z M59.8417085,47.65009 L64.6084352,47.65009 L64.6084352,33.34991 L59.8417085,33.34991 L59.8417085,47.65009 Z M67.0280256,45.2667267 L71.7947523,45.2667267 L71.7947523,35.7332733 L67.0280256,35.7332733 L67.0280256,45.2667267 Z M23.4124766,50.0334533 L28.1792032,50.0334533 L28.1792032,30.9665467 L23.4124766,30.9665467 L23.4124766,50.0334533 Z M16.2259211,47.65009 L20.9926478,47.65009 L20.9926478,33.34991 L16.2259211,33.34991 L16.2259211,47.65009 Z M9.03960396,45.2667267 L13.8063306,45.2667267 L13.8063306,35.7332733 L9.03960396,35.7332733 L9.03960396,45.2667267 Z" fill="#FFFFFF"></path>
+		<circle fill="#e0e0e0" cx="40.5" cy="40.5" r="40.5"></circle>
+		<path d="M31.0933416,57.1835434 L35.8600683,57.1835434 L35.8600683,23.8164566 L31.0933416,23.8164566 L31.0933416,57.1835434 Z M38.2796587,66.7169967 L43.0463854,66.7169967 L43.0463854,14.2830033 L38.2796587,14.2830033 L38.2796587,66.7169967 Z M45.4683592,57.1835434 L50.2355626,57.1835434 L50.2355626,23.8164566 L45.4683592,23.8164566 L45.4683592,57.1835434 Z M52.655153,50.0334533 L57.4218797,50.0334533 L57.4218797,30.9665467 L52.655153,30.9665467 L52.655153,50.0334533 Z M59.8417085,47.65009 L64.6084352,47.65009 L64.6084352,33.34991 L59.8417085,33.34991 L59.8417085,47.65009 Z M67.0280256,45.2667267 L71.7947523,45.2667267 L71.7947523,35.7332733 L67.0280256,35.7332733 L67.0280256,45.2667267 Z M23.4124766,50.0334533 L28.1792032,50.0334533 L28.1792032,30.9665467 L23.4124766,30.9665467 L23.4124766,50.0334533 Z M16.2259211,47.65009 L20.9926478,47.65009 L20.9926478,33.34991 L16.2259211,33.34991 L16.2259211,47.65009 Z M9.03960396,45.2667267 L13.8063306,45.2667267 L13.8063306,35.7332733 L9.03960396,35.7332733 L9.03960396,45.2667267 Z" fill="#f0f0f0"></path>
+	</symbol>
+
+
+
+	<!-- check mark -->
+	<symbol id="correct_check_svg_def" viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg">
+		<circle cx="5" cy="5" r="4.75" style="stroke:none; fill:#73c124;"></circle>
+		<polyline points="2.7,5 4.2,6.7 7.5,3.6" style="stroke:#fff; stroke-width:0.4; stroke-linejoin:round; stroke-linecap:round; fill:none;"></polyline>
+	</symbol>
+
+	<!-- wrong x mark -->
+	<symbol id="wrong_x_svg_def" class="redxsvg" viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg">
+		<style type="text/css">
+			<![CDATA[ .redxsvg line{ stroke:#fff; stroke-width:0.4; stroke-linecap:round; } ]]>
+		</style>
+		<circle cx="5" cy="5" r="4.5" style="stroke:none; fill:#d32;"></circle>
+		<line x1="3.3" y1="3.3" x2="6.7" y2="6.7"></line>
+		<line x1="3.3" y1="6.7" x2="6.7" y2="3.3"></line>
 	</symbol>
 
 </svg>
@@ -1456,6 +1483,23 @@ MAIN DEMO CONTAINER
 		transition: opacity 0.2s ease-in-out;
 	}
 
+	
+	#hundred_times{
+		padding-bottom: 5px;
+	}
+
+	.big_100_x{
+		font-size: 50px;
+		font-weight: 700;
+		text-transform: none;
+		line-height: 0.9;
+	}
+
+	#feedback_check_mark{
+		padding: 28px;
+		margin: auto;
+	}
+
 
 	</style>
 
@@ -1532,10 +1576,23 @@ MAIN DEMO CONTAINER
 					<!-- 100x per second -->
 					<div id="hundred_times" class="text_above_tap_image_box">
 						<div class="big_100_x">100x</div>
-						<div class="inline_underline" style="font-weight:700;">
+						<div class="inline_underline">
 							per second
 							<div id="per_second_underline" class="gold_underline"></div>
 						</div>
+					</div>
+
+
+					<!-- get instant feedback -->
+					<div id="get_instant_feedback" class="text_above_tap_image_box">
+						You'll get instant
+						<br>
+						<div class="inline_underline" style="font-weight:700;">
+							feedback
+							<div id="feedback_underline" class="gold_underline"></div>
+						</div>
+						and
+						<br>detailed analysis
 					</div>
 
 
@@ -1554,7 +1611,9 @@ MAIN DEMO CONTAINER
 								</svg>
 							</div>
 						</div>
-						<div id="tap_image_box_picture"></div>
+						<div id="tap_image_box_picture">
+							<svg id="feedback_check_mark" style="display:none;" width="50px" height="50px"><use xlink:href="#correct_check_svg_def"></use></svg>
+						</div>
 
 						<!-- white wave -->
 						<div id="white_wave" class="wave_div">
@@ -1584,14 +1643,14 @@ MAIN DEMO CONTAINER
 				<!-- gold wave -->
 				<div id="gold_wave" class="wave_div">
 					<svg id="gold_wave_svg" preserveAspectRatio="none" class="wave_svg" viewBox="0 0 100 50">
-						<path style="stroke:none; fill:rgba(255, 166, 0, 0.8);" d="M0,0 Q17.2,2,29.5,26 Q42,48,54,22 Q69.5,-5,85.2,13.8 Q92,20,100,6 L100,0"></path>
+						<path style="stroke:none; fill:rgba(255, 255, 255, 0.8);" d="M0,0 Q17.2,2,29.5,26 Q42,48,54,22 Q69.5,-5,85.2,13.8 Q92,20,100,6 L100,0"></path>
 					</svg>
 				</div>
 
 				<!-- black wave -->
 				<div id="black_wave" class="wave_div">
 					<svg id="black_wave_svg" preserveAspectRatio="none" class="wave_svg" viewBox="0 0 100 50">
-						<path style="stroke:none; fill:rgba(33, 33, 33, 0.8);" d="M0,0 Q6,4,10,14 Q22,44,34.5,20 Q45.5,-2,58,14 Q73.75,33.5,86,14 Q94,2,100,0"></path>
+						<path style="stroke:none; fill:rgba(115, 193, 18, 0.8);" d="M0,0 Q6,4,10,14 Q22,44,34.5,20 Q45.5,-2,58,14 Q73.75,33.5,86,14 Q94,2,100,0"></path>
 					</svg>
 				</div>
 			</div>
@@ -1815,6 +1874,7 @@ var words = {
 	,'car' : {'french':'Voiture','spanish':'Coche','italian':'Auto','german':'Auto'}
 	,'two' : {'french':'Deux','spanish':'Dos','italian':'Due','german':'Zwei'}
 	,'three' : {'french':'Trois','spanish':'Tres','italian':'Tre','german':'Drei'}
+	,'woman' : {'french':'Une Femme','spanish':'Una Mujer','italian':'Una Donna','german':'Eine Frau'}
 };
 
 
@@ -2492,8 +2552,8 @@ var democontent = {
 
 
 // create check and x marks
-var correct_checkmark = '<svg id="correct_check_svg" style="display:none;" width="50" height="50" viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg"><circle cx="5" cy="5" r="4.75" style="stroke:none; fill:#73c124;"></circle><polyline points="2.7,5 4.2,6.7 7.5,3.6" style="stroke:#fff; stroke-width:0.4; stroke-linejoin:round; stroke-linecap:round; fill:none;"></polyline></svg>';
-var wrong_x = '<svg id="wrong_x_svg" style="display:none;" class="redxsvg" width="50" height="50" viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg"><style type="text/css"><![CDATA[ .redxsvg line{ stroke:#fff; stroke-width:0.4; stroke-linecap:round; } ]]></style><circle cx="5" cy="5" r="4.5" style="stroke:none; fill:#d32;"></circle><line x1="3.3" y1="3.3" x2="6.7" y2="6.7"></line><line x1="3.3" y1="6.7" x2="6.7" y2="3.3"></line></svg>';
+var correct_checkmark = '<svg id="correct_check_svg" style="display:none;" width="50px" height="50px"><use xlink:href="#correct_check_svg_def"></use></svg>';
+var wrong_x = '<svg id="wrong_x_svg" style="display:none;" width="50px" height="50px"><use xlink:href="#wrong_x_svg_def"></use></svg>';
 
 
 
@@ -3090,129 +3150,6 @@ SPEECH RECOGNITION SLIDE
 // make sure the tap image box starts out not playing
 var tap_image_currently_playing = false;
 
-// when you tap the image box, the voiceover should play
-$('#tap_image_box').on(touchstart, function(ev){
-	ev.preventDefault();
-
-	// if the button wasn't already pressed
-	if(!tap_image_currently_playing){
-		tap_image_currently_playing = true; // register that the button has been pressed
-
-		// play audio
-		yb.id('woman_audio_french').play();
-		
-		// fade in and animate speech rec waves
-		yb.id('white_wave').style.opacity = 1;
-		yb.id('green_wave').style.opacity = 1;
-		yb.id('white_wave').className = 'wave_div move_wave_white';
-		yb.id('green_wave').className = 'wave_div move_wave_green';
-
-		// after some time, hide speech waves and transition to next part
-		setTimeout(function(){
-			yb.id('white_wave').style.opacity = 0;
-			yb.id('green_wave').style.opacity = 0;
-			
-			setTimeout(function(){
-				// stop animations
-				yb.id('white_wave').className = 'wave_div';
-				yb.id('green_wave').className = 'wave_div';
-
-				// transition to next content
-				repeat_what_youve_heard();
-			},750);
-		},900);
-
-	}
-});
-
-// handle the "repeat what you've heard" piece of the speech recognition section
-function repeat_what_youve_heard(){
-	smoothFadeOut('tap_image_text_container');
-	yb.id('tap_image_gray_bg').style[prefixed_transform] = 'translate(0px, -50%)';
-
-	var delays = [700];
-	delays[1] = delays[0] + 700;
-	delays[2] = delays[1] + 500;
-	delays[3] = delays[2] + 2250;
-
-	bounce('tap_image_box_container',0,default_bounce_time,'0px,0px','0px,-50%','0px,calc(-50% + 25px)',false,'table');
-
-	bounce('repeat_what_youve_heard',delays[0],default_bounce_time,'0px,-20px','0px,5px','0px,0px',default_fade_time);
-	
-	gold_underline('repeat_underline',delays[1]);
-
-	
-	// fade in and animate the black and gold waves
-	setTimeout(function(){
-		yb.id('gold_wave').style.opacity = 1;
-		yb.id('black_wave').style.opacity = 1;
-		yb.id('gold_wave').className = 'wave_div move_wave_gold';
-		yb.id('black_wave').className = 'wave_div move_wave_black';
-	}, delays[2]);
-
-
-	setTimeout(compare_with_millions, delays[3]);
-}
-
-// handle the "compare with millions" piece of the speech recognition section
-function compare_with_millions(){
-
-	var delays = [700];
-	delays[1] = delays[0] + 700;
-	delays[2] = delays[1] + 700;
-
-
-	smoothFadeOut('repeat_what_youve_heard');
-	bounce('compare_with_millions',delays[0],default_bounce_time,'0px,-20px','0px,5px','0px,0px',default_fade_time);
-	gold_underline('compare_underline',delays[1]);
-
-
-	
-	
-	// speech samples stuff
-
-	var speech_samples_interval;
-
-	function start_speech_samples(){
-		
-		var cluster_bubbles = yb.id('speech_sample_container').querySelectorAll('.speech_sample');
-
-		function random_bubble(){
-			var bubble_size = Math.floor(Math.random()*63) + 20;
-			var bubble_left = Math.floor(Math.random()*98);
-			var bubble_top = Math.floor(Math.random()*98);
-			return {'size':bubble_size, 'left':bubble_left, 'top':bubble_top};
-		}
-
-		function start_bubbles(n,time){
-			speech_samples_interval = setInterval(function(){
-				cluster_bubbles[n].setAttribute('style','top:'+random_bubble().top+'%; '
-									+'left:'+random_bubble().left+'%; '
-									+'width:'+random_bubble().size+'px; '
-									+'height:'+random_bubble().size+'px;');
-				cluster_bubbles[n].style.opacity = '1';
-				setTimeout(function(){
-					cluster_bubbles[n].style.opacity = '0';
-				},time/2);
-			},time);
-		}
-
-		for(var i=0; i<cluster_bubbles.length; i++){
-			start_bubbles(i,200+(25*i));
-		}
-	}
-
-	function stop_speech_samples(){
-		clearInterval(speech_samples_interval);
-	}
-
-	
-	setTimeout(function(){
-		smoothFadeIn('speech_sample_container');
-		start_speech_samples();
-	},delays[2]);
-}
-
 
 // helper function to make gold underline appear as needed
 function gold_underline(id,delay){
@@ -3229,11 +3166,12 @@ for(var i=0; i<20; i++){
 }
 
 
+
 // begin the speech recognition slide
 function run_speech_recognition_slide(){
 
 	// make sure the tap image box starts out not playing
-	currently_playing = false;
+	tap_image_currently_playing = false;
 	
 	// make sure everything that needs to be hidden will be hidden
 	var to_hide = ['speech_rec_title', 'our_speech_recognition', 'technology_div', 'is_industry_leading',
@@ -3248,28 +3186,41 @@ function run_speech_recognition_slide(){
 	}
 
 	
-	// DEBUGGING ************************************************
-	smoothFadeIn('speech_recognition_slide');
-	// smoothFadeIn('tap_image_text_container', 0.5, 'table');
-	// smoothFadeIn('tap_image_box', 0.5, 'inline-block');
-	// smoothFadeIn('tap_image_gray_bg');
-
-	var tap_image_delay = [200];
-	tap_image_delay[1] = tap_image_delay[0] + 500;
-	tap_image_delay[2] = tap_image_delay[1] + 650;
-	tap_image_delay[3] = tap_image_delay[2] + 600;
-	bounce('tap_image_gray_bg',tap_image_delay[0],0.4,'0px,100%','0px,-3%','0px,0px',default_fade_time);
-	bounce('tap_image_box',tap_image_delay[1],default_bounce_time,'0px,20px','0px,-5px','0px,0px',default_fade_time,'inline-block');
-	bounce('tap_image_text_container',tap_image_delay[2],default_bounce_time,'0px,-20px','0px,5px','0px,0px',default_fade_time,'table');
-
-	// make underline appear
-	gold_underline('tap_underline',tap_image_delay[3]);
 	
+
+	// set "a woman" translation to the correct language
+	yb.id('tap_image_box_title_text').innerHTML = words.woman[selected_language];
 	
-	// END DEBUGGING ************************************************
+	// return "tap image" box to original position
+	yb.id('tap_image_box_container').style[prefixed_transform] = '';
+
+	// hide "compare with millions" text
+	yb.id('compare_with_millions').style.display = 'none';
+
+	// hide all text above "tap image" box
+	var text_above_tap_image_box = yb.id('tap_image_box_container').querySelectorAll('.text_above_tap_image_box');
+	for(var i=0; i<text_above_tap_image_box.length; i++){
+		text_above_tap_image_box[i].style.display = 'none';
+	}
+
+	// stop gold and black waves
+	yb.id('gold_wave').style.opacity = 0;
+	yb.id('black_wave').style.opacity = 0;
+	yb.id('gold_wave').className = 'wave_div';
+	yb.id('black_wave').className = 'wave_div';
+
+	// shut down speech samples animation
+	yb.id('speech_sample_container').style.display = 'none';
+	stop_speech_samples();
+
+	// hide check mark in feedback section
+	yb.id('feedback_check_mark').style.display = 'none';
 
 
-	/*
+	
+	// DEBUGGING - COMMENT OUT FROM HERE ON FOR DEBUGGING
+
+	
 	// make sure title is showing when the slide fades in
 	yb.id('speech_rec_title').style.display = 'table';
 	yb.id('speech_rec_title').style.opacity = 1;
@@ -3310,19 +3261,228 @@ function run_speech_recognition_slide(){
 
 
 	// transition to tap the image
-
+	var tap_image_start_delay = get_you_speaking_delay[2] + 3000;
 
 	setTimeout(function(){
-		smoothFadeOut('speech_rec_title');
-		smoothFadeIn('get_you_speaking_container',0.5,'table');
-	}, speech_rec_title_fade_time);
-*/
+		smoothFadeOut('get_you_speaking_container');
+		run_pronunciation_section();
+	}, tap_image_start_delay);
+	
+	
+	// DEBUGGING - STOP COMMENTING OUT FROM HERE ON	
+
+
+
+	// DEBUGGING ************************************************
+	
+	// smoothFadeIn('speech_recognition_slide');
+	// run_pronunciation_section();
+
+	// 	// REMOVE THESE LINES AFTER DEBUGGING
+	// 	selected_language = 'italian';
+	// 	yb.id('tap_image_box_title_text').innerHTML = words.woman[selected_language];
+
+	// END DEBUGGING ************************************************
+
+	function run_pronunciation_section(){
+
+		var tap_image_delay = [200];
+		tap_image_delay[1] = tap_image_delay[0] + 500;
+		tap_image_delay[2] = tap_image_delay[1] + 650;
+		tap_image_delay[3] = tap_image_delay[2] + 600;
+		bounce('tap_image_gray_bg',tap_image_delay[0],0.4,'0px,100%','0px,-3%','0px,0px',default_fade_time);
+		bounce('tap_image_box',tap_image_delay[1],default_bounce_time,'0px,20px','0px,-5px','0px,0px',default_fade_time,'inline-block');
+		bounce('tap_image_text_container',tap_image_delay[2],default_bounce_time,'0px,-20px','0px,5px','0px,0px',default_fade_time,'table');
+
+		// make underline appear
+		gold_underline('tap_underline',tap_image_delay[3]);
+	}
+
 
 }
 
 
 
 
+
+// when you tap the image box, the voiceover should play
+$('#tap_image_box').on(touchstart, function(ev){
+	ev.preventDefault();
+
+	// if the button wasn't already pressed
+	if(!tap_image_currently_playing){
+		tap_image_currently_playing = true; // register that the button has been pressed
+
+		// play audio
+		yb.id('woman_audio_'+[selected_language]).play();
+		
+		// fade in and animate speech rec waves
+		yb.id('white_wave').style.opacity = 1;
+		yb.id('green_wave').style.opacity = 1;
+		yb.id('white_wave').className = 'wave_div move_wave_white';
+		yb.id('green_wave').className = 'wave_div move_wave_green';
+
+		// after some time, hide speech waves and transition to next part
+		setTimeout(function(){
+			yb.id('white_wave').style.opacity = 0;
+			yb.id('green_wave').style.opacity = 0;
+			
+			setTimeout(function(){
+				// stop animations
+				yb.id('white_wave').className = 'wave_div';
+				yb.id('green_wave').className = 'wave_div';
+
+				// transition to next content
+				repeat_what_youve_heard();
+			},750);
+		},900);
+
+	}
+});
+
+// handle the "repeat what you've heard" piece of the speech recognition section
+function repeat_what_youve_heard(){
+	smoothFadeOut('tap_image_text_container');
+	yb.id('tap_image_gray_bg').style[prefixed_transform] = 'translate(0px, -50%)';
+
+	// set timing of each part
+	var delays = [700];
+	delays[1] = delays[0] + 700;
+	delays[2] = delays[1] + 500;
+	delays[3] = delays[2] + 2250;
+
+	bounce('tap_image_box_container',0,default_bounce_time,'0px,0px','0px,-50%','0px,calc(-50% + 25px)',false,'table');
+
+	bounce('repeat_what_youve_heard',delays[0],default_bounce_time,'0px,-20px','0px,5px','0px,0px',default_fade_time);
+	
+	gold_underline('repeat_underline',delays[1]);
+
+	
+	// fade in and animate the black and gold waves (now changed to green and white)
+	function show_and_hide_second_waves(){
+		yb.id('gold_wave').style.opacity = 1;
+		yb.id('black_wave').style.opacity = 1;
+		yb.id('gold_wave').className = 'wave_div move_wave_gold';
+		yb.id('black_wave').className = 'wave_div move_wave_black';
+
+		// after some time, hide response waves and transition to next part
+		setTimeout(function(){
+			yb.id('black_wave').style.opacity = 0;
+			yb.id('gold_wave').style.opacity = 0;
+			
+			setTimeout(function(){
+				// stop animations
+				yb.id('black_wave').className = 'wave_div';
+				yb.id('gold_wave').className = 'wave_div';
+			},750);
+		},1200);
+	}
+
+	// show the second set of waves (bottom) twice
+	setTimeout(show_and_hide_second_waves, delays[2]);
+	setTimeout(show_and_hide_second_waves, delays[3] + 3000);
+
+
+	// go to next part of section
+	setTimeout(compare_with_millions, delays[3]);
+}
+
+// handle the "compare with millions" piece of the speech recognition section
+function compare_with_millions(){
+
+	// set timing of each part
+	var delays = [700];
+	delays[1] = delays[0] + 700;
+	delays[2] = delays[1] + 200;
+	delays[3] = delays[2] + 4200;
+	delays[4] = delays[3] + 3200;
+
+	// transition to "compare with millions"
+	smoothFadeOut('repeat_what_youve_heard');
+	bounce('compare_with_millions',delays[0],default_bounce_time,'0px,-20px','0px,5px','0px,0px',default_fade_time);
+	gold_underline('compare_underline',delays[2]);
+	
+	// bring in the speech samples
+	setTimeout(function(){
+		smoothFadeIn('speech_sample_container');
+		start_speech_samples();
+	},delays[1]);
+
+
+	// 100x per second
+	setTimeout(function(){
+		smoothFadeOut('compare_with_millions');
+		bounce('hundred_times',200,default_bounce_time,'0px,-20px','0px,5px','0px,0px',default_fade_time);
+
+		gold_underline('per_second_underline',900);
+	},delays[3]);
+
+
+	// get instant feedback
+	setTimeout(function(){
+		var feedback_delays = [200];
+		feedback_delays[1] = feedback_delays[0] + 700;
+		feedback_delays[2] = feedback_delays[1] + 300;
+		feedback_delays[3] = feedback_delays[2] + 4000;
+
+		// transition to "get instant feedback" text
+		smoothFadeOut('hundred_times');
+		bounce('get_instant_feedback',feedback_delays[0],default_bounce_time,'0px,20px','0px,-5px','0px,0px',default_fade_time);
+
+		// underline "feedback"
+		gold_underline('feedback_underline',feedback_delays[1]);
+
+		// show check mark
+		setTimeout(function(){
+			smoothFadeIn('feedback_check_mark');
+		},feedback_delays[2]);
+
+		
+		// go to next slide
+		setTimeout(function(){
+			go_to_slide[current_slide+1]();
+		},feedback_delays[3]);
+
+	},delays[4]);
+
+}
+
+
+// speech samples stuff
+var speech_samples_interval;
+
+function start_speech_samples(){
+	
+	var cluster_bubbles = yb.id('speech_sample_container').querySelectorAll('.speech_sample');
+
+	function random_bubble(){
+		var bubble_size = Math.floor(Math.random()*63) + 20;
+		var bubble_left = Math.floor(Math.random()*98);
+		var bubble_top = Math.floor(Math.random()*98);
+		return {'size':bubble_size, 'left':bubble_left, 'top':bubble_top};
+	}
+
+	function start_bubbles(n,time){
+		speech_samples_interval = setInterval(function(){
+			cluster_bubbles[n].setAttribute('style','top:'+random_bubble().top+'%; '
+								+'left:'+random_bubble().left+'%; '
+								+'width:'+random_bubble().size+'px; '
+								+'height:'+random_bubble().size+'px;');
+			cluster_bubbles[n].style.opacity = '1';
+			setTimeout(function(){
+				cluster_bubbles[n].style.opacity = '0';
+			},time/2);
+		},time);
+	}
+
+	for(var i=0; i<cluster_bubbles.length; i++){
+		start_bubbles(i,200+(25*i));
+	}
+}
+
+function stop_speech_samples(){
+	clearInterval(speech_samples_interval);
+}
 
 
 
