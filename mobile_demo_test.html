@@ -1802,6 +1802,23 @@ MAIN DEMO CONTAINER
 		width: 130%;
 	}
 
+	#text_above_tutor_photo{
+		height: 121px;
+		position: relative;
+	}
+
+	#schedule_sessions_text,
+	#next_level_text {
+		position: absolute;
+		left: 0px;
+		top: 0px;
+		width: 100%;
+	}
+
+	#tutor_language{
+		text-transform: capitalize;
+	}
+
 	</style>
 
 
@@ -1840,11 +1857,19 @@ MAIN DEMO CONTAINER
 			<!-- schedule sessions -->
 			<div id="schedule_sessions_container" class="table">
 				<div id="schedule_sessions_content" class="table_cell">
-					<div>
-						Schedule sessions
-						<div class="smaller">with our</div>
-						<div class="bold gold larger">native-speaking</div>
-						<div>tutors.</div>
+					<div id="text_above_tutor_photo">
+						<div id="schedule_sessions_text">
+							Schedule sessions
+							<div class="smaller">with our</div>
+							<div class="bold gold larger">native-speaking</div>
+							<div>tutors.</div>
+						</div>
+						<div id="next_level_text">
+							And take your
+							<div id="tutor_language" class="bold">French</div>
+							<div class="smaller">to the</div>
+							<div class="larger"><span class="bold gold">next level</span>.</div>
+						</div>
 					</div>
 					<img id="tutor_photo" src="./demo_images/live_tutors.png">
 				</div>
@@ -2522,12 +2547,12 @@ for(var i=0; i<slide_functions.length; i++){
 /**********************************************************************
 START THE DEMO
 ***********************************************************************/
-// runTitleSlide();
+runTitleSlide();
 
 
 
 // start in the middle if desired
-go_to_slide[5]();
+// go_to_slide[5]();
 
 
 
@@ -3708,16 +3733,20 @@ TUTORS SLIDE
 function run_tutors_slide(){
 	
 	// hide elements but maintain their visual space
-	var visibility_hidden = ['tutors_try_it_yourself','tutors_phone','tutors_speech_balloons'];
+	var visibility_hidden = ['tutors_try_it_yourself','tutors_phone','tutors_speech_balloons','tutor_photo'];
 	for(var i=0; i<visibility_hidden.length; i++){
 		yb.id(visibility_hidden[i]).style.visibility = 'hidden';
 	}
 
 	// hide certain elements entirely
-	var display_none = ['download_or_tutors','get_confident','schedule_sessions_container','tutor_bg_round'];
+	var display_none = ['download_or_tutors','get_confident','schedule_sessions_container','tutor_bg_round','schedule_sessions_text','next_level_text'];
 	for(var i=0; i<display_none.length; i++){
 		yb.id(display_none[i]).style.display = 'none';
 	}
+
+
+	// set correct language
+	yb.id('tutor_language').innerHTML = selected_language;
 
 
 	// show the actual slide
@@ -3768,7 +3797,6 @@ function continue_to_tutors(){
 	var delays = [400];
 	delays[1] = delays[0] + 700;
 	delays[2] = delays[1] + 3000;
-	// delays[3] = delays[2] + 500;
 
 	// bring in "get confident" text and speech balloons icon
 	bounce('get_confident',delays[0],default_bounce_time,'0px,-20px','0px,5px','0px,0px', default_fade_time,'table');
@@ -3783,8 +3811,35 @@ function continue_to_tutors(){
 
 
 function schedule_sessions(){
+	
+	// bring in this section
 	smoothFadeIn('schedule_sessions_container',0.5,'table');
-	smoothFadeIn('tutor_bg_round');
+
+	// handle the timing
+	var delays = [400];
+	delays[1] = delays[0] + 700;
+	delays[2] = delays[1] + 200;
+	delays[3] = delays[2] + 2500;
+	delays[4] = delays[3] + 300;
+	delays[5] = delays[4] + 3000;
+
+
+	// schedule sessions with tutors
+	bounce('schedule_sessions_text',delays[0],default_bounce_time,'0px,-20px','0px,5px','0px,0px', default_fade_time);
+	bounce('tutor_bg_round',delays[1],default_bounce_time,'0px,20px','0px,-5px','0px,0px', default_fade_time);
+	bounce('tutor_photo',delays[2],default_bounce_time,'0px,20px','0px,-5px','0px,0px', default_fade_time,'inline-block');
+
+	// take your language to the next level
+	setTimeout(function(){
+		smoothFadeOut('schedule_sessions_text');
+	},delays[3]);
+	bounce('next_level_text',delays[4],default_bounce_time,'0px,-20px','0px,5px','0px,0px', default_fade_time);
+
+
+	// go to the next slide
+	setTimeout(function(){
+		go_to_slide[current_slide+1]();
+	},delays[5]);
 }
 
 
