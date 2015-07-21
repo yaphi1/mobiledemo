@@ -489,7 +489,8 @@ DEMO TOOLTIPS
 }
 
 
-#tooltip_continue_button{
+#tooltip_continue_button,
+.gold_ghost_button {
 	display: block;
 	margin: 5px auto 0px;
 	padding: 5px 20px;
@@ -498,6 +499,7 @@ DEMO TOOLTIPS
 	background-color: transparent;
 	border: 1px solid #fdba3d;
 	color: #fdba3d;
+	font-family: gothambook;
 }
 
 
@@ -536,6 +538,41 @@ DEMO TOOLTIPS
 }
 
 
+
+#demo_instructions{
+	position: fixed;
+	left: 0px;
+	top: 0px;
+	width: 100%;
+	height: 100%;
+	background: rgba(33,33,33,0.9);
+	z-index: 20050;
+	color: #fdba3d;
+	text-align: center;
+	font-family: gothamlight;
+	font-size: 20px;
+}
+
+#demo_instructions_title{
+	font-size: 25px;
+	text-align: left;
+	padding: 0px 20px;
+}
+
+#demo_instructions_content{
+	padding: 25px 20px;
+	text-align: left;
+}
+
+#demo_instructions_content span{
+	color: #fff;
+	font-family: gothambook;
+	font-weight: bold;
+}
+
+#close_demo_instructions{
+	font-size: 20px;
+}
 
 
 
@@ -889,8 +926,21 @@ MAIN DEMO CONTAINER
 	INTERACTIVE DEMO
 	************************************************************************-->
 	<div id="demo_slide_interactive_demo" class="slides">
+
+		<!-- demo instructions tooltip -->
+		<div id="demo_instructions" class="table">
+			<div class="table_cell">
+				<div id="demo_instructions_title">To Begin:</div>
+				<div id="demo_instructions_content">
+					Tap on the <span>unlabeled image</span> that matches the word <span>at the top of the screen</span>.
+				</div>
+				<button id="close_demo_instructions" class="gold_ghost_button">Continue</button>
+			</div>
+		</div>
+
+		<!-- demo content -->
 		<div id="demo_slide_interactive_demo_content" class="demo_general_slide block" style="background:#fdba3d; color:#fff;">
-			<div class="table" style="height:100%; width:100%; ">
+			<div class="table" style="height:100%; width:100%;">
 				<div id="demo_table_cell" class="table_cell" style="position:relative; top:-10%; height:100%;"><!-- new div (and new class above) -->
 				
 					<div id="demo_word">Bleu</div>
@@ -1795,8 +1845,8 @@ MAIN DEMO CONTAINER
 		width: 100%;
 		height: 43%;
 		background: #fdba3d;
-
-		border-radius: 50%;
+		
+		border-top-left-radius: 50%; border-top-right-radius: 50%;
 
 		left: -15%;
 		width: 130%;
@@ -2774,6 +2824,13 @@ var wrong_x = '<svg id="wrong_x_svg" style="display:none;" width="50px" height="
 
 
 
+// close demo instructions when user clicks button
+$('#close_demo_instructions').on(touchstart, function(ev){
+	ev.preventDefault();
+	smoothFadeOut('demo_instructions');
+});
+
+
 
 function start_demo(){
 
@@ -2794,6 +2851,9 @@ function start_demo(){
 	yb.id('demo_table_cell').style.display = 'table-cell';
 	
 
+	// deploy demo instructions
+	yb.id('demo_instructions').style.display = 'table';
+	yb.id('demo_instructions').style.opacity = 1;
 
 
 	// fade the demo in
