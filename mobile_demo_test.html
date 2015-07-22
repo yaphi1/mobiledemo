@@ -519,22 +519,27 @@ DEMO TOOLTIPS
 }
 
 #try_more_screens_container div div{
-	font-size: 11px;
-	display: inline-block;
-	width: 50%;
+	font-size: 18px;
+	width: 265px;
+	max-width: 95%;
 	box-sizing:border-box;
-	padding: 15px 3px;
+	padding: 19px 3px;
 	text-transform: uppercase;
+	margin-left: auto;
+	margin-right: auto;
+	border-radius: 3px;
+	cursor: pointer;
 }
 
 #try_more_screens{
-	background: #333;
-	color: #fdba3d;
+	color: #333;
+	border: 1px solid #333;
 }
 
 #continue_to_method{
 	background: #fdba3d;
 	color: #333;
+	margin-bottom: 30px;
 }
 
 
@@ -950,7 +955,7 @@ MAIN DEMO CONTAINER
 							<div class="demotext">Vert</div>
 							<div class="demopicture"></div>
 						</div>
-						<div class="demobox">
+						<div class="demobox" style="z-index:20002;"><!-- keep this z-index so the tooltip shows up -->
 
 							<!-- START DEMO TOOLTIP -->
 							<div id="dotted_circle">
@@ -1000,8 +1005,8 @@ MAIN DEMO CONTAINER
 
 			<div id="try_more_screens_container" class="table">
 				<div class="table_cell">
-					<div id="try_more_screens">Try more screens?</div><!--
-					--><div id="continue_to_method">Continue to method?</div>
+					<div id="continue_to_method">Continue to method</div>
+					<div id="try_more_screens">Try more screens</div>
 				</div>
 			</div>
 		</div>
@@ -2824,11 +2829,39 @@ var wrong_x = '<svg id="wrong_x_svg" style="display:none;" width="50px" height="
 
 
 
-// close demo instructions when user clicks button
+// close instructions and show demo boxes when user clicks button
 $('#close_demo_instructions').on(touchstart, function(ev){
 	ev.preventDefault();
 	smoothFadeOut('demo_instructions');
+
+	setTimeout(bring_in_demo_pieces,200);
 });
+
+
+// animate the interactive pieces of the demo
+function bring_in_demo_pieces(){
+	// handle timing
+	var delays = [1500];
+	delays[1] = delays[0] + 250;
+	delays[2] = delays[1] + 500;
+	delays[3] = delays[2] + 250;
+
+	// bring in the main word
+	bounce('demo_word',0,default_bounce_time,'0px,20px','0px,-5px','0px,0px', default_fade_time,'inline-block');
+
+	// bring in the demo boxes
+	for(var i=0; i<demoboxes.length; i++){
+		bounce(demoboxes[i],delays[i],default_bounce_time,'0px,20px','0px,-5px','0px,0px', default_fade_time,'inline-block');
+	}
+}
+
+// fade out the interactive demo pieces
+function hide_demo_pieces(){
+	smoothFadeOut('demo_word');
+	for(var i=0; i<demoboxes.length; i++){
+		smoothFadeOut(demoboxes[i]);
+	}
+}
 
 
 
@@ -2838,9 +2871,12 @@ function start_demo(){
 
 
 	// hide all the things
-	var to_hide = ['dotted_circle','demotooltip','try_more_screens_container'];
+	var to_hide = ['dotted_circle','demotooltip','try_more_screens_container','demo_word'];
 	for(var i=0; i<to_hide.length; i++){
 		yb.id(to_hide[i]).style.display = 'none';
+	}
+	for(var i=0; i<demoboxes.length; i++){
+		demoboxes[i].style.display = 'none';
 	}
 
 	// start with first demo screen and first answer
@@ -2915,6 +2951,10 @@ function start_demo(){
 				write_tooltip_2(); // make sure the tooltip doesn't get updated until after the first slide fades out
 			},600);
 		}
+
+
+		// bring in demo pieces except for first slide
+		if(n!==1){ bring_in_demo_pieces(); }
 	}
 
 	showDemoScreen(1); // show first demo screen
@@ -3061,7 +3101,11 @@ function start_demo(){
 				smoothFadeOut('try_more_screens_container');
 				smoothFadeOut('demotooltip');
 				smoothFadeOut('dotted_circle');
-				showDemoScreen(2);
+				hide_demo_pieces();
+				
+				setTimeout(function(){
+					showDemoScreen(2);
+				},500);
 			});
 
 			// skip rest of demo and go to next slide
@@ -3082,8 +3126,9 @@ function start_demo(){
 
 
 				if(current_demo_screen===2){
-					// fade out tooltip and go too next demo screen
+					// fade out tooltip and demo pieces and go to next demo screen
 					smoothFadeOut('dotted_circle',0.2);
+					hide_demo_pieces();
 
 					smoothFadeOut('demo_table_cell',0.5, function(){
 						showDemoScreen(3);
