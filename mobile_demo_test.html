@@ -3737,6 +3737,8 @@ function compare_with_millions(){
 
 	// 100x per second
 	setTimeout(function(){
+		stop_speech_samples();
+
 		smoothFadeOut('compare_with_millions');
 		bounce('hundred_times',200,default_bounce_time,'0px,-20px','0px,5px','0px,0px',default_fade_time);
 
@@ -3760,7 +3762,7 @@ function compare_with_millions(){
 
 		// show check mark
 		setTimeout(function(){
-			smoothFadeIn('feedback_check_mark');
+			bounce('feedback_check_mark',0,default_bounce_time,'0px,20px','0px,-5px','0px,0px',default_fade_time);
 		},feedback_delays[2]);
 
 		
@@ -3775,7 +3777,7 @@ function compare_with_millions(){
 
 
 // speech samples stuff
-var speech_samples_interval;
+var speech_samples_intervals = [];
 
 function start_speech_samples(){
 	
@@ -3789,7 +3791,7 @@ function start_speech_samples(){
 	}
 
 	function start_bubbles(n,time){
-		speech_samples_interval = setInterval(function(){
+		speech_samples_intervals[n] = setInterval(function(){
 			cluster_bubbles[n].setAttribute('style','top:'+random_bubble().top+'%; '
 								+'left:'+random_bubble().left+'%; '
 								+'width:'+random_bubble().size+'px; '
@@ -3807,7 +3809,9 @@ function start_speech_samples(){
 }
 
 function stop_speech_samples(){
-	clearInterval(speech_samples_interval);
+	for(var i=0; i<speech_samples_intervals.length; i++){
+		clearInterval(speech_samples_intervals[i]);
+	}
 }
 
 
