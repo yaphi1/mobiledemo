@@ -4420,6 +4420,48 @@ for(var i=0; i<20; i++){
 }
 
 
+// this function resets the image that you tap on
+function reset_tap_image_box(){
+	// return "tap image" box to original position
+	yb.id('tap_image_box_container').style[prefixed_transform] = '';
+
+	hide_tap_image_text();
+
+	// indicate image has not been tapped
+	tap_image_currently_playing = false;
+}
+
+function hide_tap_image_text(){
+	// hide "compare with millions" text
+	yb.id('compare_with_millions').style.display = 'none';
+
+	// hide all text above "tap image" box
+	var text_above_tap_image_box = yb.id('tap_image_box_container').querySelectorAll('.text_above_tap_image_box');
+	for(var i=0; i<text_above_tap_image_box.length; i++){
+		text_above_tap_image_box[i].style.display = 'none';
+	}
+}
+
+
+function stop_gold_and_black_waves(){
+	yb.id('gold_wave').style.opacity = 0;
+	yb.id('black_wave').style.opacity = 0;
+	yb.id('gold_wave').className = 'wave_div';
+	yb.id('black_wave').className = 'wave_div';
+}
+
+function stop_speech_samples_animation(){
+	// shut down speech samples animation
+	yb.id('speech_sample_container').style.display = 'none';
+	stop_speech_samples();
+}
+
+
+// hide check mark in feedback section
+function hide_feedback_check(){
+	yb.id('feedback_check_mark').style.display = 'none';
+}
+
 
 // begin the speech recognition slide
 function run_speech_recognition_slide(){
@@ -4445,34 +4487,16 @@ function run_speech_recognition_slide(){
 	// set "a woman" translation to the correct language
 	yb.id('tap_image_box_title_text').innerHTML = words.woman[selected_language];
 	
-	// return "tap image" box to original position
-	yb.id('tap_image_box_container').style[prefixed_transform] = '';
-
-	// hide "compare with millions" text
-	yb.id('compare_with_millions').style.display = 'none';
-
-	// hide all text above "tap image" box
-	var text_above_tap_image_box = yb.id('tap_image_box_container').querySelectorAll('.text_above_tap_image_box');
-	for(var i=0; i<text_above_tap_image_box.length; i++){
-		text_above_tap_image_box[i].style.display = 'none';
-	}
-
-	// stop gold and black waves
-	yb.id('gold_wave').style.opacity = 0;
-	yb.id('black_wave').style.opacity = 0;
-	yb.id('gold_wave').className = 'wave_div';
-	yb.id('black_wave').className = 'wave_div';
-
-	// shut down speech samples animation
-	yb.id('speech_sample_container').style.display = 'none';
-	stop_speech_samples();
-
-	// hide check mark in feedback section
-	yb.id('feedback_check_mark').style.display = 'none';
+	
+	// reset images and animations
+	reset_tap_image_box();
+	stop_gold_and_black_waves();
+	stop_speech_samples_animation();
+	hide_feedback_check();
 
 
 	
-	// DEBUGGING - COMMENT OUT FROM HERE ON FOR DEBUGGING
+	
 
 	
 	// make sure title is showing when the slide fades in
@@ -4514,45 +4538,32 @@ function run_speech_recognition_slide(){
 
 
 
-	// transition to tap the image
-	var tap_image_start_delay = get_you_speaking_delay[2] + 3000;
+	// show navigation arrows
+	var nav_arrow_delay = get_you_speaking_delay[2] + 1000;
+	show_nav_arrows(run_pronunciation_section, run_speech_recognition_slide, nav_arrow_delay);
 
-	setTimeout(function(){
-		smoothFadeOut('get_you_speaking_container');
-		run_pronunciation_section();
-	}, tap_image_start_delay);
-	
-	
-	// DEBUGGING - STOP COMMENTING OUT FROM HERE ON	
+}
 
 
+function run_pronunciation_section(){
+	// hide previous section and reset this one
+	smoothFadeOut('get_you_speaking_container');
+	reset_tap_image_box();
+	stop_speech_samples_animation();
 
-	// DEBUGGING ************************************************
-	
-	// smoothFadeIn('speech_recognition_slide');
-	// run_pronunciation_section();
+	// set animation timing
+	var tap_image_delay = [200];
+	tap_image_delay[1] = tap_image_delay[0] + 500;
+	tap_image_delay[2] = tap_image_delay[1] + 650;
+	tap_image_delay[3] = tap_image_delay[2] + 600;
 
-	// 	// REMOVE THESE LINES AFTER DEBUGGING
-	// 	selected_language = 'italian';
-	// 	yb.id('tap_image_box_title_text').innerHTML = words.woman[selected_language];
+	// bring in image to tap
+	bounce('tap_image_gray_bg',tap_image_delay[0],0.4,'0px,100%','0px,-3%','0px,0px',default_fade_time);
+	bounce('tap_image_box',tap_image_delay[1],default_bounce_time,'0px,20px','0px,-5px','0px,0px',default_fade_time,'inline-block');
+	bounce('tap_image_text_container',tap_image_delay[2],default_bounce_time,'0px,-20px','0px,5px','0px,0px',default_fade_time,'table');
 
-	// END DEBUGGING ************************************************
-
-	function run_pronunciation_section(){
-
-		var tap_image_delay = [200];
-		tap_image_delay[1] = tap_image_delay[0] + 500;
-		tap_image_delay[2] = tap_image_delay[1] + 650;
-		tap_image_delay[3] = tap_image_delay[2] + 600;
-		bounce('tap_image_gray_bg',tap_image_delay[0],0.4,'0px,100%','0px,-3%','0px,0px',default_fade_time);
-		bounce('tap_image_box',tap_image_delay[1],default_bounce_time,'0px,20px','0px,-5px','0px,0px',default_fade_time,'inline-block');
-		bounce('tap_image_text_container',tap_image_delay[2],default_bounce_time,'0px,-20px','0px,5px','0px,0px',default_fade_time,'table');
-
-		// make underline appear
-		gold_underline('tap_underline',tap_image_delay[3]);
-	}
-
-
+	// make underline appear
+	gold_underline('tap_underline',tap_image_delay[3]);
 }
 
 
@@ -4594,8 +4605,15 @@ $('#tap_image_box').on(touchstart, function(ev){
 	}
 });
 
+
+
 // handle the "repeat what you've heard" piece of the speech recognition section
 function repeat_what_youve_heard(){
+
+	// first reset stuff
+	hide_tap_image_text();
+	stop_speech_samples_animation();
+
 	smoothFadeOut('tap_image_text_container');
 	yb.id('tap_image_gray_bg').style[prefixed_transform] = 'translate(0px, -50%)';
 
@@ -4613,7 +4631,7 @@ function repeat_what_youve_heard(){
 
 	
 	// fade in and animate the black and gold waves (now changed to green and white)
-	function show_and_hide_second_waves(){
+	function show_and_hide_bottom_waves(){
 		yb.id('gold_wave').style.opacity = 1;
 		yb.id('black_wave').style.opacity = 1;
 		yb.id('gold_wave').className = 'wave_div move_wave_gold';
@@ -4632,24 +4650,26 @@ function repeat_what_youve_heard(){
 		},1200);
 	}
 
-	// show the second set of waves (bottom) twice
-	setTimeout(show_and_hide_second_waves, delays[2]);
-	setTimeout(show_and_hide_second_waves, delays[3] + 3000);
+	// show the bottom set of waves
+	setTimeout(show_and_hide_bottom_waves, delays[2]);
 
 
-	// go to next part of section
-	setTimeout(compare_with_millions, delays[3]);
+	// show navigation arrows
+	show_nav_arrows(compare_with_millions, run_pronunciation_section, delays[3]);
 }
 
 // handle the "compare with millions" piece of the speech recognition section
 function compare_with_millions(){
 
+	// first reset stuff
+	hide_tap_image_text();
+	stop_speech_samples_animation();
+
 	// set timing of each part
 	var delays = [700];
 	delays[1] = delays[0] + 700;
 	delays[2] = delays[1] + 200;
-	delays[3] = delays[2] + 4200;
-	delays[4] = delays[3] + 3200;
+	delays[3] = delays[2] + 1000;
 
 	// transition to "compare with millions"
 	smoothFadeOut('repeat_what_youve_heard');
@@ -4663,23 +4683,32 @@ function compare_with_millions(){
 	},delays[1]);
 
 
-	// 100x per second
-	setTimeout(function(){
-		stop_speech_samples();
+	
+	show_nav_arrows(hundred_times_per_second, repeat_what_youve_heard, delays[3]);
 
+	// 100x per second
+	function hundred_times_per_second(){
+		// first reset stuff
+		hide_tap_image_text();
+		hide_feedback_check();
+
+		// fade out "compare with millions" and bring in "100x per second"
 		smoothFadeOut('compare_with_millions');
 		bounce('hundred_times',200,default_bounce_time,'0px,-20px','0px,5px','0px,0px',default_fade_time);
 
 		gold_underline('per_second_underline',900);
-	},delays[3]);
+
+		// show navigation arrows
+		show_nav_arrows(instant_feedback, compare_with_millions, 1100);
+	}
 
 
 	// get instant feedback
-	setTimeout(function(){
+	function instant_feedback(){
 		var feedback_delays = [200];
 		feedback_delays[1] = feedback_delays[0] + 700;
 		feedback_delays[2] = feedback_delays[1] + 300;
-		feedback_delays[3] = feedback_delays[2] + 4000;
+		feedback_delays[3] = feedback_delays[2] + 300;
 
 		// transition to "get instant feedback" text
 		smoothFadeOut('hundred_times');
@@ -4693,13 +4722,11 @@ function compare_with_millions(){
 			bounce('feedback_check_mark',0,default_bounce_time,'0px,20px','0px,-5px','0px,0px',default_fade_time);
 		},feedback_delays[2]);
 
-		
-		// go to next slide
-		setTimeout(function(){
-			go_to_slide[current_slide+1]();
-		},feedback_delays[3]);
 
-	},delays[4]);
+		// show navigation arrows
+		show_nav_arrows(go_to_slide[current_slide+1], hundred_times_per_second, feedback_delays[3]);
+
+	}
 
 }
 
