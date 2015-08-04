@@ -2641,6 +2641,48 @@ APP EMAIL FORM (right before exit to app store)
 
 
 
+<style>
+.glow{
+	fill: #333;
+	opacity: 0.8;
+
+	-webkit-animation: glow 0.7s linear 0s infinite alternate;
+	animation: glow 0.7s linear 0s infinite alternate;
+}
+
+@-webkit-keyframes glow{
+	from { fill: #333; }
+	to { fill: #73c124; }
+}
+
+@keyframes glow{
+	from { fill: #333; }
+	to { fill: #73c124; }
+}
+</style>
+
+
+
+<!-- back -->
+<svg id="back" width="50" height="50" viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg" style="position:fixed; left:15px; top:calc(50% - 25px); z-index:30000; display:none;">
+	<circle cx="5" cy="5" r="4.5" style="stroke:none; fill:rgba(200, 200, 200, 0.7);"></circle>
+	<polyline points="5.7,3 3.7,5 5.7,7" style="stroke:#333; stroke-width:0.8; stroke-linejoin:round; stroke-linecap:round; fill:none;"></polyline>
+</svg>
+
+
+<!-- next -->
+<svg id="next" width="50" height="50" viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg" style="position:fixed; right:15px; top:calc(50% - 25px); z-index:30000; display:none;">
+	<circle cx="5" cy="5" r="4.5" style="stroke:none;" class="glow"></circle>
+	<polyline points="4.3,3 6.3,5 4.3,7" style="stroke:#fff; stroke-width:0.8; stroke-linejoin:round; stroke-linecap:round; fill:none;"></polyline>
+</svg>
+
+
+
+
+
+
+
+
 
 <script src="jquery.js"></script>
 <script>
@@ -3109,6 +3151,10 @@ function switch_slides(n,f){
 
 		// make sure old animations don't interrupt new ones
 		stop_all_animations();
+
+		// hide back and next buttons
+		smoothFadeOut('back');
+		smoothFadeOut('next');
 		
 		// handle transition to current slide
 		smoothFadeOut(slides[current_slide]);
@@ -3210,7 +3256,7 @@ else{
 
 
 /**********************************************************************
-NAVIGATION CONTROLS (see earlier for dom element creation)
+BOTTOM NAVIGATION CONTROLS (see earlier for dom element creation)
 ***********************************************************************/
 
 for(var i=0; i<timeline_circles.length; i++){
@@ -3223,6 +3269,37 @@ for(var i=0; i<timeline_circles.length; i++){
 
 
 
+
+
+
+
+
+/**********************************************************************
+LEFT AND RIGHT NAVIGATION CONTROLS
+***********************************************************************/
+
+function show_nav_arrows(next,back,delay){
+	yb.id('next')['on'+touchstart] = function(){
+		next();
+		
+		smoothFadeOut('next');
+		smoothFadeOut('back');
+	};
+
+	yb.id('back')['on'+touchstart] = function(){
+		back();
+		
+		smoothFadeOut('next');
+		smoothFadeOut('back');
+	};
+
+	if(!delay){ delay = 0; }
+
+	setTimeout(function(){
+		bounce('next',0,default_bounce_time,'0px,10px','0px,-5px','0px,0px', default_fade_time);
+		bounce('back',400,default_bounce_time,'0px,10px','0px,-5px','0px,0px', default_fade_time);
+	},delay);
+}
 
 
 
@@ -4044,13 +4121,6 @@ animations:
 
 function run_patterns_slide(){
 
-	// slide elements should start out invisible
-	yb.id('words_become_patterns').style.display = 'none';
-	for(var i=0; i<3; i++){
-		yb.id('patterns_box_big'+i).style.display = 'none'; // make invisible
-		yb.id('patterns_box_big'+i).style.transform = ''; // return to original position
-	}
-
 	// store patterns boxes in variables
 	var patterns_boxes = document.querySelectorAll('.patterns_box');
 	var patterns_medium = [];
@@ -4062,11 +4132,7 @@ function run_patterns_slide(){
 		patterns_small[i] = yb.id('patterns_box_big'+i).querySelectorAll('.patterns_small');
 		patterns_text[i] = yb.id('patterns_box_big'+i).querySelectorAll('.patterns_text');
 	}
-	
-	// patterns boxes should start out invisible
-	for(var i=0; i<patterns_boxes.length; i++){
-		patterns_boxes[i].style.display = 'none';
-	}
+
 
 	// populate words in pattern boxes
 	var pattern_words = [words.blue[selected_language],
@@ -4079,16 +4145,32 @@ function run_patterns_slide(){
 	}
 
 
+	// hide the patterns stuff
+	function hide_patterns(){
+		// slide elements should start out invisible
+		yb.id('words_become_patterns').style.display = 'none';
+		for(var i=0; i<3; i++){
+			yb.id('patterns_box_big'+i).style.display = 'none'; // make invisible
+			yb.id('patterns_box_big'+i).style.transform = ''; // return to original position
+		}
+		
+		// patterns boxes should start out invisible
+		for(var i=0; i<patterns_boxes.length; i++){
+			patterns_boxes[i].style.display = 'none';
+		}
+	}
+	hide_patterns();
+
+
 	// start words in correct places
 	var words_vertical_position = -Math.floor(window.innerHeight/2.014);
-	var D = 8;
-	if(8==D){
-		// start the "words become patterns" text higher up on the page
-		yb.id('words_become_patterns').style[prefixed_transform] = 'translate(0px,'+words_vertical_position+'px)';
+	
+	// start the "words become patterns" text higher up on the page
+	yb.id('words_become_patterns').style[prefixed_transform] = 'translate(0px,'+words_vertical_position+'px)';
 
-		// make yellow text white for yellow background
-		yb.id('words_become_patterns').className = 'table white_spans';
-	}
+	// make yellow text white for yellow background
+	yb.id('words_become_patterns').className = 'table white_spans';
+	
 
 
 	smoothFadeIn('demo_slide_patterns'); // fade the patterns slide in
@@ -4170,50 +4252,59 @@ function run_patterns_slide(){
 
 	bounce_and_explode_all(2, pop_start3, 300, 500, 1000); // two
 
-
-
 	
 
+	var arrange_three_start = pop_start3 + 2000;
+
+	// show navigation arrows
+	show_nav_arrows(patterns_become_sentences, restart_words_become_patterns, arrange_three_start);
 
 
+	// restart "words become patterns" when needed
+	function restart_words_become_patterns(){
+		smoothFadeOut('demo_slide_patterns',0.2);
+		setTimeout(run_patterns_slide,250);
+	}
 
-
+	
 
 	/*******************************************************************
 	PATTERNS BECOME SENTENCES
 	********************************************************************/
-
-
-	// arrange three pattern boxes in neat diagonal
-
-	var arrange_three_start = pop_start3 + 2000;
-
+	
+	// set positions to arrange three pattern boxes in neat diagonal
 	var diagonal_bounce_positions = ['0px,40px','0px,25px','0px,140px'];
 	var diagonal_end_positions = ['0px,35px','0px,20px','0px,135px'];
 
-	for(var i=0; i<diagonal_end_positions.length; i++){
-		bounce('patterns_box_big'+i,arrange_three_start,default_bounce_time,'0px,0px',diagonal_bounce_positions[i],diagonal_end_positions[i], default_fade_time);
-	}
+
+	function patterns_become_sentences(){
+		// just in case we go back, hide the next stuff and show the background
+		hide_sentences();
+		smoothFadeIn('patterns_top_yellow');
+		
+		// arrange three pattern boxes in neat diagonal
+		for(var i=0; i<diagonal_end_positions.length; i++){
+			bounce('patterns_box_big'+i,0,default_bounce_time,'0px,0px',diagonal_bounce_positions[i],diagonal_end_positions[i], default_fade_time);
+		}
+
+		// reset position of patterns become sentences
+		yb.id('patterns_become_sentences').style[prefixed_transform] = '';
 
 
-	// reset position of patterns become sentences
-	yb.id('patterns_become_sentences').style[prefixed_transform] = '';
-
-
-	// transition to "patterns become sentences"
-	setTimeout(function(){
+		// transition to "patterns become sentences"
 		smoothFadeOut('words_become_patterns');
 
 		// make yellow text white for yellow background
 		yb.id('patterns_become_sentences').className = 'table white_spans';
 		smoothFadeIn('patterns_become_sentences',0.5,'table');
-		
-	},arrange_three_start);
+
+		// show navigation arrows
+		show_nav_arrows(sentences_become_conversations, restart_words_become_patterns, 1000);
+	}
 
 
 
 	
-
 
 
 	
@@ -4224,37 +4315,30 @@ function run_patterns_slide(){
 	********************************************************************/
 
 	// make sure sentences stuff starts out invisible
-	var to_hide = [
-		'patterns_become_sentences',
-		'sentences_become_conversations',
-		'word_bubble_1',
-		'word_bubble_2'
-	];
-	for(var i=0; i<to_hide.length; i++){
-		yb.id(to_hide[i]).style.display = 'none';
+	function hide_sentences(){
+		var to_hide = [
+			'patterns_become_sentences',
+			'sentences_become_conversations',
+			'word_bubble_1',
+			'word_bubble_2'
+		];
+		for(var i=0; i<to_hide.length; i++){
+			yb.id(to_hide[i]).style.display = 'none';
+		}
 	}
-
-
-	
+	hide_sentences();
 
 	// prepare word bubble content
 	yb.id('word_bubble_1_content').innerHTML = word_bubble_content[0][selected_language];
 	yb.id('word_bubble_2_content').innerHTML = word_bubble_content[1][selected_language];
-
-
-
-	// show sentences stuff after three pattern boxes are arranged diagonally
-	var sentences_delay = arrange_three_start + 3000;
 	
-	
-
-	setTimeout(function(){
-		
+	function sentences_become_conversations(){
+			
 		// fade out yellow curtain thingy
 		smoothFadeOut('patterns_top_yellow');
 		
 		// bounce down "patterns become phrases and sentences"
-		bounce('patterns_become_sentences',100,default_bounce_time,'0px,0%','0px,80%','0px,78%');
+		bounce('patterns_become_sentences',100,default_bounce_time,'0px,0%','0px,80%','0px,78%',0.3,'block',true);
 		
 		// prepare text for white background as it is being pulled down
 		setTimeout(function(){
@@ -4269,30 +4353,28 @@ function run_patterns_slide(){
 		}
 
 
+		// animation timing
+		var delays = [200];
+		delays[1] = delays[0] + 1200;
+		delays[2] = delays[1] + 450;
+		delays[3] = delays[2] + 1000;
+
+
 		// word bubble 1
-		bounce('word_bubble_1',200,default_bounce_time,'0px,40px','0px,-5px','0px,0px',default_fade_time);
+		bounce('word_bubble_1',delays[0],default_bounce_time,'0px,40px','0px,-5px','0px,0px',default_fade_time);
 
 		// word bubble 2
-		bounce('word_bubble_2',2000,default_bounce_time,'0px,40px','0px,-7px','0px,0px',default_fade_time, 'table');
-
-
-
-		// bounce out "patterns become phrases and sentences"
-		bounce('patterns_become_sentences',2250,default_bounce_time,'0px,78%','0px,110%','0px,110%',default_fade_time,'block',true);
+		bounce('word_bubble_2',delays[1],default_bounce_time,'0px,40px','0px,-7px','0px,0px',default_fade_time, 'table');
 
 		// bounce up "sentences become conversations"
-		bounce('sentences_become_conversations',2450,default_bounce_time,'0px,110%','0px,76%','0px,78%',default_fade_time);
+		bounce('sentences_become_conversations',delays[2],default_bounce_time,'0px,110%','0px,76%','0px,78%',default_fade_time);
 
 
 
 
-		// go to next slide
-		setTimeout(function(){
-			go_to_slide[current_slide+1]();
-		},2450+5000);
-		
-	},sentences_delay);
-
+		// show navigation arrows
+		show_nav_arrows(go_to_slide[current_slide+1], patterns_become_sentences, delays[3]);
+	}
 
 	
 }
