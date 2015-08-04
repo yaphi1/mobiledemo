@@ -1562,6 +1562,10 @@ MAIN DEMO CONTAINER
 		width: 42px;
 		height: 42px;
 
+		-webkit-transform-origin: center top;
+		-ms-transform-origin: center top;
+		transform-origin: center top;
+
 		-webkit-transition: opacity 0.2s ease-in-out;
 		transition: opacity 0.2s ease-in-out;
 	}
@@ -4690,6 +4694,7 @@ function compare_with_millions(){
 	function hundred_times_per_second(){
 		// first reset stuff
 		hide_tap_image_text();
+		stop_speech_samples_animation();
 		hide_feedback_check();
 
 		// fade out "compare with millions" and bring in "100x per second"
@@ -4708,7 +4713,7 @@ function compare_with_millions(){
 		var feedback_delays = [200];
 		feedback_delays[1] = feedback_delays[0] + 700;
 		feedback_delays[2] = feedback_delays[1] + 300;
-		feedback_delays[3] = feedback_delays[2] + 300;
+		feedback_delays[3] = feedback_delays[2] + 1000;
 
 		// transition to "get instant feedback" text
 		smoothFadeOut('hundred_times');
@@ -4738,19 +4743,23 @@ function start_speech_samples(){
 	
 	var cluster_bubbles = yb.id('speech_sample_container').querySelectorAll('.speech_sample');
 
+	var container_width = yb.id('speech_sample_container').getBoundingClientRect().width;
+	var container_height = yb.id('speech_sample_container').getBoundingClientRect().height;
+
 	function random_bubble(){
-		var bubble_size = Math.floor(Math.random()*63) + 20;
-		var bubble_left = Math.floor(Math.random()*98);
-		var bubble_top = Math.floor(Math.random()*98);
+		var bubble_size = Math.random() + 0.5;
+		var bubble_left = Math.floor( ((Math.random()*98)/100) * container_width );
+		var bubble_top = Math.floor( ((Math.random()*98)/100) * container_height );
 		return {'size':bubble_size, 'left':bubble_left, 'top':bubble_top};
 	}
 
 	function start_bubbles(n,time){
 		speech_samples_intervals[n] = setInterval(function(){
-			cluster_bubbles[n].setAttribute('style','top:'+random_bubble().top+'%; '
-								+'left:'+random_bubble().left+'%; '
-								+'width:'+random_bubble().size+'px; '
-								+'height:'+random_bubble().size+'px;');
+			var bubble = random_bubble();
+			var transformation = 'translate('+bubble.left+'px,'+bubble.top+'px) scale('+bubble.size+')';
+			// cluster_bubbles[n].setAttribute('style','transform:'+transformation
+								// +' -webkit-transform:'+transformation);
+			cluster_bubbles[n].style[prefixed_transform] = transformation;
 			cluster_bubbles[n].style.opacity = '1';
 			setTimeout(function(){
 				cluster_bubbles[n].style.opacity = '0';
