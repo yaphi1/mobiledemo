@@ -384,6 +384,9 @@ INTERACTIVE DEMO
 .demotext{
 	padding: 5px;
 	font-size: 18px;
+
+	-webkit-transition: opacity 0.5s ease-in-out;
+	transition: opacity 0.5s ease-in-out;
 }
 
 .demopicture{
@@ -392,6 +395,9 @@ INTERACTIVE DEMO
 	border-radius: 0px 0px 3px 3px;
 	background-size: cover;
 	background-position: center center;
+
+	-webkit-transition: opacity 0.5s ease-in-out;
+	transition: opacity 0.5s ease-in-out;
 }
 .demopicture svg{
 	margin-top: 7px;
@@ -405,6 +411,17 @@ INTERACTIVE DEMO
 /************************************************************************
 DEMO TOOLTIPS
 ************************************************************************/
+
+#demo_tooltip_overlay{
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	left: 0px;
+	top: 0px;
+	background-color: rgba(255, 255, 255, 0.9);
+
+	display: none;
+}
 
 #demotooltip{
 	/*position: fixed;*/
@@ -1013,6 +1030,8 @@ MAIN DEMO CONTAINER
 						</div>
 					</div>
 
+					<!-- overlay to declutter tooltip -->
+					<div id="demo_tooltip_overlay"></div>
 				</div>
 			</div>
 
@@ -1129,6 +1148,7 @@ MAIN DEMO CONTAINER
 
 	#words_become_patterns_text,
 	#patterns_become_sentences{
+		-webkit-transition: color 0.5s ease-in-out;
 		transition: color 0.5s ease-in-out;
 	}
 
@@ -3293,7 +3313,8 @@ LEFT AND RIGHT NAVIGATION CONTROLS
 function show_nav_arrows(next,back,delay,shift){
 	
 	// handle next button
-	yb.id('next')['on'+touchstart] = function(){
+	yb.id('next')['on'+touchstart] = function(e){
+		e.preventDefault();
 		next();
 		
 		// hide buttons
@@ -3302,7 +3323,8 @@ function show_nav_arrows(next,back,delay,shift){
 	};
 
 	// handle back button
-	yb.id('back')['on'+touchstart] = function(){
+	yb.id('back')['on'+touchstart] = function(e){
+		e.preventDefault();
 		back();
 		
 		// hide buttons
@@ -3827,7 +3849,7 @@ function start_demo(){
 
 
 	// hide all the things
-	var to_hide = ['dotted_circle','demotooltip','try_more_screens_container','demo_word'];
+	var to_hide = ['dotted_circle','demo_tooltip_overlay','demotooltip','try_more_screens_container','demo_word'];
 	for(var i=0; i<to_hide.length; i++){
 		yb.id(to_hide[i]).style.display = 'none';
 	}
@@ -3851,6 +3873,23 @@ function start_demo(){
 	smoothFadeIn('demo_slide_interactive_demo');
 	
 
+
+	
+	// fade these things when the demo tooltip comes up
+	var text_to_fade = document.getElementById('demo_table_cell').querySelectorAll('.demotext')[1];
+	var pic_to_fade = document.getElementById('demo_table_cell').querySelectorAll('.demopicture')[1];
+
+	function show_demo_tooltip_overlay(){
+		smoothFadeIn('demo_tooltip_overlay');
+		text_to_fade.style.opacity = 0.2;
+		pic_to_fade.style.opacity = 0.2;
+	}
+
+	function hide_demo_tooltip_overlay(){
+		smoothFadeOut('demo_tooltip_overlay');
+		text_to_fade.style.opacity = 1;
+		pic_to_fade.style.opacity = 1;
+	}
 
 
 
@@ -3965,6 +4004,7 @@ function start_demo(){
 
 			// show tooltip (animated)
 			setTimeout(function(){
+				show_demo_tooltip_overlay();
 				bounce('dotted_circle',magnifier_delay ,default_bounce_time,'0px,20px','0px,-5px','0px,0px', default_fade_time);
 				bounce('demotooltip',tooltip_bubble_delay ,default_bounce_time,'0px,-20px','0px,5px','0px,0px', default_fade_time);
 			},demo_tooltip_delay);
@@ -3976,6 +4016,7 @@ function start_demo(){
 
 			// show tooltip (animated)
 			setTimeout(function(){
+				show_demo_tooltip_overlay();
 				bounce('dotted_circle',magnifier_delay ,default_bounce_time,'0px,20px','0px,-5px','0px,0px', default_fade_time);
 				bounce('demotooltip',tooltip_bubble_delay ,default_bounce_time,'0px,-20px','0px,5px','0px,0px', default_fade_time);
 			},demo_tooltip_delay);
@@ -4054,6 +4095,7 @@ function start_demo(){
 				smoothFadeOut('try_more_screens_container');
 				smoothFadeOut('demotooltip');
 				smoothFadeOut('dotted_circle');
+				hide_demo_tooltip_overlay();
 				hide_demo_pieces();
 				
 				setTimeout(function(){
@@ -4081,6 +4123,7 @@ function start_demo(){
 				if(current_demo_screen===2){
 					// fade out tooltip and demo pieces and go to next demo screen
 					smoothFadeOut('dotted_circle',0.2);
+					hide_demo_tooltip_overlay();
 					hide_demo_pieces();
 
 					smoothFadeOut('demo_table_cell',0.5, function(){
