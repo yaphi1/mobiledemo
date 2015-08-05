@@ -1549,10 +1549,6 @@ MAIN DEMO CONTAINER
 		height: 50%;
 
 		overflow: hidden;
-		/*border-top-left-radius: 50% 90px;
-		border-top-right-radius: 50% 90px;*/
-
-		/*border: 1px solid #333;*/
 
 		display: none;
 	}
@@ -1804,28 +1800,31 @@ MAIN DEMO CONTAINER
 	}
 
 	#download_or_tutors{
-		position: fixed;
-		bottom: 42px;
 		width: 100%;
-		font-size: 12px;
+		font-family: gothambook;
+		font-size: 14px;
+		letter-spacing: 1px;
+		color: #333;
 		text-transform: uppercase;
+		display: hidden;
 	}
 
 	#download_or_tutors > div{
-		display: inline-block;
-		width: 50%;
+		display: block;
+		width: 80%;
+		max-width: 400px;
 		box-sizing: border-box;
 		padding: 15px 0px;
-	}
-
-	#download_app_from_tutors_slide{
-		background: #333;
-		color: #fdba3d;
+		margin: 18px auto 0px;
+		border-radius: 3px;
 	}
 
 	#continue_to_tutors{
 		background: #fdba3d;
-		color: #333;
+	}
+
+	#download_app_from_tutors_slide{
+		border: 1px solid #333;
 	}
 
 	#tutors_phone{
@@ -1905,15 +1904,17 @@ MAIN DEMO CONTAINER
 				<div id="tutors_slide_text" class="table_cell">
 					<div>To <span class="bold">perfect</span><br>your <span class="bold gold">accent</span>,</div>
 					<div id="tutors_try_it_yourself"><span class="smaller">you really have to</span><br><span class="bold gold">try</span> it yourself.</div>
-					<img id="tutors_phone" src="./demo_images/phone_withproduct.png">
+					<!-- <img id="tutors_phone" src="./demo_images/phone_withproduct.png"> -->
+
+					<!-- continue buttons -->
+					<div id="download_or_tutors">
+						<div id="continue_to_tutors">Continue to tutors</div>
+						<div id="download_app_from_tutors_slide">Download the app</div>
+					</div>
 				</div>
 			</div>
 
-			<!-- continue buttons -->
-			<div id="download_or_tutors">
-				<div id="download_app_from_tutors_slide">Download the app</div><!--
-				--><div id="continue_to_tutors">Continue to tutors</div>
-			</div>
+			
 			
 
 			<!-- get confident through conversations -->
@@ -2646,6 +2647,13 @@ APP EMAIL FORM (right before exit to app store)
 
 
 <style>
+.side_nav_button{
+	position:fixed;
+	top:calc(50% - 25px);
+	z-index:30000;
+	display:none;
+}
+
 .glow{
 	fill: #333;
 	opacity: 0.8;
@@ -2668,14 +2676,14 @@ APP EMAIL FORM (right before exit to app store)
 
 
 <!-- back -->
-<svg id="back" width="50" height="50" viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg" style="position:fixed; left:15px; top:calc(50% - 25px); z-index:30000; display:none;">
+<svg id="back" class="side_nav_button" width="50" height="50" viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg" style="left:15px;">
 	<circle cx="5" cy="5" r="4.5" style="stroke:none; fill:rgba(200, 200, 200, 0.7);"></circle>
 	<polyline points="5.7,3 3.7,5 5.7,7" style="stroke:#333; stroke-width:0.8; stroke-linejoin:round; stroke-linecap:round; fill:none;"></polyline>
 </svg>
 
 
 <!-- next -->
-<svg id="next" width="50" height="50" viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg" style="position:fixed; right:15px; top:calc(50% - 25px); z-index:30000; display:none;">
+<svg id="next" class="side_nav_button" width="50" height="50" viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg" style="right:15px;">
 	<circle cx="5" cy="5" r="4.5" style="stroke:none;" class="glow"></circle>
 	<polyline points="4.3,3 6.3,5 4.3,7" style="stroke:#fff; stroke-width:0.8; stroke-linejoin:round; stroke-linecap:round; fill:none;"></polyline>
 </svg>
@@ -3244,7 +3252,7 @@ else{
 // runTitleSlide();
 
 // start in the middle if desired:
-// go_to_slide[6]();
+// go_to_slide[5]();
 
 
 
@@ -3282,24 +3290,42 @@ for(var i=0; i<timeline_circles.length; i++){
 LEFT AND RIGHT NAVIGATION CONTROLS
 ***********************************************************************/
 
-function show_nav_arrows(next,back,delay){
+function show_nav_arrows(next,back,delay,shift){
+	
+	// handle next button
 	yb.id('next')['on'+touchstart] = function(){
 		next();
 		
+		// hide buttons
 		smoothFadeOut('next');
 		smoothFadeOut('back');
 	};
 
+	// handle back button
 	yb.id('back')['on'+touchstart] = function(){
 		back();
 		
+		// hide buttons
 		smoothFadeOut('next');
 		smoothFadeOut('back');
 	};
 
+	// shift buttons vertically if specified
+	var top = 'calc(50% - 25px)';
+	if(shift){
+		top = 'calc(50% - 25px + '+shift+')';
+	}
+
+	// default to no delay
 	if(!delay){ delay = 0; }
 
+	// bring in nav buttons
 	setTimeout(function(){
+		// make sure vertical positions are correct
+		yb.id('next').style.top = top;
+		yb.id('back').style.top = top;
+
+		// animate and fade in nav buttons
 		bounce('next',0,default_bounce_time,'0px,10px','0px,-5px','0px,0px', default_fade_time);
 		bounce('back',400,default_bounce_time,'0px,10px','0px,-5px','0px,0px', default_fade_time);
 	},delay);
@@ -4741,11 +4767,14 @@ var speech_samples_intervals = [];
 
 function start_speech_samples(){
 	
+	// get bubbles from dom
 	var cluster_bubbles = yb.id('speech_sample_container').querySelectorAll('.speech_sample');
 
+	// use container width and height for position calculations
 	var container_width = yb.id('speech_sample_container').getBoundingClientRect().width;
 	var container_height = yb.id('speech_sample_container').getBoundingClientRect().height;
 
+	// generate random size and position for bubble
 	function random_bubble(){
 		var bubble_size = Math.random() + 0.5;
 		var bubble_left = Math.floor( ((Math.random()*98)/100) * container_width );
@@ -4753,13 +4782,20 @@ function start_speech_samples(){
 		return {'size':bubble_size, 'left':bubble_left, 'top':bubble_top};
 	}
 
+	// animate one bubble
 	function start_bubbles(n,time){
+		
+		// make given speech sample appear and disappear with random positions and sizes
 		speech_samples_intervals[n] = setInterval(function(){
+			
+			// generate random size and position for this bubble
 			var bubble = random_bubble();
+
+			// set position and size using high-performing CSS properties
 			var transformation = 'translate('+bubble.left+'px,'+bubble.top+'px) scale('+bubble.size+')';
-			// cluster_bubbles[n].setAttribute('style','transform:'+transformation
-								// +' -webkit-transform:'+transformation);
 			cluster_bubbles[n].style[prefixed_transform] = transformation;
+			
+			// transition between opaque and transparent
 			cluster_bubbles[n].style.opacity = '1';
 			setTimeout(function(){
 				cluster_bubbles[n].style.opacity = '0';
@@ -4767,6 +4803,7 @@ function start_speech_samples(){
 		},time);
 	}
 
+	// animate all bubbles
 	for(var i=0; i<cluster_bubbles.length; i++){
 		start_bubbles(i,200+(25*i));
 	}
@@ -4806,13 +4843,14 @@ TUTORS SLIDE
 function run_tutors_slide(){
 	
 	// hide elements but maintain their visual space
-	var visibility_hidden = ['tutors_try_it_yourself','tutors_phone','tutors_speech_balloons','tutor_photo'];
+	var visibility_hidden = ['tutors_try_it_yourself','download_or_tutors','tutors_speech_balloons','tutor_photo'];
 	for(var i=0; i<visibility_hidden.length; i++){
 		yb.id(visibility_hidden[i]).style.visibility = 'hidden';
 	}
+	yb.id('download_or_tutors').style.opacity = 0;
 
 	// hide certain elements entirely
-	var display_none = ['download_or_tutors','get_confident','schedule_sessions_container','tutor_bg_round','schedule_sessions_text','next_level_text'];
+	var display_none = ['get_confident','schedule_sessions_container','tutor_bg_round','schedule_sessions_text','next_level_text'];
 	for(var i=0; i<display_none.length; i++){
 		yb.id(display_none[i]).style.display = 'none';
 	}
@@ -4829,20 +4867,19 @@ function run_tutors_slide(){
 	// handle the timing
 	var delays = [200];
 	delays[1] = delays[0] + 2000;
-	delays[2] = delays[1] + 500;
-	delays[3] = delays[2] + 500;
+	delays[2] = delays[1] + 850;
 
-
+	// bring in text
 	bounce('tutors_slide_text',delays[0],default_bounce_time,'0px,70px','0px,95px','0px,90px', default_fade_time,'table-cell');
-	
 	bounce('tutors_slide_text',delays[1],default_bounce_time,'0px,20px','0px,-5px','0px,0px', false);
 	setTimeout(function(){
 		smoothFadeIn('tutors_try_it_yourself');
 	},delays[1]);
 
-	bounce('tutors_phone',delays[2],default_bounce_time,'0px,-20px','0px,5px','0px,0px', default_fade_time,'inline-block');
-
-	bounce('download_or_tutors',delays[3],default_bounce_time,'0px,42px','0px,0px','0px,0px', default_fade_time);
+	// bring in buttons: "continue to tutors" and "download app"
+	setTimeout(function(){
+		smoothFadeIn('download_or_tutors');
+	},delays[2]);
 }
 
 
@@ -4864,26 +4901,32 @@ function continue_to_tutors(){
 
 	// fade out first parts of slide
 	smoothFadeOut('tutors_slide_text');
-	smoothFadeOut('download_or_tutors');
+
+	// fade out next parts (in case we're coming back here)
+	smoothFadeOut('schedule_sessions_container');
+	smoothFadeOut('tutor_bg_round');
 
 	// handle the timing
 	var delays = [400];
 	delays[1] = delays[0] + 700;
-	delays[2] = delays[1] + 3000;
+	delays[2] = delays[1] + 800;
 
 	// bring in "get confident" text and speech balloons icon
 	bounce('get_confident',delays[0],default_bounce_time,'0px,-20px','0px,5px','0px,0px', default_fade_time,'table');
 	bounce('tutors_speech_balloons',delays[1],default_bounce_time,'0px,20px','0px,-5px','0px,0px', default_fade_time,'inline-block');
 
-	// transition to next part of this slide
-	setTimeout(function(){
-		smoothFadeOut('get_confident');
-		schedule_sessions();
-	},delays[2]);
+	// show navigation arrows a bit lower than usual
+	show_nav_arrows(schedule_sessions,run_tutors_slide,delays[2],'30px');
 }
 
 
 function schedule_sessions(){
+	
+	// fade out previous section
+	smoothFadeOut('get_confident');
+
+	// in case we're coming back, fade out the next text
+	smoothFadeOut('next_level_text');
 	
 	// bring in this section
 	smoothFadeIn('schedule_sessions_container',0.5,'table');
@@ -4892,9 +4935,7 @@ function schedule_sessions(){
 	var delays = [400];
 	delays[1] = delays[0] + 700;
 	delays[2] = delays[1] + 200;
-	delays[3] = delays[2] + 2500;
-	delays[4] = delays[3] + 300;
-	delays[5] = delays[4] + 3000;
+	delays[3] = delays[2] + 800;
 
 
 	// schedule sessions with tutors
@@ -4902,17 +4943,20 @@ function schedule_sessions(){
 	bounce('tutor_bg_round',delays[1],default_bounce_time,'0px,20px','0px,-5px','0px,0px', default_fade_time);
 	bounce('tutor_photo',delays[2],default_bounce_time,'0px,20px','0px,-5px','0px,0px', default_fade_time,'inline-block');
 
+	// show navigation arrows
+	show_nav_arrows(next_level_language,continue_to_tutors,delays[3]);
+
+
+
 	// take your language to the next level
-	setTimeout(function(){
+	function next_level_language(){
 		smoothFadeOut('schedule_sessions_text');
-	},delays[3]);
-	bounce('next_level_text',delays[4],default_bounce_time,'0px,-20px','0px,5px','0px,0px', default_fade_time);
+		bounce('next_level_text',0,default_bounce_time,'0px,-20px','0px,5px','0px,0px', default_fade_time);
 
+		// show navigation arrows
+		show_nav_arrows(go_to_slide[current_slide+1],schedule_sessions,800);
+	}
 
-	// go to the next slide
-	setTimeout(function(){
-		go_to_slide[current_slide+1]();
-	},delays[5]);
 }
 
 
