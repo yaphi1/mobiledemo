@@ -955,22 +955,15 @@ MAIN DEMO CONTAINER
 
 
 	
+
+
+
+
+
 	<!--***********************************************************************
 	INTERACTIVE DEMO
 	************************************************************************-->
-
-	<!-- demo instructions overlay -->
-	<div id="demo_instructions" class="table">
-		<div class="table_cell">
-			<div id="demo_instructions_title">To Begin:</div>
-			<div id="demo_instructions_content">
-				Tap on the <span>unlabeled image</span> that matches the word <span>at the top of the screen</span>.
-			</div>
-			<button id="close_demo_instructions" class="gold_ghost_button">Continue</button>
-		</div>
-	</div>
-
-	<!-- actual demo slide -->
+	
 	<div id="demo_slide_interactive_demo" class="slides">
 
 		<!-- demo content -->
@@ -2222,6 +2215,41 @@ MAIN DEMO CONTAINER
 
 
 
+<!--****************************************************************
+	***
+		OVERLAYS START HERE
+	***
+****************************************************************-->
+
+
+
+
+
+
+
+<!--*********************************
+DEMO INSTRUCTIONS OVERLAY
+**********************************-->
+<div id="demo_instructions" class="table">
+	<div class="table_cell">
+		<div id="demo_instructions_title">To Begin:</div>
+		<div id="demo_instructions_content">
+			Tap on the <span>unlabeled image</span> that matches the word <span>at the top of the screen</span>.
+		</div>
+		<button id="close_demo_instructions" class="gold_ghost_button">Continue</button>
+	</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2748,7 +2776,7 @@ GENERAL VARIABLES AND SETTINGS
 
 // default to mousedown as instant click simulator, but use native touchstart if supported
 var touchstart = 'mousedown';
-if(typeof(document.ontouchstart)!=='undefined'){
+if(typeof(document.ontouchstart)!=='undefined' && !window.navigator.userAgent.match(/droid|chrome/i)){
 	touchstart = 'touchstart';
 }
 
@@ -3492,11 +3520,8 @@ function submitToEC(email,id) {
 		*************************************************/
 		if (msg['return_code'] == true){
 
-			// trigger the omniture email sign-up event
-			$(document).trigger('omniture',[['event54', {}]]);
-
-			// Event19 - Email collected in EC (uncomment the line below once omniture is ready)
-			//s.events="event19"; s.t(); delete s.events;
+			// trigger email sign-up event so analytics can hook into it
+			$(document).trigger('mobiledemo_email');
 
 
 			console.log('successful email submission');
