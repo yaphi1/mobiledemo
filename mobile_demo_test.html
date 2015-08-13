@@ -707,6 +707,29 @@ AUDIO
 
 
 
+<!-- 
+<audio style="display:none;"><source src="./audio/voiceovers/100_times_persecond.mp3" type="audio/mpeg"></audio>
+<audio style="display:none;"><source src="./audio/voiceovers/did_u_notice_no_translations.mp3" type="audio/mpeg"></audio>
+<audio style="display:none;"><source src="./audio/voiceovers/download_the_app.mp3" type="audio/mpeg"></audio>
+<audio style="display:none;"><source src="./audio/voiceovers/get_truly_confident.mp3" type="audio/mpeg"></audio>
+<audio style="display:none;"><source src="./audio/voiceovers/give_youfeedback_instantly.mp3" type="audio/mpeg"></audio>
+<audio style="display:none;"><source src="./audio/voiceovers/remember_tap_unlabled_image.mp3" type="audio/mpeg"></audio>
+<audio style="display:none;"><source src="./audio/voiceovers/schedule_tutors.mp3" type="audio/mpeg"></audio>
+<audio style="display:none;"><source src="./audio/voiceovers/speaking_is_core_of_rs.mp3" type="audio/mpeg"></audio>
+<audio style="display:none;"><source src="./audio/voiceovers/take_spanish_to_nextlevel.mp3" type="audio/mpeg"></audio>
+<audio style="display:none;"><source src="./audio/voiceovers/tap_image_to_hear_sp.mp3" type="audio/mpeg"></audio>
+<audio style="display:none;"><source src="./audio/voiceovers/tap_unlabled_image.mp3" type="audio/mpeg"></audio>
+<audio style="display:none;"><source src="./audio/voiceovers/the_key_to_natural_way_oflearning.mp3" type="audio/mpeg"></audio>
+<audio style="display:none;"><source src="./audio/voiceovers/this_is_the_rs_way.mp3" type="audio/mpeg"></audio>
+<audio style="display:none;"><source src="./audio/voiceovers/try_it_foryourself.mp3" type="audio/mpeg"></audio>
+<audio style="display:none;"><source src="./audio/voiceovers/we_introduce_to_words_images.mp3" type="audio/mpeg"></audio>
+<audio style="display:none;"><source src="./audio/voiceovers/welcome.mp3" type="audio/mpeg"></audio>
+<audio style="display:none;"><source src="./audio/voiceovers/which_language.mp3" type="audio/mpeg"></audio>
+<audio style="display:none;"><source src="./audio/voiceovers/words_into_phrases.mp3" type="audio/mpeg"></audio>
+<audio style="display:none;"><source src="./audio/voiceovers/youll_repeat_what_youheard.mp3" type="audio/mpeg"></audio>
+ -->
+
+
 
 
 
@@ -3472,6 +3495,24 @@ function validateEmail(email) {
 	return re.test(email);
 }
 
+function lang_code(language){
+	var codes = {
+		'spanish' : 'esp'
+		,'french' : 'fra'
+		,'german' : 'deu'
+		,'italian' : 'ita'
+	}
+	return codes[language];
+}
+
+// this will trigger the demo_language event for analytics purposes
+function trigger_choose_language(){
+	$(document).trigger('demo_language', {
+		language: selected_language
+		,lang_code: lang_code(selected_language)
+	});
+}
+
 // This function will submit the email to our email collection system
 function submitToEC(email,id) {
 	
@@ -3479,16 +3520,9 @@ function submitToEC(email,id) {
 				window.location.href.replace(/cid/i,'cid').split('cid=')[1].split('&')[0]
 				:'';
 
-	var lang_code = {
-		'spanish' : 'esp'
-		,'french' : 'fra'
-		,'german' : 'deu'
-		,'italian' : 'ita'
-	}
-
 	var data = {
 		email: email,
-		demo_lang: lang_code[selected_language],
+		demo_lang: lang_code(selected_language),
 		cis_name: 'Mobile Demo',
 		website: 'US_WEBSITE',
 		newsletter_type: 'DTC_demo-mobile-2015',
@@ -3521,7 +3555,16 @@ function submitToEC(email,id) {
 		if (msg['return_code'] == true){
 
 			// trigger email sign-up event so analytics can hook into it
-			$(document).trigger('mobiledemo_email');
+			$(document).trigger('demo_email', {
+				version: 'm1'
+				,version_description: 'mobile_demo_2015'
+				,email: email
+			});
+
+			// if this is the beginning email form, also give the selected language
+			if(id=='beginning_email'){
+				trigger_choose_language();
+			}
 
 
 			console.log('successful email submission');
@@ -3726,6 +3769,8 @@ for(var i=0; i<language_buttons.length; i++){
 		ev.preventDefault();
 		selected_language = this.getAttribute('data-lang'); // set language
 
+		trigger_choose_language(); // tell analytics about language choice
+
 		go_to_slide[2]();
 	});
 }
@@ -3903,6 +3948,10 @@ function start_demo(){
 	// fade these things when the demo tooltip comes up
 	var text_to_fade = document.getElementById('demo_table_cell').querySelectorAll('.demotext')[1];
 	var pic_to_fade = document.getElementById('demo_table_cell').querySelectorAll('.demopicture')[1];
+
+	// make faded demo box starts out not faded
+	text_to_fade.style.opacity = 1;
+	pic_to_fade.style.opacity = 1;
 
 	function show_demo_tooltip_overlay(){
 		smoothFadeIn('demo_tooltip_overlay');
