@@ -48,6 +48,10 @@ input,button,select{
 	font-family: gothambook, sans-serif;
 }
 
+b{
+	font-family: gothambook;
+	font-weight: 700;
+}
 
 
 
@@ -80,6 +84,7 @@ input,button,select{
 
 .table{
 	display: table;
+	width: 100%;
 }
 
 .table_cell{
@@ -2169,6 +2174,45 @@ MAIN DEMO CONTAINER
 			width: 100%;
 		}
 	}
+
+
+	#end_get_started{
+		display: none;
+	}
+	
+	#end_get_started_button{
+		border: none;
+		border-radius: 3px;
+		background-color: #559ED5;
+		color: #fff;
+		font-family: gothamlight;
+		font-size: 19px;
+		padding: 13px 0px;
+		letter-spacing: 2px;
+		width: 90%;
+		max-width: 400px;
+		text-transform: uppercase;
+		display: inline-block;
+		text-decoration: none;
+	}
+
+	.thanks_for_trying{
+		font-size: 23px;
+		text-align: center;
+	}
+
+	.rs_underline{
+		display: inline-block;
+		border-bottom: 1px solid #ddd;
+		padding: 3px 6px;
+	}
+
+	.hope_you_enjoyed{
+		font-size: 16px;
+		margin: 12px;
+		font-family: gothamlight;
+		letter-spacing: 1px;
+	}
 	</style>
 
 
@@ -2219,6 +2263,24 @@ MAIN DEMO CONTAINER
 							<div class="email_success" id="end_email_success_text">
 								<h2 style="padding-bottom:10px; margin-bottom: 10px; color:#fdba3d;">Thank you.</h2>
 								You have successfully signed up to receive special offers.
+							</div>
+						</div>
+
+						<!-- alternate CTA: get started -->
+						<div id="end_get_started" class="table">
+							<div class="table_cell">
+								<div class="thanks_for_trying">
+									<b>Thanks</b> for trying
+									<div class="rs_underline">
+										Rosetta Stone
+									</div>
+								</div>
+								<div class="hope_you_enjoyed">
+									We hope you enjoyed
+									<br>the demo experience
+								</div>
+								
+								<a href="http://www.rosettastone.com/lp/mobile/sitewide/" id="end_get_started_button">Get Started</a>
 							</div>
 						</div>
 					</div>
@@ -2632,6 +2694,12 @@ BEGINNING EMAIL FORM
 	letter-spacing: 1px;
 	display: inline-block;
 }
+
+.basic_white_x{
+	position: absolute;
+	right: 10px;
+	top: 15px;
+}
 </style>
 
 
@@ -2640,6 +2708,14 @@ BEGINNING EMAIL FORM
 EXIT EMAIL FORM
 *********************************************************************************-->
 <div id="exit_email" class="email_form_container dark_email_overlay_container table">
+	
+	<!-- basic white x -->
+	<svg id="close_exit_email" class="basic_white_x" width="20" height="20" viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg">
+		<style type="text/css"><![CDATA[ .basic_white_x line{ stroke:#fff; stroke-width:1; stroke-linecap:round; } ]]></style>
+		<line x1="0.5" y1="0.5" x2="9.5" y2="9.5"></line>
+		<line x1="0.5" y1="9.5" x2="9.5" y2="0.5"></line>
+	</svg>
+
 	<div id="exit_email_content" class="table_cell">
 		
 		<div class="email_form_content dark_email_overlay">
@@ -2696,6 +2772,14 @@ EXIT EMAIL FORM
 APP EMAIL FORM (right before exit to app store)
 *********************************************************************************-->
 <div id="app_exit_email" class="email_form_container dark_email_overlay_container table">
+	
+	<!-- basic white x -->
+	<svg id="close_app_email" class="basic_white_x" width="20" height="20" viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg">
+		<style type="text/css"><![CDATA[ .basic_white_x line{ stroke:#fff; stroke-width:1; stroke-linecap:round; } ]]></style>
+		<line x1="0.5" y1="0.5" x2="9.5" y2="9.5"></line>
+		<line x1="0.5" y1="9.5" x2="9.5" y2="0.5"></line>
+	</svg>
+
 	<div id="app_exit_email_content" class="table_cell">
 		
 		<div class="email_form_content dark_email_overlay">
@@ -2834,14 +2918,16 @@ CONTROLS
 // this controls which email forms we're using
 var email_forms = {
 	'beginning' : false
-	,'exit' : true
-	,'appstore' : true
-	,'end' : true
+	,'exit' : false
+	,'appstore' : false
+	,'end' : false
 }
 
 // turn the voiceovers on or off
 var voiceovers_turned_on = true;
 
+// toggle the "get started" cta on the final screen
+var get_started_cta_on = true;
 
 
 
@@ -3572,6 +3658,7 @@ CLOSE DEMO
 ***********************************************************************/
 
 function close_demo(){
+	/*
 	// if user came from rosettastone page, go back (but if user clicked logo, just go straight to mdot home page)
 	if(document.referrer.match(/\.rosettastone\./i) && !logo_clicked){
 		window.location.href = document.referrer;
@@ -3581,6 +3668,10 @@ function close_demo(){
 	else{
 		window.location.href = 'http://m.rosettastone.com/';
 	}
+	*/
+
+	// just go to mdot home page
+	window.location.href = 'http://m.rosettastone.com/';
 }
 
 
@@ -3596,11 +3687,20 @@ $('#close_demo').on(touchstart,function(ev){
 
 
 // opt-out link at bottom of email forms
-
 $('#exit_demo_bottom_link').on(touchstart,function(ev){
 	ev.preventDefault();
 	close_demo();
 });
+
+
+// cancel overlay and return to demo
+yb.id('close_exit_email')['on'+touchstart] = function(e){
+	e.preventDefault();
+	smoothFadeOut('exit_email');
+};
+
+
+
 
 
 
@@ -3633,6 +3733,12 @@ $('#app_exit_bottom_link').on(touchstart,function(ev){
 	ev.preventDefault();
 	go_to_app_store();
 });
+
+// cancel overlay and return to demo
+yb.id('close_app_email')['on'+touchstart] = function(e){
+	e.preventDefault();
+	smoothFadeOut('app_exit_email');
+};
 
 
 
@@ -5146,8 +5252,6 @@ TUTORS SLIDE
 ***************************************************************/
 
 function run_tutors_slide(){
-
-	play_voiceover('try_it_foryourself');
 	
 	// hide elements but maintain their visual space
 	var visibility_hidden = ['tutors_try_it_yourself','download_or_tutors','tutors_speech_balloons','tutor_photo'];
@@ -5171,6 +5275,9 @@ function run_tutors_slide(){
 	smoothFadeIn('tutors_slide');
 
 
+	/*
+	// this brings in the app download stuff
+
 	// handle the timing
 	var delays = [200];
 	delays[1] = delays[0] + 2000;
@@ -5187,6 +5294,9 @@ function run_tutors_slide(){
 	setTimeout(function(){
 		smoothFadeIn('download_or_tutors');
 	},delays[2]);
+	*/
+
+	continue_to_tutors();
 }
 
 
@@ -5223,7 +5333,7 @@ function continue_to_tutors(){
 	bounce('tutors_speech_balloons',delays[1],default_bounce_time,'0px,20px','0px,-5px','0px,0px', default_fade_time,'inline-block');
 
 	// show navigation arrows a bit lower than usual
-	show_nav_arrows(schedule_sessions,run_tutors_slide,delays[2],'30px');
+	show_nav_arrows(schedule_sessions,go_to_slide[current_slide-1],delays[2],'30px');
 }
 
 
@@ -5314,7 +5424,7 @@ function run_final_slide(){
 
 
 	// make sure all main elements start out hidden
-	var to_hide = ['gold_arc_final','final_title_1','final_title_2','restart_demo_container','final_cta','final_are_you_ready','try_it_free','download_button','also_available'];
+	var to_hide = ['gold_arc_final','final_title_1','final_title_2','restart_demo_container','final_cta','final_are_you_ready','try_it_free','download_button','also_available','end_get_started'];
 	for(var i=0; i<to_hide.length; i++){
 		yb.id(to_hide[i]).style.display = 'none';
 	}
@@ -5353,8 +5463,10 @@ function run_final_slide(){
 
 		// show final CTA
 		setTimeout(function(){
+
 			yb.id('final_cta').style.display = 'block';
 
+			// set timing of stuff showing on this screen
 			var are_you_ready_delay = 200;
 			var try_it_free_delay = are_you_ready_delay + 900;
 			var download_button_delay = try_it_free_delay + 200;
@@ -5362,15 +5474,20 @@ function run_final_slide(){
 			var restart_delay = also_available_delay + 1000;
 
 			// bring in the elements of the final CTA
-			bounce('final_are_you_ready', are_you_ready_delay, default_bounce_time,'0px,20px','0px,-5px','0px,0px', default_fade_time,'inline-block');
+
+			function final_title(){
+				bounce('final_are_you_ready', are_you_ready_delay, default_bounce_time,'0px,20px','0px,-5px','0px,0px', default_fade_time,'inline-block');
+			}
 			
 			function app_store_cta(){
+				final_title();
 				bounce('try_it_free', try_it_free_delay, default_bounce_time,'0px,-20px','0px,5px','0px,0px', default_fade_time);
 				bounce('download_button', download_button_delay, default_bounce_time,'0px,-20px','0px,5px','0px,0px', default_fade_time,'inline-block');
 				bounce('also_available', also_available_delay, default_bounce_time,'0px,-20px','0px,5px','0px,0px', default_fade_time);
 			}
 
 			function email_cta(){
+				final_title();
 				document.getElementById('end_email_form').style.visibility = 'hidden';
 				document.getElementById('end_email_form').style.display = 'block';
 				setTimeout(function(){
@@ -5378,8 +5495,17 @@ function run_final_slide(){
 				},also_available_delay);
 			}
 
+			function get_started_cta(){
+				document.getElementById('end_get_started').style.visibility = 'hidden';
+				document.getElementById('end_get_started').style.display = 'table';
+				setTimeout(function(){
+					smoothFadeIn('end_get_started',0.5,'table');
+				},are_you_ready_delay);
+			}
+
 			// determine which cta to show
 			if(email_forms.end){ email_cta(); }
+			else if(get_started_cta_on){ get_started_cta(); }
 			else{ app_store_cta(); }
 
 			// fade in "restart demo"
