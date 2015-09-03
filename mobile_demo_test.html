@@ -283,7 +283,16 @@ TITLE SLIDE
 	padding-top: 10px;
 }
 
+.narration_selected{
+	color: #333;
+	border-bottom: 3px solid #fdba3d;
+	font-weight: 700;
+}
 
+#narration_on,
+#narration_off{
+	margin: 0px 5px;
+}
 
 
 
@@ -946,7 +955,7 @@ MAIN DEMO CONTAINER
 				</div>
 
 				<div id="intro_enable_sound">
-					Keep sound ON for optimal experience
+					Audio Narration: <span id="narration_on" class="narration_selected">ON</span> | <span id="narration_off">off</span>
 				</div>
 			</div>
 		</div>
@@ -1684,7 +1693,7 @@ MAIN DEMO CONTAINER
 			</div>
 
 			
-			<!-- tap image to hear sound -->
+			<!-- tap the image - the text part -->
 			<div id="tap_image_text_container" class="table">
 				<div id="tap_image_text" class="table_cell">
 					<div class="inline_underline" style="font-weight:700;">
@@ -1692,11 +1701,13 @@ MAIN DEMO CONTAINER
 						<div id="tap_underline" class="gold_underline"></div>
 					</div>
 					the image and<br>listen to<br>the pronunciation.
+
+					<div id="tap_image_currently_muted" style="display:none; font-size:12px; padding-top:10px; color:#999;">(currently muted)</div>
 				</div>
 			</div>
 			
 			
-			<!-- tap the image to hear sounds -->
+			<!-- tap the image - the image part -->
 			<div id="tap_image_box_container" class="table">
 				<div class="table_cell">
 
@@ -2270,7 +2281,9 @@ MAIN DEMO CONTAINER
 						<div id="end_get_started" class="table">
 							<div class="table_cell">
 								<div class="thanks_for_trying">
-									<b>Thanks</b> for trying
+									<div>
+										<b>Thanks</b> for trying
+									</div>
 									<div class="rs_underline">
 										Rosetta Stone
 									</div>
@@ -3373,6 +3386,9 @@ function stop_all_animations(){
 
 // this function fades out the current slide and sets the current slide to the next one
 function switch_slides(n,f){
+	
+	stop_all_audio();
+
 	if(current_slide!==n){
 		
 		// move timeline dot to correct place
@@ -3445,28 +3461,27 @@ for(var i=0; i<slide_functions.length; i++){
 VOICEOVERS
 ***********************************************************************/
 
+var muted = false;
+
 if(voiceovers_turned_on){
 
 	var voiceover_files = [
-		'100_times_persecond',
-		'did_u_notice_no_translations',
-		'download_the_app',
-		'get_truly_confident',
-		'give_youfeedback_instantly',
-		'remember_tap_unlabled_image',
-		'schedule_tutors',
-		'speaking_is_core_of_rs',
-		'take_spanish_to_nextlevel',
-		'tap_image_to_hear_sp',
-		'tap_unlabled_image',
-		'the_key_to_natural_way_oflearning',
-		'this_is_the_rs_way',
-		'try_it_foryourself',
-		'we_introduce_to_words_images',
-		'welcome',
-		'which_language',
-		'words_into_phrases',
-		'youll_repeat_what_youheard'
+		// 'VO_ZMiller_RosettaStoneMobile_R_1_Graph_1',
+		'VO_ZMiller_RosettaStoneMobile_R_1_Graph_2',
+		'VO_ZMiller_RosettaStoneMobile_R_1_Graph_3',
+		'VO_ZMiller_RosettaStoneMobile_R_1_Graph_4',
+		'VO_ZMiller_RosettaStoneMobile_R_1_Graph_5',
+		'VO_ZMiller_RosettaStoneMobile_R_1_Graph_6',
+		'VO_ZMiller_RosettaStoneMobile_R_1_Graph_7',
+		'VO_ZMiller_RosettaStoneMobile_R_1_Graph_8',
+		'VO_ZMiller_RosettaStoneMobile_R_1_Graph_9_French',
+		'VO_ZMiller_RosettaStoneMobile_R_1_Graph_9_German',
+		'VO_ZMiller_RosettaStoneMobile_R_1_Graph_9_Italian',
+		'VO_ZMiller_RosettaStoneMobile_R_1_Graph_9_Spanish',
+		'VO_ZMiller_RosettaStoneMobile_R_1_Graph_10',
+		'VO_ZMiller_RosettaStoneMobile_R_1_Graph_11',
+		'VO_ZMiller_RosettaStoneMobile_R_1_Graph_12',
+		'VO_ZMiller_RosettaStoneMobile_R_1_Graph_13'
 	];
 
 	for(var i=0; i<voiceover_files.length; i++){
@@ -3479,9 +3494,39 @@ if(voiceovers_turned_on){
 
 }
 
-function play_voiceover(id){
-	if(voiceovers_turned_on){
+function play_voiceover(id,delay){
+	if(voiceovers_turned_on && !muted){
 		document.getElementById(id).play();
+
+		/*
+		IMPORTANT NOTE ON AUDIO DELAYS FOR MOBILE:
+			For data reasons, mobile only allows audio and video to be played from a direct user action.
+			A setTimeout does not qualify as a user action.
+			However, if the user clicks on something to play audio, then the mobile device accepts that audio file as okay to play.
+			In order to set a delay, we need to:
+				1. play the audio to establish that it's okay to play
+				2. stop the audio before it gets heard
+				3. play the audio for real after a delay
+		*/
+		if(delay){
+			stop_all_audio();
+			setTimeout(function(){
+				document.getElementById(id).play();
+			},delay);
+		}
+	}
+}
+
+// general non-narration sounds (words, noises, etc)
+function play_sound(id,delay){
+	if(!muted){
+		document.getElementById(id).play();
+		if(delay){
+			stop_all_audio();
+			setTimeout(function(){
+				document.getElementById(id).play();
+			},delay);
+		}
 	}
 }
 
@@ -3496,39 +3541,52 @@ if(voiceovers_turned_on){
 }
 
 
+function stop_all_audio(){
+	var audio = document.querySelectorAll('audio');
+	
+	for(var i=0; i<audio.length; i++){
+		audio[i].pause();
+		audio[i].currentTime = 0;
+	}
+}
 
 // toggle volume
-(function(){
-	var volume_on = true;
+function toggle_volume(optional_manual_mute){
 
-	var audio = document.querySelectorAll('audio');
+	// either manually mute/umute the audio, or just let it toggle by default
+	if(typeof(optional_manual_mute)!=='undefined'){ muted = optional_manual_mute; }
+	else{ muted = !muted; }
 
-	function mute_all(truefalse){
-		for(var i=0; i<audio.length; i++){
-			audio[i].muted = truefalse;
-		}
-	}
+	if(muted){ stop_all_audio(); }
+	
+	// bottom nav speaker icon
+	yb.id('volume_off').style.display = muted ? 'block':'none';
+	
+	// title screen audio buttons
+	yb.id('narration_on').className = muted ? '':'narration_selected';
+	yb.id('narration_off').className = muted ? 'narration_selected':'';
 
-	function toggle_volume(){
-		if(volume_on){
-			mute_all(true);
-			volume_on = false;
-			yb.id('volume_off').style.display = 'block';
-		}
-		else{
-			mute_all(false);
-			volume_on = true;
-			yb.id('volume_off').style.display = 'none';
-		}
-	}
+	// speech rec muted or not
+	yb.id('tap_image_currently_muted').style.display = muted ? 'block':'none';
+}
+yb.id('footer_speaker_icon')['on'+touchstart] = function(e){
+	e.preventDefault();	
+	toggle_volume();
+};
 
-	yb.id('footer_speaker_icon')['on'+touchstart] = function(e){
-		e.preventDefault();
-		
-		toggle_volume();
-	};
-})();
 
+
+// narration on (title screen button)
+yb.id('narration_on')['on'+touchstart] = function(e){
+	e.preventDefault();	
+	toggle_volume(false);
+};
+
+// narration off (title screen button)
+yb.id('narration_off')['on'+touchstart] = function(e){
+	e.preventDefault();
+	toggle_volume(true);
+};
 
 
 
@@ -3962,6 +4020,9 @@ TITLE SLIDE
 
 function runTitleSlide(){
 
+	// this won't autoplay, so don't have it at the beginning
+	// play_voiceover('VO_ZMiller_RosettaStoneMobile_R_1_Graph_1');
+
 	// make sure the slide itself is showing properly
 	yb.id('demo_slide_0').style.display = 'block';
 	yb.id('demo_slide_0').style.opacity = 1;
@@ -4045,7 +4106,7 @@ for(var i=0; i<language_buttons.length; i++){
 
 function select_language_slide(){
 
-	play_voiceover('which_language');
+	play_voiceover('VO_ZMiller_RosettaStoneMobile_R_1_Graph_2');
 
 	var language_buttons = yb.id('select_language_buttons').children; // declared in here for faster access
 
@@ -4152,6 +4213,10 @@ $('#close_demo_instructions').on(touchstart, function(ev){
 	smoothFadeOut('demo_instructions');
 
 	setTimeout(bring_in_demo_pieces,200);
+
+	
+	play_voiceover('VO_ZMiller_RosettaStoneMobile_R_1_Graph_4',1200);
+
 });
 
 
@@ -4258,7 +4323,7 @@ function start_demo(){
 
 		// voiceover on first screen
 		if(n==1){
-			play_voiceover('remember_tap_unlabled_image');
+			play_voiceover('VO_ZMiller_RosettaStoneMobile_R_1_Graph_3');
 		}
 
 		// easy access to current demo screen and main word
@@ -4354,12 +4419,12 @@ function start_demo(){
 
 			// show tooltip (animated)
 			setTimeout(function(){
-				play_voiceover('did_u_notice_no_translations');
-
 				show_demo_tooltip_overlay();
 				bounce('dotted_circle',magnifier_delay ,default_bounce_time,'0px,20px','0px,-5px','0px,0px', default_fade_time);
 				bounce('demotooltip',tooltip_bubble_delay ,default_bounce_time,'0px,-20px','0px,5px','0px,0px', default_fade_time);
 			},demo_tooltip_delay);
+
+			play_voiceover('VO_ZMiller_RosettaStoneMobile_R_1_Graph_5',demo_tooltip_delay);
 
 		}
 
@@ -4546,7 +4611,7 @@ animations:
 
 function run_patterns_slide(){
 
-	play_voiceover('words_into_phrases');
+	play_voiceover('VO_ZMiller_RosettaStoneMobile_R_1_Graph_6');
 
 	// store patterns boxes in variables
 	var patterns_boxes = document.querySelectorAll('.patterns_box');
@@ -4705,6 +4770,9 @@ function run_patterns_slide(){
 
 
 	function patterns_become_sentences(){
+		
+		play_voiceover('VO_ZMiller_RosettaStoneMobile_R_1_Graph_7');
+
 		// just in case we go back, hide the next stuff and show the background
 		hide_sentences();
 		smoothFadeIn('patterns_top_yellow');
@@ -4952,10 +5020,10 @@ function run_speech_recognition_slide(){
 	setTimeout(function(){
 		smoothFadeOut('speech_rec_title');
 		smoothFadeIn('get_you_speaking_container',0.5,'table');
-
-		play_voiceover('speaking_is_core_of_rs');
-		
 	}, speech_rec_title_fade_time);
+
+	play_voiceover('VO_ZMiller_RosettaStoneMobile_R_1_Graph_8',speech_rec_title_fade_time);
+
 
 	var get_you_speaking_delay = [speech_rec_title_fade_time + 800];
 	get_you_speaking_delay[1] = get_you_speaking_delay[0] + 400;
@@ -4977,7 +5045,9 @@ function run_speech_recognition_slide(){
 
 function run_pronunciation_section(){
 
-	play_voiceover('tap_image_to_hear_sp');
+	// get capitalized language for proper id
+	var lang_cap = selected_language[0].toUpperCase() + selected_language.slice(1);
+	play_voiceover('VO_ZMiller_RosettaStoneMobile_R_1_Graph_9_'+lang_cap);
 
 	// hide previous section and reset this one
 	smoothFadeOut('get_you_speaking_container');
@@ -5012,7 +5082,7 @@ $('#tap_image_box').on(touchstart, function(ev){
 		tap_image_currently_playing = true; // register that the button has been pressed
 
 		// play audio
-		yb.id('woman_audio_'+[selected_language]).play();
+		play_sound('woman_audio_'+[selected_language]);
 		
 		// fade in and animate speech rec waves
 		yb.id('white_wave').style.opacity = 1;
@@ -5043,7 +5113,7 @@ $('#tap_image_box').on(touchstart, function(ev){
 // handle the "repeat what you've heard" piece of the speech recognition section
 function repeat_what_youve_heard(){
 
-	play_voiceover('youll_repeat_what_youheard');
+	play_voiceover('VO_ZMiller_RosettaStoneMobile_R_1_Graph_10');
 
 	// first reset stuff
 	hide_tap_image_text();
@@ -5124,7 +5194,7 @@ function compare_with_millions(){
 	// 100x per second
 	function hundred_times_per_second(){
 
-		play_voiceover('100_times_persecond');
+		// play_voiceover('100_times_persecond');
 		
 		// first reset stuff
 		hide_tap_image_text();
@@ -5144,7 +5214,7 @@ function compare_with_millions(){
 
 	// get instant feedback
 	function instant_feedback(){
-		play_voiceover('give_youfeedback_instantly');
+		// play_voiceover('give_youfeedback_instantly');
 
 
 		var feedback_delays = [200];
@@ -5332,6 +5402,9 @@ function continue_to_tutors(){
 	bounce('get_confident',delays[0],default_bounce_time,'0px,-20px','0px,5px','0px,0px', default_fade_time,'table');
 	bounce('tutors_speech_balloons',delays[1],default_bounce_time,'0px,20px','0px,-5px','0px,0px', default_fade_time,'inline-block');
 
+	// voiceover
+	play_voiceover('VO_ZMiller_RosettaStoneMobile_R_1_Graph_12',delays[1]);
+
 	// show navigation arrows a bit lower than usual
 	show_nav_arrows(schedule_sessions,go_to_slide[current_slide-1],delays[2],'30px');
 }
@@ -5339,7 +5412,7 @@ function continue_to_tutors(){
 
 function schedule_sessions(){
 
-	play_voiceover('schedule_tutors');
+	// play_voiceover('schedule_tutors');
 	
 	// fade out previous section
 	smoothFadeOut('get_confident');
@@ -5369,7 +5442,7 @@ function schedule_sessions(){
 
 	// take your language to the next level
 	function next_level_language(){
-		play_voiceover('take_spanish_to_nextlevel');
+		// play_voiceover('take_spanish_to_nextlevel');
 
 		smoothFadeOut('schedule_sessions_text');
 		bounce('next_level_text',0,default_bounce_time,'0px,-20px','0px,5px','0px,0px', default_fade_time);
@@ -5420,7 +5493,8 @@ function run_final_slide(){
 	smoothFadeIn('final_slide');
 
 
-	play_voiceover('this_is_the_rs_way');
+	// voiceover: this is the rosetta stone way
+	play_voiceover('VO_ZMiller_RosettaStoneMobile_R_1_Graph_13');
 
 
 	// make sure all main elements start out hidden
