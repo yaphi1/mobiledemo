@@ -1362,6 +1362,7 @@ MAIN DEMO CONTAINER
 		height: calc(100% - 50px - 42px);
 	}
 
+	/*
 	#our_speech_recognition{
 		font-weight: 700;
 		font-size: 22px;
@@ -1391,6 +1392,7 @@ MAIN DEMO CONTAINER
 		font-family: gothamlight;
 		font-weight: 100;
 	}
+	*/
 
 	#get_you_speaking{
 		font-size: 33px;
@@ -1660,19 +1662,19 @@ MAIN DEMO CONTAINER
 		<div id="" class="demo_general_slide block">
 			
 			<!-- our technology is industry-leading -->
-			<div id="speech_rec_title" class="speech_rec_full_height table">
+			<!-- <div id="speech_rec_title" class="speech_rec_full_height table">
 				<div class="table_cell">
 					<div id="our_speech_recognition"><span>Our</span><br>speech recognition</div>
 					<div id="technology_div"><svg style="width:261px; height:41px;"><use xlink:href="#technology_svg"></use></svg></div>
 					<div id="is_industry_leading"><span class="darktext smaller">is</span><br>industry-leading<span class="darktext">.</span></div>
 				</div>
-			</div>
+			</div> -->
 
 
 			<!-- we'll get you speaking -->
 			<div id="get_you_speaking_container" class="speech_rec_full_height table">
 				<div class="table_cell">
-					<div id="get_you_speaking">And we'll get<br>you speaking</div>
+					<div id="get_you_speaking">We'll get<br>you speaking</div>
 					<div id="with">with</div>
 					<div id="native_pronunciation">native<br><span>pronunciation</span></div>
 				</div>
@@ -5056,8 +5058,7 @@ function run_speech_recognition_slide(){
 	tap_image_currently_playing = false;
 	
 	// make sure everything that needs to be hidden will be hidden
-	var to_hide = ['speech_rec_title', 'our_speech_recognition', 'technology_div', 'is_industry_leading',
-					'get_you_speaking_container','get_you_speaking','with','native_pronunciation',
+	var to_hide = ['get_you_speaking_container','get_you_speaking','with','native_pronunciation',
 					'tap_image_text_container','tap_image_box','tap_image_gray_bg'];
 
 	// hide all items and reset their transitions and transformations
@@ -5086,14 +5087,14 @@ function run_speech_recognition_slide(){
 
 	
 	// make sure title is showing when the slide fades in
-	yb.id('speech_rec_title').style.display = 'table';
-	yb.id('speech_rec_title').style.opacity = 1;
+	/*yb.id('speech_rec_title').style.display = 'table';
+	yb.id('speech_rec_title').style.opacity = 1;*/
 
 	
 	// fade in the slide
 	smoothFadeIn('speech_recognition_slide');
 
-	var speech_title_delay = [600];
+	/*var speech_title_delay = [600];
 	speech_title_delay[1] = speech_title_delay[0] + 800;
 	speech_title_delay[2] = speech_title_delay[1] + 800;
 	
@@ -5107,16 +5108,13 @@ function run_speech_recognition_slide(){
 
 
 	// transition to "and we'll get you speaking"
-	var speech_rec_title_fade_time = speech_title_delay[2] + 2000;
-	setTimeout(function(){
-		smoothFadeOut('speech_rec_title');
-		smoothFadeIn('get_you_speaking_container',0.5,'table');
-	}, speech_rec_title_fade_time);
+	var speech_rec_title_fade_time = speech_title_delay[2] + 2000;*/
 
-	play_voiceover('VO_ZMiller_RosettaStoneMobile_R_1_Graph_8',speech_rec_title_fade_time);
+	smoothFadeIn('get_you_speaking_container',0.5,'table');
+	play_voiceover('VO_ZMiller_RosettaStoneMobile_R_1_Graph_8');
 
 
-	var get_you_speaking_delay = [speech_rec_title_fade_time + 800];
+	var get_you_speaking_delay = [800];
 	get_you_speaking_delay[1] = get_you_speaking_delay[0] + 400;
 	get_you_speaking_delay[2] = get_you_speaking_delay[1] + 400;
 	
@@ -5129,7 +5127,7 @@ function run_speech_recognition_slide(){
 
 	// show navigation arrows
 	var nav_arrow_delay = get_you_speaking_delay[2] + 1000;
-	show_nav_arrows(run_pronunciation_section, run_speech_recognition_slide, nav_arrow_delay);
+	show_nav_arrows(run_pronunciation_section, go_to_slide[current_slide-1], nav_arrow_delay);
 
 }
 
@@ -5260,6 +5258,7 @@ function compare_with_millions(){
 	// first reset stuff
 	hide_tap_image_text();
 	stop_speech_samples_animation();
+	hide_feedback_check();
 
 	// set timing of each part
 	var delays = [700];
@@ -5280,9 +5279,9 @@ function compare_with_millions(){
 
 
 	
-	show_nav_arrows(hundred_times_per_second, repeat_what_youve_heard, delays[3]);
+	show_nav_arrows(instant_feedback, repeat_what_youve_heard, delays[3]);
 
-	// 100x per second
+	// 100x per second NOW REMOVED
 	function hundred_times_per_second(){
 
 		// play_voiceover('100_times_persecond');
@@ -5307,6 +5306,16 @@ function compare_with_millions(){
 	function instant_feedback(){
 		// play_voiceover('give_youfeedback_instantly');
 
+		//////// start resets taken from 100x section
+			// first reset stuff
+			hide_tap_image_text();
+			stop_speech_samples_animation();
+			hide_feedback_check();
+
+			// fade out "compare with millions" and bring in "100x per second"
+			smoothFadeOut('compare_with_millions');
+		//////// end resets taken from 100x section
+
 
 		var feedback_delays = [200];
 		feedback_delays[1] = feedback_delays[0] + 700;
@@ -5314,7 +5323,7 @@ function compare_with_millions(){
 		feedback_delays[3] = feedback_delays[2] + 1000;
 
 		// transition to "get instant feedback" text
-		smoothFadeOut('hundred_times');
+		// smoothFadeOut('hundred_times');
 		bounce('get_instant_feedback',feedback_delays[0],default_bounce_time,'0px,20px','0px,-5px','0px,0px',default_fade_time);
 
 		// underline "feedback"
@@ -5327,7 +5336,7 @@ function compare_with_millions(){
 
 
 		// show navigation arrows
-		show_nav_arrows(go_to_slide[current_slide+1], hundred_times_per_second, feedback_delays[3]);
+		show_nav_arrows(go_to_slide[current_slide+1], compare_with_millions, feedback_delays[3]);
 
 	}
 
