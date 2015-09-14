@@ -5215,7 +5215,8 @@ function repeat_what_youve_heard(){
 	var delays = [700];
 	delays[1] = delays[0] + 700;
 	delays[2] = delays[1] + 500;
-	delays[3] = delays[2] + 2250;
+	// delays[3] = delays[2] + 2250;
+	delays[3] = delays[2] + 4250;
 
 	bounce('tap_image_box_container',0,default_bounce_time,'0px,0px','0px,-50%','0px,calc(-50% + 25px)',false,'table');
 
@@ -5249,7 +5250,10 @@ function repeat_what_youve_heard(){
 
 
 	// show navigation arrows
-	show_nav_arrows(compare_with_millions, run_pronunciation_section, delays[3]);
+	// show_nav_arrows(compare_with_millions, run_pronunciation_section, delays[3]);
+
+	// go to next part of slide after delay
+	setTimeout(compare_with_millions, delays[3]);
 }
 
 // handle the "compare with millions" piece of the speech recognition section
@@ -5279,7 +5283,7 @@ function compare_with_millions(){
 
 
 	
-	show_nav_arrows(instant_feedback, repeat_what_youve_heard, delays[3]);
+	show_nav_arrows(go_to_slide[current_slide+1], run_pronunciation_section, delays[3]);
 
 	// 100x per second NOW REMOVED
 	function hundred_times_per_second(){
@@ -5302,7 +5306,7 @@ function compare_with_millions(){
 	}
 
 
-	// get instant feedback
+	// get instant feedback NOW REMOVED
 	function instant_feedback(){
 		// play_voiceover('give_youfeedback_instantly');
 
