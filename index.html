@@ -3220,7 +3220,7 @@ function smoothFadeIn(elem,duration,display,callback){
 }
 
 // this looks smoother than jquery's fadeOut, especially on mobile
-function smoothFadeOut(elem,duration,callback){
+function smoothFadeOut(elem,duration,callback,no_display_none){
 	if(typeof(elem)==='string'){
 		elem = document.getElementById(elem);
 	}
@@ -3232,7 +3232,7 @@ function smoothFadeOut(elem,duration,callback){
 	elem.style.WebkitTransition = 'opacity '+duration+'s ease-in-out';
 	
 	setTimeout(function(){ elem.style.opacity = 0; },10);
-	setTimeout(function(){ elem.style.display = 'none'; }, duration*1000);
+	setTimeout(function(){ if(!no_display_none){ elem.style.display = 'none'; } }, duration*1000);
 
 	if(callback){
 		setTimeout(function(){
@@ -4276,6 +4276,7 @@ var wrong_x = '<svg id="wrong_x_svg" style="display:none;" width="50px" height="
 
 
 
+
 // close instructions and show demo boxes when user clicks button
 $('#close_demo_instructions').on(touchstart, function(ev){
 	ev.preventDefault();
@@ -4289,32 +4290,69 @@ $('#close_demo_instructions').on(touchstart, function(ev){
 });
 
 
+
+// play sounds when each word appears
+function play_demo_word(word,delay){
+	play_sound(selected_language+'_'+democontent['screen_'+current_demo_screen][word].keyname, delay);
+}
+
+
 // animate the interactive pieces of the demo
 function bring_in_demo_pieces(){
 
-	// handle timing
-	var delays = [0];
-	delays[1] = delays[0] + 1950;
-	delays[2] = delays[1] + 1250;
-	delays[3] = delays[2] + 250;
-	delays[4] = delays[3] + 800; // main word
+	// don't let user click demo too early
+	ok_to_click_demo = false;
 	
-	// bring in the demo boxes
+
+	// handle timing
+	var delays = [1000];
+	delays[1] = delays[0] + 1950;
+	delays[2] = delays[1] + 1750;
+
+	// bring in all demo boxes at once
 	for(var i=0; i<demoboxes.length; i++){
-		bounce(demoboxes[i],delays[i],default_bounce_time,'0px,20px','0px,-5px','0px,0px', default_fade_time,'inline-block');
+		smoothFadeIn(demoboxes[i], 0.7, 'inline-block');
 	}
 
+
+	// make sure demo boxes start out NOT highlighted
+	unhighlight_word(0);
+	unhighlight_word(1);
+
+	function unhighlight_word(n){
+		demoboxes[n].style.backgroundColor = '#fff';
+		demoboxes[n].style.color = '#333';
+	}
+
+	function highlight_word(n, delay1, delay2){
+		setTimeout(function(){
+			demoboxes[n].style.backgroundColor = '#449EDD';
+			demoboxes[n].style.color = '#fff';
+		},delay1);
+
+		setTimeout(function(){
+			demoboxes[n].style.backgroundColor = '#fff';
+			demoboxes[n].style.color = '#333';
+		},delay2);
+	}
+
+	
+	// say and highlight word 1
+	play_demo_word('word_1', delays[0]);
+	highlight_word(0, delays[0], delays[0]+700);
+
+	// say and highlight word 2
+	play_demo_word('word_2', delays[1]);
+	highlight_word(1, delays[1], delays[1]+700);
+
 	// bring in the main word
-	bounce('demo_word',delays[4],default_bounce_time,'0px,20px','0px,-5px','0px,0px', default_fade_time,'inline-block');
+	bounce('demo_word',delays[2],default_bounce_time,'0px,20px','0px,-5px','0px,0px', default_fade_time,'inline-block');
+	play_demo_word('main_word', delays[2]);
 
-
-	// play sounds when each word appears
-	var word_audio_pause = 100;
-
-	play_sound(selected_language+'_'+democontent['screen_'+current_demo_screen].word_1.keyname, delays[0]+word_audio_pause);
-	play_sound(selected_language+'_'+democontent['screen_'+current_demo_screen].word_2.keyname, delays[1]+word_audio_pause);
-
-	play_sound(selected_language+'_'+democontent['screen_'+current_demo_screen].main_word.keyname, delays[4]+word_audio_pause);
+	// let the user click the demo now that everything's ready
+	setTimeout(function(){
+		ok_to_click_demo = true;
+	},delays[2]+300);
 }
 
 // fade out the interactive demo pieces
@@ -4326,11 +4364,18 @@ function hide_demo_pieces(){
 }
 
 
+// say whether or not the demo should accept clicks at the moment
+var ok_to_click_demo = true;
+
 
 function start_demo(){
 
-
+	
 	// reset the demo
+
+
+	// say whether we're in the first or second half of each demo screen
+	var second_half = false;
 
 
 	// hide all the things
@@ -4397,7 +4442,31 @@ function start_demo(){
 		smoothFadeIn(demotext_titles[3]);
 	}
 
+	
+	// easy access to current demo screen and main word
+	function get_this_screen(){ return democontent['screen_'+current_demo_screen]; }
+	function get_main_word(change){ return change ? get_word(wrong_answer+1) : get_this_screen()['main_word'][selected_language]; }
+
+	// easily get words and pictures
+	function get_word(x){ return get_this_screen()['word_'+x][selected_language]; }
+	function get_picture(x){ return get_this_screen()['picture_'+x]; }
+
+	
+	// check which answer is correct and set things up accordingly
+	function set_answers(change){
+
+		// check which answer is correct
+		correct_answer = get_word(3)==get_main_word(change) ? 2:3;
+		wrong_answer = correct_answer==2 ? 3:2;
+
+		// place x and check in wrong and correct boxes, respectively
+		demopictures[correct_answer].innerHTML = correct_checkmark; // place the check mark
+		demopictures[wrong_answer].innerHTML = wrong_x; // place the x
+	}
+
+	
 	function showDemoScreen(n){
+		
 		current_demo_screen = n;
 
 		// voiceover on first screen
@@ -4406,20 +4475,10 @@ function start_demo(){
 			play_voiceover('VO_ZMiller_RosettaStoneMobile_R_1_Graph_3');
 		}
 
-		// easy access to current demo screen and main word
-		var this_screen = democontent['screen_'+n];
-		var main_word = this_screen['main_word'][selected_language];
 
-		// easily get words and pictures
-		function get_word(x){ return this_screen['word_'+x][selected_language]; }
-		function get_picture(x){ return this_screen['picture_'+(i+1)]; }
-
-		// check which answer is correct
-		correct_answer = get_word(3)==main_word ? 2:3;
-		wrong_answer = correct_answer==2 ? 3:2;
 
 		// show main word
-		demo_word.innerHTML = main_word;
+		demo_word.innerHTML = get_main_word();
 
 		// populate words and pictures in panels
 		for(var i=0; i<4; i++){
@@ -4427,10 +4486,12 @@ function start_demo(){
 			demopictures[i].style.backgroundImage = 'url("'+get_picture(i+1)+'")';
 		}
 
+		// answer boxes should start empty
 		hide_answers();
 
-		demopictures[correct_answer].innerHTML = correct_checkmark; // place the check mark
-		demopictures[wrong_answer].innerHTML = wrong_x; // place the x
+
+		// check which answer is correct and set things up accordingly
+		set_answers();
 
 
 		// prepare tooltips
@@ -4459,13 +4520,17 @@ function start_demo(){
 			// when user clicks/taps left answer box
 			$(demoboxes[2]).on(touchstart, function(ev){
 				ev.preventDefault();
-				handle_answer(2);
+				if(ok_to_click_demo){
+					handle_answer(2);
+				}
 			});
 
 			// when user clicks/taps right answer box
 			$(demoboxes[3]).on(touchstart, function(ev){
 				ev.preventDefault();
-				handle_answer(3);
+				if(ok_to_click_demo){
+					handle_answer(3);
+				}
 			});
 		}
 		answer_boxes_ready = true;
@@ -4475,6 +4540,10 @@ function start_demo(){
 	function handle_answer(n){
 
 		if(correct_answer==n){
+			
+			// block clicks
+			ok_to_click_demo = false;
+
 			play_sound('product_sounds_correct',0,'exceptions');
 			smoothFadeIn('correct_check_svg',0.2,'inline-block');
 
@@ -4487,7 +4556,14 @@ function start_demo(){
 				}
 				catch(e){}
 			}
-			right_answer_aftermath(current_demo_screen); // handle what happens next depending on the slide
+			
+			// if it's the first word on this screen, transition to the second word
+			if(!second_half){ first_right_answer(); }
+			
+			// if it's the second word on this screen, handle the aftermath (maybe it's a tooltip, or maybe it's the next slide)
+			else{
+				right_answer_aftermath(current_demo_screen); // handle what happens next depending on the slide
+			}
 		}
 		else{
 			play_sound('product_sounds_incorrect',0,'exceptions');
@@ -4495,6 +4571,43 @@ function start_demo(){
 				setTimeout(function(){ smoothFadeOut('wrong_x_svg',0.2); },1000); // hide the x
 			});
 		}
+	}
+
+	function first_right_answer(){
+
+		var delays = [1500];
+		delays[1] = delays[0] + 1000;
+		delays[2] = delays[1] + 700;
+
+		// reveal answer word
+		smoothFadeIn(demotext_titles[correct_answer]);
+
+		// hide answer word and main word
+		setTimeout(function(){
+			hide_answers();
+			smoothFadeOut(demo_word,false,false,true);
+
+			// update answers for second word
+			set_answers('change');
+		},delays[0]);
+
+		// show new main word
+		setTimeout(function(){
+			// set the proper word
+			demo_word.innerHTML = get_word(correct_answer+1);
+			
+			// animation and sound
+			bounce('demo_word',0,default_bounce_time,'0px,20px','0px,-5px','0px,0px', default_fade_time,'inline-block');
+			play_demo_word('word_'+(correct_answer+1));
+		},delays[1]);
+
+		// allow user to click the demo
+		setTimeout(function(){
+			ok_to_click_demo = true;
+		},delays[2]);
+
+		// we're moving on to the second word of the current demo screen
+		second_half = true;
 	}
 
 	// what to do after user gets right answer (depending on which slide)
@@ -4539,6 +4652,9 @@ function start_demo(){
 				go_to_slide[current_slide+1]();
 			},2000);
 		}
+
+		// reset back to the first half for the next demo screen
+		second_half = false;
 	}
 
 
