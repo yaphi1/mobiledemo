@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title></title>
+<title>Rosetta Stone Demo</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <!--[if lt IE 9]>
@@ -2281,7 +2281,7 @@ MAIN DEMO CONTAINER
 									<br>the demo experience
 								</div>
 								
-								<a href="http://www.rosettastone.com/lp/mobile/sitewide/" id="end_get_started_button">Get Started</a>
+								<a href="http://www.rosettastone.com/lp/mobile/sitewide/" id="end_get_started_button">Shop now</a>
 							</div>
 						</div>
 					</div>
@@ -2972,7 +2972,7 @@ var words = {
 	,'car' : {'keyname':'car','french':'Une voiture','spanish':'Un carro','italian':'Una macchina','german':'Das auto'}
 	,'two' : {'keyname':'two','french':'Deux','spanish':'Dos','italian':'Due','german':'Zwei'}
 	,'three' : {'keyname':'three','french':'Trois','spanish':'Tres','italian':'Tre','german':'Drei'}
-	,'woman' : {'keyname':'woman','french':'Une femme','spanish':'Una mujer','italian':'Una donna','german':'Eine frau'}
+	,'woman' : {'keyname':'woman','french':'Une femme','spanish':'Una mujer','italian':'Una donna','german':'Die frau'}
 };
 
 
@@ -3674,15 +3674,31 @@ if(email_forms.beginning){
 	yb.id('beginning_email').style.display = 'table'; // show form
 
 	// hide select language slide, remove it from the timeline, and make it impossible to access (because language was already selected in beginning email form)
+	eliminate_language_slide();
+}
+else{
+	setTimeout(runTitleSlide,1200); // delay so animations can come in nicely
+}
+
+// hide select language slide, remove it from the timeline, and make it impossible to access (because language was already selected in beginning email form)
+function eliminate_language_slide(){
 	yb.id('nav_timeline').querySelectorAll('.big_timeline_circle')[1].style.display = 'none';
 	yb.id('nav_timeline').querySelectorAll('span')[1].style.display = 'none';
 	go_to_slide[1] = go_to_slide[2];
 }
-else{
-	runTitleSlide();
-}
 
-
+// if there's a language url parameter, set the language of the demo and remove the choose language slide
+(function(){
+	if(window.location.search.match(/lang\=/i)){
+		var lang_to_use = window.location.search.match(/lang\=([a-z]+)/i)[1]
+		
+		// make sure the language name is actually supported in this demo
+		if(lang_to_use.match(/^(spanish|french|german|italian)$/)){
+			selected_language =  lang_to_use;
+			eliminate_language_slide();
+		}
+	}
+})();
 
 
 
@@ -4070,6 +4086,19 @@ yb.id('language_dropdown').onchange = function(){
 
 
 
+/**************************************************************
+ANALYTICS PATHING EVENTS
+***************************************************************/
+
+function analytics_pathing(event_name){
+	try{
+		s.eVar3 = s.prop6 = event_name;
+		s.tl();
+	}
+	catch(e){
+		console.log('analytics goofed');
+	}
+}
 
 
 
@@ -4088,7 +4117,13 @@ TITLE SLIDE
 
 function runTitleSlide(){
 
-	// this won't autoplay, so don't have it at the beginning
+	
+	setTimeout(function(){
+		analytics_pathing('Welcome'); // delay so everything will have time to load
+	},1500);
+
+
+	// this audio won't autoplay, so don't have it at the beginning
 	// play_voiceover('VO_ZMiller_RosettaStoneMobile_R_1_Graph_1');
 
 	// make sure the slide itself is showing properly
@@ -4173,6 +4208,8 @@ for(var i=0; i<language_buttons.length; i++){
 
 
 function select_language_slide(){
+
+	analytics_pathing('Select Language');
 
 	// narrator: "so which language would you like to speak"
 	play_voiceover('VO_ZMiller_RosettaStoneMobile_R_1_Graph_2',500);
@@ -4369,6 +4406,8 @@ var ok_to_click_demo = true;
 
 
 function start_demo(){
+
+	analytics_pathing('Interactive');
 
 	
 	// reset the demo
@@ -4819,6 +4858,8 @@ animations:
 
 function run_patterns_slide(){
 
+	analytics_pathing('Method');
+
 	// narrator: "we'll introduce you to words and images in a carefully designed sequence..."
 	play_voiceover('VO_ZMiller_RosettaStoneMobile_R_1_Graph_6',1);
 
@@ -5170,6 +5211,8 @@ function hide_feedback_check(){
 // begin the speech recognition slide
 function run_speech_recognition_slide(){
 
+	analytics_pathing('Speech');
+
 	// make sure the tap image box starts out not playing
 	tap_image_currently_playing = false;
 	
@@ -5250,6 +5293,8 @@ function run_speech_recognition_slide(){
 
 function run_pronunciation_section(){
 
+	analytics_pathing('Tutors');
+
 	// get capitalized language for proper id
 	var lang_cap = selected_language[0].toUpperCase() + selected_language.slice(1);
 	play_voiceover('VO_ZMiller_RosettaStoneMobile_R_1_Graph_9_'+lang_cap,1);
@@ -5286,6 +5331,14 @@ $('#tap_image_box').on(touchstart, function(ev){
 	if(!tap_image_currently_playing){
 		tap_image_currently_playing = true; // register that the button has been pressed
 
+		// prepare the voiceover for the next part now since it has to be directly triggered by a user input
+		try{
+			document.getElementById('VO_ZMiller_RosettaStoneMobile_R_1_Graph_10').play();
+			document.getElementById('VO_ZMiller_RosettaStoneMobile_R_1_Graph_10').pause();
+			document.getElementById('VO_ZMiller_RosettaStoneMobile_R_1_Graph_10').currentTime = 0;
+		}
+		catch(e){}
+
 		// play audio
 		play_sound('woman_audio_'+[selected_language]);
 		
@@ -5318,6 +5371,7 @@ $('#tap_image_box').on(touchstart, function(ev){
 // handle the "repeat what you've heard" piece of the speech recognition section
 function repeat_what_youve_heard(){
 
+	// narrator: repeat what you've heard, we'll compare it with millions
 	play_voiceover('VO_ZMiller_RosettaStoneMobile_R_1_Graph_10');
 
 	// first reset stuff
@@ -5542,6 +5596,8 @@ TUTORS SLIDE
 ***************************************************************/
 
 function run_tutors_slide(){
+
+	analytics_pathing('Outro');
 	
 	// hide elements but maintain their visual space
 	var visibility_hidden = ['tutors_try_it_yourself','download_or_tutors','tutors_speech_balloons','tutor_photo'];
@@ -5616,7 +5672,7 @@ function continue_to_tutors(){
 	// handle the timing
 	var delays = [400];
 	delays[1] = delays[0] + 700;
-	delays[2] = delays[1] + 800;
+	delays[2] = delays[1] + 3000;
 
 	// bring in "get confident" text and speech balloons icon
 	bounce('get_confident',delays[0],default_bounce_time,'0px,-20px','0px,5px','0px,0px', default_fade_time,'table');
@@ -5626,7 +5682,9 @@ function continue_to_tutors(){
 	play_voiceover('VO_ZMiller_RosettaStoneMobile_R_1_Graph_12',delays[1]);
 
 	// show navigation arrows a bit lower than usual
-	show_nav_arrows(schedule_sessions,go_to_slide[current_slide-1],delays[2],'30px');
+	// show_nav_arrows(schedule_sessions,go_to_slide[current_slide-1],delays[2],'30px');
+
+	setTimeout(schedule_sessions,delays[2]);
 }
 
 
@@ -5656,11 +5714,11 @@ function schedule_sessions(){
 	bounce('tutor_photo',delays[2],default_bounce_time,'0px,20px','0px,-5px','0px,0px', default_fade_time,'inline-block');
 
 	// show navigation arrows
-	show_nav_arrows(next_level_language,continue_to_tutors,delays[3]);
+	show_nav_arrows(go_to_slide[current_slide+1],go_to_slide[current_slide-1],delays[3]);
 
 
 
-	// take your language to the next level
+	// take your language to the next level NOW REMOVED
 	function next_level_language(){
 		// play_voiceover('take_spanish_to_nextlevel');
 
@@ -5817,5 +5875,353 @@ function run_final_slide(){
 
 
 </script>
+
+
+
+
+
+
+
+
+
+<!-- ******************************************************
+
+Analytics PASTED FROM SBS on sept 15, 2015
+
+***********************************************************-->
+
+<script type="text/javascript">
+/*
+ * Because Dynamic Tag Manager uses and RS and RSUI object, we unfortunally have to create one. gg dependency hell
+ * So everything below this comment is so that tag manager works. yes, the code in tag manages does expect
+ * parseUri to be on the global scope.
+ */
+
+var rs = {}
+var RSUI = {
+    util: {}
+}
+
+
+rs.template = window.location.href.split('/')[window.location.href.split('/').length - 3] // ugly but still a one-liner
+
+
+
+// parseUri 1.2.2
+// (c) Steven Levithan <stevenlevithan.com>
+// MIT License
+parseUri = function (str) {
+    var o   = parseUri.options,
+        m   = o.parser[o.strictMode ? "strict" : "loose"].exec(str),
+        uri = {},
+        i   = 14;
+
+    while (i--) uri[o.key[i]] = m[i] || "";
+
+    uri[o.q.name] = {};
+    uri[o.key[12]].replace(o.q.parser, function ($0, $1, $2) {
+        if ($1) uri[o.q.name][$1] = $2;
+    });
+
+    return uri;
+};
+
+parseUri.options = {
+    strictMode: false,
+    key: ["source","protocol","authority","userInfo","user","password","host","port","relative","path","directory","file","query","anchor"],
+    q:   {
+        name:   "queryKey",
+        parser: /(?:^|&)([^&=]*)=?([^&]*)/g
+    },
+    parser: {
+        strict: /^(?:([^:\/?#]+):)?(?:\/\/((?:(([^:@]*)(?::([^:@]*))?)?@)?([^:\/?#]*)(?::(\d*))?))?((((?:[^?#\/]*\/)*)([^?#]*))(?:\?([^#]*))?(?:#(.*))?)/,
+        loose:  /^(?:(?![^:@]+:[^:@\/]*@)([^:\/?#.]+):)?(?:\/\/)?((?:(([^:@]*)(?::([^:@]*))?)?@)?([^:\/?#]*)(?::(\d*))?)(((\/(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[?#]|$)))*\/?)?([^?#\/]*))(?:\?([^#]*))?(?:#(.*))?)/
+    }
+};
+
+
+
+
+RSUI.util.setCookie = function(name, value, b_custom, expires_ms, path, domain, secure){
+    //name        = cookie name to set.
+    //value         = cookie value to set.
+    //b_custom      = optional boolean value which will allow custom settings
+    //expires_ms    = optional milliseconds till cookie expires (#days * 1000 * 60 * 60 * 24).
+    //path          = optional path.
+    //domain        = optional domain.
+    //secure        = optional secure setting.
+    if(!b_custom){
+        expires_ms = 30 * 1000 * 60 * 60 * 24; //30 days
+        path = "/";
+        domain = this.cookieDomain();
+    }
+    var today = new Date();
+    var exdate = new Date(today.getTime() + (expires_ms));
+    exdate = exdate.toUTCString();
+    var c_verb = 'setting'; //for debugging string below
+
+    if(expires_ms == -1) {
+        expires_ms = 1;
+        exdate = new Date(today.getTime() - (30 * 1000 * 60 * 60 * 24));
+        exdate = exdate.toUTCString();
+        c_verb = 'removing'; //for debugging string below
+    }
+
+    document.cookie = name + "=" + escape(value)+
+        ((expires_ms) ? ";expires=" + exdate : "") +
+        ((path) ? ";path="+path : "") +
+        ((domain) ? ";domain="+domain : "") +
+        ((secure) ? ";secure" : "");
+};
+RSUI.util.cookieDomain = function(){
+    var hp = parseUri(document.location).host.split('.');
+    hp.reverse();
+    domain = "." + hp[1] + "." + hp[0];
+    if (hp.length >= 3 && hp[2] != 'www' && hp[2] == 'stg')
+        domain = "." + hp[2] + "." + hp[1] + "." + hp[0];
+
+    return domain;
+}
+
+RSUI.util.getCookie = function(check_name){
+    var a_all_cookies = document.cookie.split(";");
+    var a_temp_cookie = "";
+    var cookie_name = "";
+    var cookie_value = "";
+    var b_cookie_found = false;
+
+    for(i = 0; i < a_all_cookies.length; i++){
+        a_temp_cookie = a_all_cookies[i].split("=");
+        cookie_name = a_temp_cookie[0].replace(/^\s+|\s+$/g,"");
+        if(cookie_name == check_name){
+            b_cookie_found = true;
+            if (a_temp_cookie.length > 1) {
+                cookie_value = unescape(a_temp_cookie[1].replace(/^\s+|\s+$/g,""));
+            }
+            return cookie_value;
+            break;
+        }
+        a_temp_cookie = null;
+        cookie_name = "";
+    }
+    if(!b_cookie_found) {
+        return null;
+    }
+};
+
+RSUI.util.eraseCookie = function(name) {
+    this.setCookie(name,"",true,-1,'/',this.cookieDomain());
+}
+
+
+
+/* Former jb_utils.js
+ * helper functions for analytics client-side code
+ * jbeach, created: 2010-04-06, updated: 2010-09-02
+ */
+
+/* get local time increment */
+//This will output a time string in client browser's local time, only in 10 minute increments.
+RSUI.util.getLocalTimeIncrement = function(){
+    var t;
+    try {
+        RSUI.util.dateFormat.masks.timeIncrement="yyyy-mm-dd HH:";
+        var now = new Date();
+        var t1 = now.format_rs("timeIncrement");
+        var t2 = Math.floor(now.getMinutes()/10).toString();
+        t = t1 + t2 + "0";
+    }
+    catch(err){t = err;}
+    return t;
+}
+
+
+
+
+RSUI.util.dateFormat = function () {
+    var token = /d{1,4}|m{1,4}|yy(?:yy)?|([HhMsTt])\1?|[LloSZ]|"[^"]*"|'[^']*'/g,
+        timezone = /\b(?:[PMCEA][SDP]T|(?:Pacific|Mountain|Central|Eastern|Atlantic) (?:Standard|Daylight|Prevailing) Time|(?:GMT|UTC)(?:[-+]\d{4})?)\b/g,
+        timezoneClip = /[^-+\dA-Z]/g,
+        pad = function (val, len) {
+            val = String(val);
+            len = len || 2;
+            while (val.length < len) val = "0" + val;
+            return val;
+        };
+
+    // Regexes and supporting functions are cached through closure
+    return function (date, mask, utc) {
+        var dF = RSUI.util.dateFormat;
+
+        // You can't provide utc if you skip other args (use the "UTC:" mask prefix)
+        if (arguments.length == 1 && Object.prototype.toString.call(date) == "[object String]" && !/\d/.test(date)) {
+            mask = date;
+            date = undefined;
+        }
+
+        // Passing date through Date applies Date.parse, if necessary
+        date = date ? new Date(date) : new Date;
+        if (isNaN(date)) throw SyntaxError("invalid date");
+
+        mask = String(dF.masks[mask] || mask || dF.masks["default"]);
+
+        // Allow setting the utc argument via the mask
+        if (mask.slice(0, 4) == "UTC:") {
+            mask = mask.slice(4);
+            utc = true;
+        }
+
+        var _ = utc ? "getUTC" : "get",
+            d = date[_ + "Date"](),
+            D = date[_ + "Day"](),
+            m = date[_ + "Month"](),
+            y = date[_ + "FullYear"](),
+            H = date[_ + "Hours"](),
+            M = date[_ + "Minutes"](),
+            s = date[_ + "Seconds"](),
+            L = date[_ + "Milliseconds"](),
+            o = utc ? 0 : date.getTimezoneOffset(),
+            flags = {
+                d:    d,
+                dd:   pad(d),
+                ddd:  dF.i18n.dayNames[D],
+                dddd: dF.i18n.dayNames[D + 7],
+                m:    m + 1,
+                mm:   pad(m + 1),
+                mmm:  dF.i18n.monthNames[m],
+                mmmm: dF.i18n.monthNames[m + 12],
+                yy:   String(y).slice(2),
+                yyyy: y,
+                h:    H % 12 || 12,
+                hh:   pad(H % 12 || 12),
+                H:    H,
+                HH:   pad(H),
+                M:    M,
+                MM:   pad(M),
+                s:    s,
+                ss:   pad(s),
+                l:    pad(L, 3),
+                L:    pad(L > 99 ? Math.round(L / 10) : L),
+                t:    H < 12 ? "a"  : "p",
+                tt:   H < 12 ? "am" : "pm",
+                T:    H < 12 ? "A"  : "P",
+                TT:   H < 12 ? "AM" : "PM",
+                Z:    utc ? "UTC" : (String(date).match(timezone) || [""]).pop().replace(timezoneClip, ""),
+                o:    (o > 0 ? "-" : "+") + pad(Math.floor(Math.abs(o) / 60) * 100 + Math.abs(o) % 60, 4),
+                S:    ["th", "st", "nd", "rd"][d % 10 > 3 ? 0 : (d % 100 - d % 10 != 10) * d % 10]
+            };
+
+        return mask.replace(token, function ($0) {
+            return $0 in flags ? flags[$0] : $0.slice(1, $0.length - 1);
+        });
+    };
+}();
+
+// Some common format strings
+RSUI.util.dateFormat.masks = {
+    "default":      "ddd mmm dd yyyy HH:MM:ss",
+    shortDate:      "m/d/yy",
+    mediumDate:     "mmm d, yyyy",
+    longDate:       "mmmm d, yyyy",
+    fullDate:       "dddd, mmmm d, yyyy",
+    shortTime:      "h:MM TT",
+    mediumTime:     "h:MM:ss TT",
+    longTime:       "h:MM:ss TT Z",
+    isoDate:        "yyyy-mm-dd",
+    isoTime:        "HH:MM:ss",
+    isoDateTime:    "yyyy-mm-dd'T'HH:MM:ss",
+    isoUtcDateTime: "UTC:yyyy-mm-dd'T'HH:MM:ss'Z'"
+};
+
+// Internationalization strings
+RSUI.util.dateFormat.i18n = {
+    dayNames: [
+        "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat",
+        "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
+    ],
+    monthNames: [
+        "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
+        "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
+    ]
+};
+
+/*
+RSUI.util.mboxCreate = function(id,params) {
+    var funct = "mboxCreate('"+id+"'";
+    var argLength = params.length;
+
+    for(var i = 0; i < argLength; i++){
+        funct += ", "+params[i];
+    }
+
+    funct += ")";
+
+    eval(funct);
+}
+*/
+
+// For convenience...
+Date.prototype.format_rs = function (mask, utc) {
+    return RSUI.util.dateFormat(this, mask, utc);
+};
+
+
+
+/*
+ * Needed. Something in DTM uses this function. Don't
+ * know why it's not there itself.
+*/
+String.prototype.getHostname = function(){
+    var a = new RegExp("^((?:f|ht)tp(?:s)?://[^/]+)","im");
+    return this.match(a) && this.match(a)[1].toString();
+};
+function ltrim(b,a){
+    a=a||"\\s";if(typeof b!="undefined"){return b.replace(new RegExp("^["+a+"]+","g"),"")}else{return""}
+}
+function rtrim(b,a){
+    a=a||"\\s";if(typeof b!="undefined"){return b.replace(new RegExp("["+a+"]+$","g"),"")}else{return""}
+}
+
+
+
+
+rs.community="USA";
+// rs.pagename="/lp | " + rs.template + " | " + RSI.rsi;
+rs.currency="USD";
+rs.omniture_tracksrv="o.rosettastone.com";
+rs.omniture_tracksrv_secure="s.rosettastone.com";
+rs.urlObject = parseUri(window.document.location.href)
+
+RSUI.util.LazyLoad=(function(j){var g,h,b={},e=0,f={css:[],js:[]},m=j.styleSheets;function l(q,p){var r=j.createElement(q),o;for(o in p){if(p.hasOwnProperty(o)){r.setAttribute(o,p[o])}}return r}function i(o){var r=b[o],s,q;if(r){s=r.callback;q=r.urls;q.shift();e=0;if(!q.length){s&&s.call(r.context,r.obj);b[o]=null;f[o].length&&k(o)}}}function c(){var o=navigator.userAgent;g={async:j.createElement("script").async===true};(g.webkit=/AppleWebKit\//.test(o))||(g.ie=/MSIE/.test(o))||(g.opera=/Opera/.test(o))||(g.gecko=/Gecko\//.test(o))||(g.unknown=true)}var n={Version:function(){var o=999;if(navigator.appVersion.indexOf("MSIE")!=-1){o=parseFloat(navigator.appVersion.split("MSIE")[1])}return o}};function k(A,z,B,w,s){var u=function(){i(A)},C=A==="css",q=[],v,x,t,r,y,o;g||c();if(z){z=typeof z==="string"?[z]:z.concat();if(C||g.async||g.gecko||g.opera){f[A].push({urls:z,callback:B,obj:w,context:s})}else{for(v=0,x=z.length;v<x;++v){f[A].push({urls:[z[v]],callback:v===x-1?B:null,obj:w,context:s})}}}if(b[A]||!(r=b[A]=f[A].shift())){return}h||(h=j.head||j.getElementsByTagName("head")[0]);y=r.urls;for(v=0,x=y.length;v<x;++v){o=y[v];if(C){t=g.gecko?l("style"):l("link",{href:o,rel:"stylesheet"})}else{t=l("script",{src:o});t.async=false}t.className="lazyload";t.setAttribute("charset","utf-8");if(g.ie&&!C&&n.Version()<10){t.onreadystatechange=function(){if(/loaded|complete/.test(t.readyState)){t.onreadystatechange=null;u()}}}else{if(C&&(g.gecko||g.webkit)){if(g.webkit){r.urls[v]=t.href;d()}else{t.innerHTML='@import "'+o+'";';a(t)}}else{t.onload=t.onerror=u}}q.push(t)}for(v=0,x=q.length;v<x;++v){h.appendChild(q[v])}}function a(q){var p;try{p=!!q.sheet.cssRules}catch(o){e+=1;if(e<200){setTimeout(function(){a(q)},50)}else{p&&i("css")}return}i("css")}function d(){var p=b.css,o;if(p){o=m.length;while(--o>=0){if(m[o].href===p.urls[0]){i("css");break}}e+=1;if(p){if(e<200){setTimeout(d,50)}else{i("css")}}}}return{css:function(q,r,p,o){k("css",q,r,p,o)},js:function(q,r,p,o){k("js",q,r,p,o)}}})(this.document);
+
+var dtmUrl;
+
+if (!!window.location.href.match(/\.stg\.|\.local/i)) {
+    rs.omnireportsuite="rstonedev";
+    rs.envName = 'staging'
+    rs.mbox_env = 'forQA=true'
+    rs.cartbase = 'http://secure.stg.rosettastone.com/us_en_store_view/checkout/cart/add/sku/'
+    var dtmUrl = "http://assets.adobedtm.com/289d54d757557d351111069aa8acc743e67b15e6/satelliteLib-7aef1085f7c59294e8610e2f691a22c48a200841-staging.js"
+
+} else {
+    rs.omnireportsuite="rstonecom";
+    rs.envName = 'production'
+    rs.mbox_env = 'forProd=true'
+    rs.cartbase = 'https://secure.rosettastone.com/us_en_store_view/checkout/cart/add/sku/'
+    var dtmUrl = "http://assets.adobedtm.com/289d54d757557d351111069aa8acc743e67b15e6/satelliteLib-7aef1085f7c59294e8610e2f691a22c48a200841.js"
+}
+
+document.write('<' + 'scr' + 'ipt src="' + dtmUrl + '" language="javascript"><' + '\/scr' + 'ipt>')
+
+if (typeof _satellite != 'undefined' ) {
+    _satellite.pageBottom();
+}
+</script>
+
+
+
+
+<!-- demo pixels -->
+<script src="http://www.rosettastone.com/lp/demoscript/demopixels.js"></script>
 </body>
 </html>
