@@ -745,9 +745,49 @@ AUDIO
 		<source src="./audio/german_a_woman.mp3" type="audio/mpeg">
 	</audio>
 
+	<audio id="spanish_blue_2" style="display:none;">
+		<source src="./audio/interactive_audio/spanish/blue.mp3" type="audio/mpeg">
+	</audio>
+
 	<div id="voiceover_container" style="display:none;"></div>
 	
 	<div id="interactive_audio_container" style="display:none;"></div>
+
+
+	<!-- had to put in static audio because dynamic audio insertion was creating problems on some phones -->
+
+	<audio id="spanish_bicycle" class="spanish dont_stop_this_audio"><source src="./audio/interactive_audio/spanish/bicycle.mp3" type="audio/mpeg"></audio>
+	<audio id="spanish_blue" class="spanish dont_stop_this_audio"><source src="./audio/interactive_audio/spanish/blue.mp3" type="audio/mpeg"></audio>
+	<audio id="spanish_car" class="spanish dont_stop_this_audio"><source src="./audio/interactive_audio/spanish/car.mp3" type="audio/mpeg"></audio>
+	<audio id="spanish_green" class="spanish dont_stop_this_audio"><source src="./audio/interactive_audio/spanish/green.mp3" type="audio/mpeg"></audio>
+	<audio id="spanish_three" class="spanish dont_stop_this_audio"><source src="./audio/interactive_audio/spanish/three.mp3" type="audio/mpeg"></audio>
+	<audio id="spanish_two" class="spanish dont_stop_this_audio"><source src="./audio/interactive_audio/spanish/two.mp3" type="audio/mpeg"></audio>
+
+	<audio id="french_bicycle" class="french dont_stop_this_audio"><source src="./audio/interactive_audio/french/bicycle.mp3" type="audio/mpeg"></audio>
+	<audio id="french_blue" class="french dont_stop_this_audio"><source src="./audio/interactive_audio/french/blue.mp3" type="audio/mpeg"></audio>
+	<audio id="french_car" class="french dont_stop_this_audio"><source src="./audio/interactive_audio/french/car.mp3" type="audio/mpeg"></audio>
+	<audio id="french_green" class="french dont_stop_this_audio"><source src="./audio/interactive_audio/french/green.mp3" type="audio/mpeg"></audio>
+	<audio id="french_three" class="french dont_stop_this_audio"><source src="./audio/interactive_audio/french/three.mp3" type="audio/mpeg"></audio>
+	<audio id="french_two" class="french dont_stop_this_audio"><source src="./audio/interactive_audio/french/two.mp3" type="audio/mpeg"></audio>
+
+	<audio id="italian_bicycle" class="italian dont_stop_this_audio"><source src="./audio/interactive_audio/italian/bicycle.mp3" type="audio/mpeg"></audio>
+	<audio id="italian_blue" class="italian dont_stop_this_audio"><source src="./audio/interactive_audio/italian/blue.mp3" type="audio/mpeg"></audio>
+	<audio id="italian_car" class="italian dont_stop_this_audio"><source src="./audio/interactive_audio/italian/car.mp3" type="audio/mpeg"></audio>
+	<audio id="italian_green" class="italian dont_stop_this_audio"><source src="./audio/interactive_audio/italian/green.mp3" type="audio/mpeg"></audio>
+	<audio id="italian_three" class="italian dont_stop_this_audio"><source src="./audio/interactive_audio/italian/three.mp3" type="audio/mpeg"></audio>
+	<audio id="italian_two" class="italian dont_stop_this_audio"><source src="./audio/interactive_audio/italian/two.mp3" type="audio/mpeg"></audio>
+
+	<audio id="german_bicycle" class="german dont_stop_this_audio"><source src="./audio/interactive_audio/german/bicycle.mp3" type="audio/mpeg"></audio>
+	<audio id="german_blue" class="german dont_stop_this_audio"><source src="./audio/interactive_audio/german/blue.mp3" type="audio/mpeg"></audio>
+	<audio id="german_car" class="german dont_stop_this_audio"><source src="./audio/interactive_audio/german/car.mp3" type="audio/mpeg"></audio>
+	<audio id="german_green" class="german dont_stop_this_audio"><source src="./audio/interactive_audio/german/green.mp3" type="audio/mpeg"></audio>
+	<audio id="german_three" class="german dont_stop_this_audio"><source src="./audio/interactive_audio/german/three.mp3" type="audio/mpeg"></audio>
+	<audio id="german_two" class="german dont_stop_this_audio"><source src="./audio/interactive_audio/german/two.mp3" type="audio/mpeg"></audio>
+
+
+	<audio id="product_sounds_correct" class="dont_stop_this_audio"><source src="./audio/interactive_audio/product_sounds/correct.mp3" type="audio/mpeg"></audio>
+	<audio id="product_sounds_incorrect" class="dont_stop_this_audio"><source src="./audio/interactive_audio/product_sounds/incorrect.mp3" type="audio/mpeg"></audio>
+
 </div>
 
 
@@ -3512,7 +3552,7 @@ function play_voiceover(id,delay,exceptions){
 
 
 // interactive demo audio
-if(interactive_sounds_turned_on){
+/*if(interactive_sounds_turned_on){
 
 	// add interactive demo sounds
 	var interactive_audio_files = [
@@ -3520,10 +3560,16 @@ if(interactive_sounds_turned_on){
 		'product_sounds/incorrect'
 	];
 
+	var interactive_audio_ids = [
+		'product_sounds_correct',
+		'product_sounds_incorrect'
+	];
+
 	for(var i=0; i<interactive_audio_files.length; i++){
 		var audio = document.createElement('audio');
 		audio.style.display = 'none';
-		audio.id = interactive_audio_files[i].replace('/','_');
+		// audio.id = interactive_audio_files[i].replace('/','_');
+		audio.id = interactive_audio_ids[i];
 		audio.className = 'dont_stop_this_audio';
 		audio.innerHTML = '<source src="./audio/interactive_audio/'+interactive_audio_files[i]+'.mp3" type="audio/mpeg">';
 		document.getElementById('interactive_audio_container').appendChild(audio);
@@ -3534,9 +3580,10 @@ if(interactive_sounds_turned_on){
 	for(var i=0; i<audio_languages.length; i++){
 		addLanguageSounds(audio_languages[i]);
 	}
-}
+}*/
 
 // add words audio in different languages for interactive demo
+/*
 function addLanguageSounds(lang){
 
 	// if interactive sounds are on and the audio for this language isn't already loaded, load it
@@ -3562,6 +3609,7 @@ function addLanguageSounds(lang){
 
 	}
 }
+*/
 
 
 
