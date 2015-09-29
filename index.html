@@ -4704,14 +4704,14 @@ function start_demo(){
 			smoothFadeIn('correct_check_svg',0.2,'inline-block');
 
 			// prepare the voiceover for the next slide now since it has to be directly triggered by a user input
-			if(current_demo_screen==3){
+			/*if(current_demo_screen==3){
 				try{
 					document.getElementById('VO_ZMiller_RosettaStoneMobile_R_1_Graph_6').play();
 					document.getElementById('VO_ZMiller_RosettaStoneMobile_R_1_Graph_6').pause();
 					document.getElementById('VO_ZMiller_RosettaStoneMobile_R_1_Graph_6').currentTime = 0;
 				}
 				catch(e){}
-			}
+			}*/
 			
 			// if it's the first word on this screen, transition to the second word
 			if(!second_half){ first_right_answer(); }
@@ -5423,7 +5423,9 @@ function run_pronunciation_section(){
 
 	// get capitalized language for proper id
 	var lang_cap = selected_language[0].toUpperCase() + selected_language.slice(1);
-	play_voiceover('VO_ZMiller_RosettaStoneMobile_R_1_Graph_9_'+lang_cap,1);
+	// play_voiceover('VO_ZMiller_RosettaStoneMobile_R_1_Graph_9_'+lang_cap,1);
+	var sprites = words_audio['tap_image'][selected_language];
+	play_timed_audio(selected_language+'_audio', sprites[0], sprites[1]);
 
 	// hide previous section and reset this one
 	smoothFadeOut('get_you_speaking_container');
