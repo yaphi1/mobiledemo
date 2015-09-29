@@ -745,16 +745,10 @@ AUDIO
 		<source src="./audio/german_a_woman.mp3" type="audio/mpeg">
 	</audio>
 
-	<audio id="spanish_blue_2" style="display:none;">
-		<source src="./audio/interactive_audio/spanish/blue.mp3" type="audio/mpeg">
-	</audio>
-
+	<!--
 	<div id="voiceover_container" style="display:none;"></div>
 	
 	<div id="interactive_audio_container" style="display:none;"></div>
-
-
-	<!-- had to put in static audio because dynamic audio insertion was creating problems on some phones -->
 
 	<audio id="spanish_bicycle" class="spanish dont_stop_this_audio"><source src="./audio/interactive_audio/spanish/bicycle.mp3" type="audio/mpeg"></audio>
 	<audio id="spanish_blue" class="spanish dont_stop_this_audio"><source src="./audio/interactive_audio/spanish/blue.mp3" type="audio/mpeg"></audio>
@@ -783,10 +777,19 @@ AUDIO
 	<audio id="german_green" class="german dont_stop_this_audio"><source src="./audio/interactive_audio/german/green.mp3" type="audio/mpeg"></audio>
 	<audio id="german_three" class="german dont_stop_this_audio"><source src="./audio/interactive_audio/german/three.mp3" type="audio/mpeg"></audio>
 	<audio id="german_two" class="german dont_stop_this_audio"><source src="./audio/interactive_audio/german/two.mp3" type="audio/mpeg"></audio>
-
+ 	-->
 
 	<audio id="product_sounds_correct" class="dont_stop_this_audio"><source src="./audio/interactive_audio/product_sounds/correct.mp3" type="audio/mpeg"></audio>
 	<audio id="product_sounds_incorrect" class="dont_stop_this_audio"><source src="./audio/interactive_audio/product_sounds/incorrect.mp3" type="audio/mpeg"></audio>
+
+	<audio id="voiceover_audio">
+		<source src="./audio/combined_audio/voiceover_audio.mp3" type="audio/mpeg">
+	</audio>
+
+	<audio id="spanish_audio"><source src="./audio/combined_audio/spanish_audio.mp3" type="audio/mpeg"></audio>
+	<audio id="french_audio"><source src="./audio/combined_audio/french_audio.mp3" type="audio/mpeg"></audio>
+	<audio id="italian_audio"><source src="./audio/combined_audio/italian_audio.mp3" type="audio/mpeg"></audio>
+	<audio id="german_audio"><source src="./audio/combined_audio/german_audio.mp3" type="audio/mpeg"></audio>
 
 </div>
 
@@ -3015,6 +3018,17 @@ var words = {
 	,'woman' : {'keyname':'woman','french':'Une femme','spanish':'Una mujer','italian':'Una donna','german':'Die frau'}
 };
 
+// audio sprite times for language-specific words and phrases
+var words_audio = {
+	'blue' : {'french':[2,3.5], 'spanish':[3,4.5], 'italian':[3,4.5], 'german':[2,3]}
+	,'green' : {'french':[6,7], 'spanish':[7,8], 'italian':[7,8], 'german':[6,7]}
+	,'bicycle' : {'french':[0,1.5], 'spanish':[0,2], 'italian':[0,1.5], 'german':[0,1.5]}
+	,'car' : {'french':[4,5], 'spanish':[5,6], 'italian':[5,6], 'german':[4,5]}
+	,'two' : {'french':[10,11], 'spanish':[11,12], 'italian':[11,12], 'german':[10,11]}
+	,'three' : {'french':[8,9], 'spanish':[9,10], 'italian':[9,10], 'german':[8,9]}
+	,'tap_image' : {'french':[11,14], 'spanish':[13,15], 'italian':[13,15], 'german':[12,14]}
+}
+
 
 var word_bubble_content = [
 	{
@@ -3494,6 +3508,7 @@ VOICEOVERS
 
 var muted = false;
 
+/*
 if(voiceovers_turned_on){
 
 	var voiceover_files = [
@@ -3529,16 +3544,6 @@ function play_voiceover(id,delay,exceptions){
 	if(voiceovers_turned_on && !muted){
 		document.getElementById(id).play();
 
-		/*
-		IMPORTANT NOTE ON AUDIO DELAYS FOR MOBILE:
-			For data reasons, mobile only allows audio and video to be played from a direct user action.
-			A setTimeout does not qualify as a user action.
-			However, if the user clicks on something to play audio, then the mobile device accepts that audio file as okay to play.
-			In order to set a delay, we need to:
-				1. play the audio to establish that it's okay to play
-				2. stop the audio before it gets heard
-				3. play the audio for real after a delay
-		*/
 		if(delay){
 			stop_all_audio(exceptions);
 			setTimeout(function(){
@@ -3547,7 +3552,64 @@ function play_voiceover(id,delay,exceptions){
 		}
 	}
 }
+*/
 
+
+
+
+/******************************************************************************
+
+IMPORTANT NOTE ON AUDIO DELAYS FOR MOBILE:
+
+	For data reasons, mobile only allows audio and video to be played from a direct user action.
+	A setTimeout does not qualify as a user action.
+	However, if the user clicks on something to play audio, then the mobile device accepts that audio file as okay to play.
+	In order to set a delay, we need to:
+		1. play the audio to establish that it's okay to play
+		2. stop the audio before it gets heard
+		3. play the audio for real after a delay
+
+*******************************************************************************/
+
+
+// play timed audio
+var stop_timeout;
+
+function play_timed_audio(id,start,end,delay){
+	/*function convert_to_seconds(t){
+		var nums = (''+t).split(':');
+		return nums.length>1 ? nums[0]*60 + (+nums[1]) : t;
+	}*/
+	if(!muted){
+		var sound = document.getElementById(id);
+		var duration = (end - start) * 1000;
+
+		delay = delay || 0;
+
+		// if sound is not initialized, prepare it
+		if(!sound.initialized){
+			sound.play();
+			sound.pause();
+			sound.initialized = true;
+		}
+		
+		// play the sound
+		setTimeout(function(){
+			// if user interrupts playback, make sure the second timeout isn't still running
+			clearTimeout(stop_timeout);
+
+			stop_all_audio();
+			sound.currentTime = start;
+			sound.play();
+
+			// end the sound
+			stop_timeout = setTimeout(function(){
+				sound.pause();
+				sound.currentTime = 0;
+			},duration);
+		},delay);
+	}
+}
 
 
 
@@ -4260,7 +4322,8 @@ function select_language_slide(){
 	analytics_pathing('Select Language');
 
 	// narrator: "so which language would you like to speak"
-	play_voiceover('VO_ZMiller_RosettaStoneMobile_R_1_Graph_2',500);
+	// play_voiceover('VO_ZMiller_RosettaStoneMobile_R_1_Graph_2',500);
+	play_timed_audio('voiceover_audio',0,2.5,500);
 
 	var language_buttons = yb.id('select_language_buttons').children; // declared in here for faster access
 
@@ -4378,7 +4441,12 @@ $('#close_demo_instructions').on(touchstart, function(ev){
 
 // play sounds when each word appears
 function play_demo_word(word,delay){
-	play_sound(selected_language+'_'+democontent['screen_'+current_demo_screen][word].keyname, delay);
+	// play_sound(selected_language+'_'+democontent['screen_'+current_demo_screen][word].keyname, delay);
+
+	var chosen_word = democontent['screen_'+current_demo_screen][word].keyname; // 'blue' for example
+	var audio_sprite = words_audio[chosen_word][selected_language]; // get timing from audio sprites
+
+	play_timed_audio(selected_language+'_audio', audio_sprite[0], audio_sprite[1], delay);
 }
 
 
@@ -4559,7 +4627,8 @@ function start_demo(){
 		// voiceover on first screen
 		if(n==1){
 			// narrator: (interactive demo instructions) "as you begin..."
-			play_voiceover('VO_ZMiller_RosettaStoneMobile_R_1_Graph_3');
+			// play_voiceover('VO_ZMiller_RosettaStoneMobile_R_1_Graph_3');
+			play_timed_audio('voiceover_audio',3,9.5);
 		}
 
 
@@ -4716,7 +4785,9 @@ function start_demo(){
 				bounce('demotooltip',tooltip_bubble_delay ,default_bounce_time,'0px,-20px','0px,5px','0px,0px', default_fade_time);
 			},demo_tooltip_delay);
 
-			play_voiceover('VO_ZMiller_RosettaStoneMobile_R_1_Graph_5',demo_tooltip_delay,'exceptions');
+			// narrator: did you notice there was no translation
+			// play_voiceover('VO_ZMiller_RosettaStoneMobile_R_1_Graph_5',demo_tooltip_delay,'exceptions');
+			play_timed_audio('voiceover_audio',10,19, demo_tooltip_delay);
 
 		}
 
@@ -4909,7 +4980,8 @@ function run_patterns_slide(){
 	analytics_pathing('Method');
 
 	// narrator: "we'll introduce you to words and images in a carefully designed sequence..."
-	play_voiceover('VO_ZMiller_RosettaStoneMobile_R_1_Graph_6',1);
+	// play_voiceover('VO_ZMiller_RosettaStoneMobile_R_1_Graph_6',1);
+	play_timed_audio('voiceover_audio',20,26);
 
 	// store patterns boxes in variables
 	var patterns_boxes = document.querySelectorAll('.patterns_box');
@@ -5069,7 +5141,10 @@ function run_patterns_slide(){
 
 	function patterns_become_sentences(){
 		
-		play_voiceover('VO_ZMiller_RosettaStoneMobile_R_1_Graph_7',1);
+		
+		// narrator: words turn into patterns
+		// play_voiceover('VO_ZMiller_RosettaStoneMobile_R_1_Graph_7',1);
+		play_timed_audio('voiceover_audio',26,38);
 
 		// just in case we go back, hide the next stuff and show the background
 		hide_sentences();
@@ -5318,7 +5393,10 @@ function run_speech_recognition_slide(){
 	var speech_rec_title_fade_time = speech_title_delay[2] + 2000;*/
 
 	smoothFadeIn('get_you_speaking_container',0.5,'table');
-	play_voiceover('VO_ZMiller_RosettaStoneMobile_R_1_Graph_8');
+	
+	// narrator: speech recognition is most advanced
+	// play_voiceover('VO_ZMiller_RosettaStoneMobile_R_1_Graph_8');
+	play_timed_audio('voiceover_audio',38,47);
 
 
 	var get_you_speaking_delay = [800];
@@ -5380,12 +5458,12 @@ $('#tap_image_box').on(touchstart, function(ev){
 		tap_image_currently_playing = true; // register that the button has been pressed
 
 		// prepare the voiceover for the next part now since it has to be directly triggered by a user input
-		try{
+		/*try{
 			document.getElementById('VO_ZMiller_RosettaStoneMobile_R_1_Graph_10').play();
 			document.getElementById('VO_ZMiller_RosettaStoneMobile_R_1_Graph_10').pause();
 			document.getElementById('VO_ZMiller_RosettaStoneMobile_R_1_Graph_10').currentTime = 0;
 		}
-		catch(e){}
+		catch(e){}*/
 
 		// play audio
 		play_sound('woman_audio_'+[selected_language]);
@@ -5420,7 +5498,8 @@ $('#tap_image_box').on(touchstart, function(ev){
 function repeat_what_youve_heard(){
 
 	// narrator: repeat what you've heard, we'll compare it with millions
-	play_voiceover('VO_ZMiller_RosettaStoneMobile_R_1_Graph_10');
+	// play_voiceover('VO_ZMiller_RosettaStoneMobile_R_1_Graph_10');
+	play_timed_audio('voiceover_audio',48,61.5);
 
 	// first reset stuff
 	hide_tap_image_text();
@@ -5726,8 +5805,9 @@ function continue_to_tutors(){
 	bounce('get_confident',delays[0],default_bounce_time,'0px,-20px','0px,5px','0px,0px', default_fade_time,'table');
 	bounce('tutors_speech_balloons',delays[1],default_bounce_time,'0px,20px','0px,-5px','0px,0px', default_fade_time,'inline-block');
 
-	// voiceover
-	play_voiceover('VO_ZMiller_RosettaStoneMobile_R_1_Graph_12',delays[1]);
+	// narrator: schedule tutors
+	// play_voiceover('VO_ZMiller_RosettaStoneMobile_R_1_Graph_12',delays[1]);
+	play_timed_audio('voiceover_audio',63,72, delays[1]);
 
 	// show navigation arrows a bit lower than usual
 	// show_nav_arrows(schedule_sessions,go_to_slide[current_slide-1],delays[2],'30px');
@@ -5820,7 +5900,8 @@ function run_final_slide(){
 
 
 	// voiceover: this is the rosetta stone way
-	play_voiceover('VO_ZMiller_RosettaStoneMobile_R_1_Graph_13');
+	// play_voiceover('VO_ZMiller_RosettaStoneMobile_R_1_Graph_13');
+	play_timed_audio('voiceover_audio',72,87);
 
 
 	// make sure all main elements start out hidden
