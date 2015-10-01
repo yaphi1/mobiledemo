@@ -947,6 +947,181 @@ SVG DEFINITIONS
 
 
 <!--********************************************************************************
+PREP SCREENS
+*********************************************************************************-->
+<style>
+#prep_screen_1, #prep_loading, #prep_screen_2{
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	z-index: 40000;
+	background: #333;
+	color: #fff;
+	text-align: center;
+}
+
+#prep_screen_1 p{
+	padding: 0px 10px;
+	line-height: 1.2;
+	font-family: gothamlight;
+	font-size: 22px;
+}
+
+.prep_button{
+	display: block;
+	box-sizing: border-box;
+	
+	margin: 0px auto 10px;
+	padding: 15px 0px;
+	
+	border: 2px solid #fff;
+	border-radius: 3px;
+
+	font-size: 18px;
+	text-transform: uppercase;
+	
+	width: 265px;
+	max-width: 95%;
+	
+	background: transparent;
+	color: #fff;
+}
+
+.prep_button_selected{
+	border: 2px solid #fdba3d;
+	background: #fdba3d;
+	color: #333;
+	font-weight: 700;
+}
+
+#prep_screen_2{
+	z-index: 39980;
+}
+
+#prep_images{
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	top: 0px;
+	left: -9000px;
+}
+
+#prep_loading{
+	z-index: 39990;
+}
+
+#loading_bar{
+	height: 40px;
+	width: 265px;
+	max-width: 95%;
+	background: #eee;
+	padding: 3px;
+	margin: 15px auto;
+	border-radius: 3px;
+}
+
+#loading_progress{
+	width: 100%;
+	height: 100%;
+	background: #fdba3d;
+	box-shadow: 0px 0px 15px 2px #ffd;
+
+	-webkit-transform: scaleX(0);
+	transform: scaleX(0);
+
+	-webkit-transform-origin: 0% 50%;
+	transform-origin: 0% 50%;
+
+	-webkit-transition: -webkit-transform 1.5s linear;
+	transition: transform 1.5s linear;
+}
+
+.small_prep_text{
+	font-size: 15px;
+	font-size: 13px;
+	padding-top: 7px;
+}
+
+#prep_screen_2 p{
+	font-family: gothamlight;
+	font-size: 22px;
+}
+</style>
+
+<div id="prep_images">
+	<img src="./demo_images/green_car.jpg">
+	<img src="./demo_images/blue_door.jpg">
+	<img src="./demo_images/green_bamboo.jpg">
+	<img src="./demo_images/blue_feather.jpg">
+
+	<img src="./demo_images/bicycle_redbricks.jpg">
+	<img src="./demo_images/car_blueclassic.jpg">
+	<img src="./demo_images/bicycle_andtree.jpg">
+	<img src="./demo_images/car_sidewalk.jpg">
+
+	<img src="./demo_images/three_bikes.jpg">
+	<img src="./demo_images/two_blueballs.jpg">
+	<img src="./demo_images/three_tennisballs.jpg">
+	<img src="./demo_images/two_bikers.jpg">
+</div>
+
+<div id="prep_screen_1" class="table">
+	<div class="table_cell">
+		<p>
+			Before starting the
+			<br>Rosetta Stone Demo,
+			<br>would you like the
+			<br>sound on or off?
+		</p>
+		<button class="prep_button prep_button_selected" id="prep_sound_on">Sound ON</button>
+		<button class="prep_button" id="prep_sound_off">Sound OFF</button>
+		<div class="small_prep_text">
+			You may change this setting at any time.
+		</div>
+	</div>
+</div>
+
+<div id="prep_loading" class="table">
+	<div class="table_cell">
+		Preparing your demo
+
+		<div id="loading_bar">
+			<div id="loading_progress"></div>
+		</div>
+	</div>
+</div>
+
+<div id="prep_screen_2" class="table">
+	<div class="table_cell">
+		<p>
+			Your demo is ready.
+		</p>
+		<button class="prep_button prep_button_selected" id="prep_continue">Continue</button>
+	</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--********************************************************************************
 MAIN DEMO CONTAINER
 *********************************************************************************-->
 
@@ -1121,7 +1296,7 @@ MAIN DEMO CONTAINER
 			<div id="try_more_screens_container" class="table">
 				<div class="table_cell">
 					<div id="continue_to_method">Continue to method</div>
-					<div id="try_more_screens">Try more screens</div>
+					<div id="try_more_screens">Try more words</div>
 				</div>
 			</div>
 		</div>
@@ -3004,6 +3179,7 @@ document.body.style.position = 'fixed'; // this prevents the rest of the page fr
 var selected_language = 'spanish'; // default language
 
 
+
 var slides = document.querySelectorAll('.slides'); // slides
 
 
@@ -3582,7 +3758,6 @@ function play_timed_audio(id,start,end,delay){
 	}*/
 	if(!muted){
 		var sound = document.getElementById(id);
-		var duration = (end - start) * 1000;
 
 		delay = delay || 0;
 
@@ -3595,18 +3770,35 @@ function play_timed_audio(id,start,end,delay){
 		
 		// play the sound
 		setTimeout(function(){
-			// if user interrupts playback, make sure the second timeout isn't still running
-			clearTimeout(stop_timeout);
 
 			stop_all_audio();
 			sound.currentTime = start;
 			sound.play();
 
-			// end the sound
-			stop_timeout = setTimeout(function(){
-				sound.pause();
-				sound.currentTime = 0;
-			},duration);
+
+			// if ontimeupdate unavailable (gee thanks Safari), use setTimeout to end sound
+			if(typeof(sound.ontimeupdate) === 'undefined'){
+				var duration = (end - start) * 1000;
+
+				// if user interrupts playback, make sure the second timeout isn't still running
+				clearTimeout(stop_timeout);
+
+				// end the sound
+				stop_timeout = setTimeout(function(){
+					sound.pause();
+					sound.currentTime = 0;
+				},duration);
+			}
+
+			// if available, use ontimeupdate to end sound
+			else{
+				sound.ontimeupdate = function(){
+					if(sound.currentTime >= end){
+						sound.pause();
+						sound.currentTime = 0;
+					}
+				};
+			}
 		},delay);
 	}
 }
@@ -3728,6 +3920,10 @@ function stop_all_audio(exceptions){
 }
 
 
+
+
+
+
 // toggle volume
 function toggle_volume(optional_manual_mute){
 
@@ -3774,28 +3970,12 @@ yb.id('narration_off')['on'+touchstart] = function(e){
 
 
 
+
+
+
 /**********************************************************************
-START THE DEMO
+PREP SECTION
 ***********************************************************************/
-
-
-// if we're showing the beginning email form, prepare properly
-if(email_forms.beginning){
-	yb.id('beginning_email').style.display = 'table'; // show form
-
-	// hide select language slide, remove it from the timeline, and make it impossible to access (because language was already selected in beginning email form)
-	eliminate_language_slide();
-}
-else{
-	setTimeout(runTitleSlide,1200); // delay so animations can come in nicely
-}
-
-// hide select language slide, remove it from the timeline, and make it impossible to access (because language was already selected in beginning email form)
-function eliminate_language_slide(){
-	yb.id('nav_timeline').querySelectorAll('.big_timeline_circle')[1].style.display = 'none';
-	yb.id('nav_timeline').querySelectorAll('span')[1].style.display = 'none';
-	go_to_slide[1] = go_to_slide[2];
-}
 
 // if there's a language url parameter, set the language of the demo and remove the choose language slide
 (function(){
@@ -3809,6 +3989,81 @@ function eliminate_language_slide(){
 		}
 	}
 })();
+
+
+yb.id('prep_sound_on')['on'+touchstart] = function(e){
+	e.preventDefault();	
+	toggle_volume(false);
+	go_to_prep_2();
+};
+
+yb.id('prep_sound_off')['on'+touchstart] = function(e){
+	e.preventDefault();	
+	toggle_volume(true);
+	go_to_prep_2();
+};
+
+function initialize_audio(id){
+	document.getElementById(id).play();
+	document.getElementById(id).pause();
+}
+
+function go_to_prep_2(){
+	initialize_audio('voiceover_audio');
+
+	smoothFadeOut('prep_screen_1');
+
+	setTimeout(function(){
+		document.getElementById('loading_progress').style[prefixed_transform] = 'scaleX(1)';
+
+		setTimeout(function(){
+			smoothFadeOut('prep_loading');
+		},1500);
+	},250);
+}
+
+yb.id('prep_continue')['on'+touchstart] = function(e){
+	e.preventDefault();	
+	initialize_audio(selected_language + '_audio');
+
+	smoothFadeOut('prep_screen_2');
+	setTimeout(runTitleSlide,400);
+};
+
+
+
+
+
+
+
+
+
+
+
+/**********************************************************************
+START THE DEMO
+***********************************************************************/
+
+
+// if we're showing the beginning email form, prepare properly
+if(email_forms.beginning){
+	yb.id('beginning_email').style.display = 'table'; // show form
+
+	// hide select language slide, remove it from the timeline, and make it impossible to access (because language was already selected in beginning email form)
+	eliminate_language_slide();
+}
+else{
+	// setTimeout(runTitleSlide,1200); // delay so animations can come in nicely
+}
+
+// hide select language slide, remove it from the timeline, and make it impossible to access (because language was already selected in beginning email form)
+function eliminate_language_slide(){
+	yb.id('nav_timeline').querySelectorAll('.big_timeline_circle')[1].style.display = 'none';
+	yb.id('nav_timeline').querySelectorAll('span')[1].style.display = 'none';
+	go_to_slide[1] = go_to_slide[2];
+}
+
+
 
 
 
@@ -4459,8 +4714,8 @@ function bring_in_demo_pieces(){
 
 	// handle timing
 	var delays = [1000];
-	delays[1] = delays[0] + 1950;
-	delays[2] = delays[1] + 1750;
+	delays[1] = delays[0] + 2500;
+	delays[2] = delays[1] + 2300;
 
 	// bring in all demo boxes at once
 	for(var i=0; i<demoboxes.length; i++){
