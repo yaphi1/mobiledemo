@@ -783,8 +783,8 @@ AUDIO
 	<audio id="german_two" class="german dont_stop_this_audio"><source src="./audio/interactive_audio/german/two.mp3" type="audio/mpeg"></audio>
  	-->
 
-	<!-- <audio id="product_sounds_correct" class="dont_stop_this_audio"><source src="./audio/interactive_audio/product_sounds/correct.mp3" type="audio/mpeg"></audio> -->
-	<!-- <audio id="product_sounds_incorrect" class="dont_stop_this_audio"><source src="./audio/interactive_audio/product_sounds/incorrect.mp3" type="audio/mpeg"></audio> -->
+	<audio id="product_sounds_correct" class="dont_stop_this_audio"><source src="./audio/interactive_audio/product_sounds/correct.mp3" type="audio/mpeg"></audio>
+	<audio id="product_sounds_incorrect" class="dont_stop_this_audio"><source src="./audio/interactive_audio/product_sounds/incorrect.mp3" type="audio/mpeg"></audio>
 
 	<audio id="voiceover_audio">
 		<source src="./audio/combined_audio/voiceover_audio.mp3" type="audio/mpeg">
@@ -3774,11 +3774,13 @@ function play_timed_audio(id,start,end,delay){
 			sound.pause();
 			sound.initialized = true;
 		}
+
 		
+
+
 		// play the sound
 		setTimeout(function(){
-
-			stop_all_audio();
+			document.getElementById('voiceover_audio').pause();
 			sound.currentTime = start;
 			sound.play();
 
@@ -3901,8 +3903,8 @@ if(voiceovers_turned_on){
 
 
 // stop all audio except for exceptions
-function stop_all_audio(exceptions){
-	var audio = document.getElementById('all_audio_container').querySelectorAll('audio');
+function stop_all_audio(exceptions, callback){
+	var audio = document.getElementById('all_audio_container').getElementsByTagName('audio');
 	
 	if(exceptions){
 		for(var i=0; i<audio.length; i++){
@@ -3924,6 +3926,8 @@ function stop_all_audio(exceptions){
 			catch(e){}
 		}
 	}
+
+	// if(callback){callback();}
 }
 
 
@@ -5003,8 +5007,15 @@ function start_demo(){
 
 			// play_sound('product_sounds_correct',0,'exceptions');
 
-			// play "correct" sound
-			play_timed_audio('voiceover_audio',78,79);
+			// play "correct" sound (handle uniquely if droid)
+			if(navigator.userAgent.match(/droid/i)){
+				if(!muted){
+					document.getElementById('product_sounds_correct').play();
+				}
+			}
+			else{
+				play_timed_audio('voiceover_audio',78,79);
+			}
 			smoothFadeIn('correct_check_svg',0.2,'inline-block');
 
 			// prepare the voiceover for the next slide now since it has to be directly triggered by a user input
@@ -5028,8 +5039,15 @@ function start_demo(){
 		else{
 			// play_sound('product_sounds_incorrect',0,'exceptions');
 
-			// play "wrong" sound
-			play_timed_audio('voiceover_audio',80,81);
+			// play "wrong" sound (handle uniquely if droid)
+			if(navigator.userAgent.match(/droid/i)){
+				if(!muted){
+					document.getElementById('product_sounds_incorrect').play();
+				}
+			}
+			else{
+				play_timed_audio('voiceover_audio',80,81);
+			}
 			smoothFadeIn('wrong_x_svg',0.2,'inline-block',function(){ // show the x
 				setTimeout(function(){ smoothFadeOut('wrong_x_svg',0.2); },1000); // hide the x
 			});
@@ -6330,6 +6348,7 @@ Analytics PASTED FROM SBS on sept 15, 2015
 
 ***********************************************************-->
 
+
 <script type="text/javascript">
 /*
  * Because Dynamic Tag Manager uses and RS and RSUI object, we unfortunally have to create one. gg dependency hell
@@ -6661,7 +6680,8 @@ if (typeof _satellite != 'undefined' ) {
 
 
 
+
 <!-- demo pixels -->
-<!-- <script src="http://www.rosettastone.com/lp/demoscript/demopixels.js"></script> -->
+<script src="http://www.rosettastone.com/lp/demoscript/demopixels.js"></script>
 </body>
 </html>
